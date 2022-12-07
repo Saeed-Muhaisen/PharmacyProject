@@ -1,5 +1,12 @@
 package com.cs320.PHARM.GUINB;
-private javax.swing.JButton Admintog;
+
+
+import java.awt.event.ActionEvent;
+
+public class UserLogin extends javax.swing.JFrame {
+    private int x;
+    private javax.swing.JButton Admintog;
+
     private javax.swing.JPanel Choice;
     private javax.swing.JPanel Login;
     private javax.swing.JButton PharmaTog;
@@ -9,11 +16,8 @@ private javax.swing.JButton Admintog;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    
-public class UserLogin extends javax.swing.JFrame {
 
 
-    private int x;
     public UserLogin() {
         initComponents();
     }
@@ -69,7 +73,7 @@ public class UserLogin extends javax.swing.JFrame {
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        ChoiceLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {Admintog, PharmaTog, doctorTog});
+        ChoiceLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[]{Admintog, PharmaTog, doctorTog});
 
         ChoiceLayout.setVerticalGroup(
                 ChoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,7 +86,7 @@ public class UserLogin extends javax.swing.JFrame {
                                 .addContainerGap())
         );
 
-        ChoiceLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {Admintog, PharmaTog, doctorTog});
+        ChoiceLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[]{Admintog, PharmaTog, doctorTog});
 
         getContentPane().add(Choice, "card3");
 
@@ -101,4 +105,23 @@ public class UserLogin extends javax.swing.JFrame {
             }
         });
 
+    }
+
+    private void doctorTogActionPerformed(ActionEvent evt) {
+    }
+
+    private void jTextField2ActionPerformed(ActionEvent evt) {
+        
+    }
+
+    private void jButton1ActionPerformed(ActionEvent evt) {
+        
+    }
+
+    private void AdmintogActionPerformed(ActionEvent evt) {
+        
+    }
+
+    private void PharmaTogActionPerformed(ActionEvent evt) {
+    }
 }
