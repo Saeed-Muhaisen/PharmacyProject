@@ -1,11 +1,29 @@
 package com.cs320.PHARM.model;
 
-public class Doctor {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Doctor {
+    @Id
+    @Column(name="doctorID")
     private int DoctorId;
 
+    @Column(name="doctorname")
     private String DoctorName;
 
+
+    //RowMapper functions
+    public Doctor DoctorId(int DoctorId){
+        this.DoctorId= DoctorId;
+        return this;
+    }
+    public Doctor DoctorName(String DoctorName){
+        this.DoctorName= DoctorName;
+        return this;
+    }
+    //-----------------
     public int getDoctorId() {
         return DoctorId;
     }
@@ -21,4 +39,8 @@ public class Doctor {
     public void setDoctorName(String doctorName) {
         DoctorName = doctorName;
     }
+
+
+
+
 }
