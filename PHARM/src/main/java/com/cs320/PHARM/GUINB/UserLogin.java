@@ -1,5 +1,15 @@
 package com.cs320.PHARM.GUINB;
-
+private javax.swing.JButton Admintog;
+    private javax.swing.JPanel Choice;
+    private javax.swing.JPanel Login;
+    private javax.swing.JButton PharmaTog;
+    private javax.swing.JButton doctorTog;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    
 public class UserLogin extends javax.swing.JFrame {
 
 
