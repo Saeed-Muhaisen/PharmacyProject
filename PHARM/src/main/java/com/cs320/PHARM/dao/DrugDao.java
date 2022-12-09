@@ -17,4 +17,44 @@ public class DrugDao {
         this.jdbcTemplate = jdbcTemplate;
 
     }
+    public void insertDrug(String DrugName) {
+        String sql = "INSERT INTO Drug (drugname) values (?)";
+
+        jdbcTemplate.update(sql, new Object[]{DrugName});
+
+    }
+
+    public int updateDrug(String DrugName, int DrugId) {
+        String sql = "UPDATE Drug SET drugname=? where drugid=?";
+        try {
+            jdbcTemplate.update(sql, new Object[]{DrugName,DrugId});
+        } catch (Exception e) {
+            System.out.println("Drug Update failed on DAO");
+            return 0;
+        }
+        return 1;
+    }
+
+
+    public int deleteDrugById(Integer DrugID) {
+        String sql = "DELETE FROM drug WHERE drugId=?;";
+        try {
+            jdbcTemplate.update(sql, DrugID);
+        } catch (Exception e) {
+            return 0;
+        }
+        return 1;
+    }
+
+
+    public Drug findDrugById(Integer DrugId)  {
+        String sql = "SELECT * FROM Drug WHERE DrugId=?";
+        Drug drug;
+        drug = jdbcTemplate.queryForObject(sql, new Object[]{DrugId}, drugRowMapper);
+        return drug;
+    }
+
+    public List<Drug> DrugList() {
+        return jdbcTemplate.query("SELECT * FROM drug", drugRowMapper);
+    }
 }
