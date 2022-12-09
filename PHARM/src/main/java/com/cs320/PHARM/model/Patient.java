@@ -1,9 +1,15 @@
 package com.cs320.PHARM.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Patient {
-
+    @Column(name="Patientname")
     private String name;
-
+    @Id
+    @Column(name="PatientID")
     private int id;
 
 
