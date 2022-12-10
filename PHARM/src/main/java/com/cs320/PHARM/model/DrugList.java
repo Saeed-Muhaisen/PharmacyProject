@@ -6,6 +6,19 @@ public class DrugList {
     private int DrugListID;
     private int amount;
 
+    public DrugList DrugID(int DrugID){
+        this.DrugID=DrugID;
+        return this;
+    }
+    public DrugList DrugListID(int DrugListID){
+        this.DrugListID=DrugListID;
+        return this;
+    }
+    public DrugList amount(int Amount){
+        this.amount=Amount;
+        return this;
+    }
+
     public int getAmount() {
         return amount;
     }

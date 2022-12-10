@@ -8,6 +8,36 @@ public class Prescription {
     private String PatientName;
     private String Note;
 
+    //For RAWMAPPER:
+    public Prescription PerscriptionId(int PerscriptionId) {
+        this.PrescriptionId =PerscriptionId;
+        return this;
+
+    }
+    public Prescription drugListId(int drugListId) {
+        this.drugListId =drugListId;
+        return this;
+
+    }
+    public Prescription doctorID(int doctorID) {
+        this.doctorID=doctorID;
+        return this;
+
+    }
+    public Prescription patientId(int patientId) {
+        this.patientId=patientId;
+        return this;
+
+    }
+    public Prescription PatientName(String patientName) {
+        this.PatientName=PatientName;
+        return this;
+
+    }
+    public Prescription Note(String notes) {
+        this.Note=notes;
+        return this;
+    }
     public String getNote() {
         return Note;
     }
