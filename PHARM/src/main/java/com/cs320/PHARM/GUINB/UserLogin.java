@@ -107,8 +107,23 @@ public class UserLogin extends javax.swing.JFrame {
 
     }
 
-    private void doctorTogActionPerformed(ActionEvent evt) {
+     private void AdmintogActionPerformed(java.awt.event.ActionEvent evt) {
+        x=1;
+        Choice.setVisible(false);
+        Choice.setEnabled(false);
+        Login.setVisible(true);
+        Login.setVisible(true);
+
     }
+
+    private void doctorTogActionPerformed(java.awt.event.ActionEvent evt) {
+        x=2;
+        Choice.setVisible(false);
+        Choice.setEnabled(false);
+        Login.setVisible(true);
+        Login.setVisible(true);
+    }
+
 
     private void jTextField2ActionPerformed(ActionEvent evt) {
         
@@ -118,10 +133,7 @@ public class UserLogin extends javax.swing.JFrame {
         
     }
 
-    private void AdmintogActionPerformed(ActionEvent evt) {
-        
-    }
-
+    
     private void PharmaTogActionPerformed(ActionEvent evt) {
     }
 }
