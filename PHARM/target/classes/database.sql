@@ -51,5 +51,12 @@ create table if not exists DrugList(
     Foreign Key (DrugListID) references Prescription(DrugListID)
 );
 
+create table if not exists transactionHistory(
+    PharmacyID int,
+    DrugListID int NOT NULL,
+    drugID int not null,
+    amount_sold int not null
 
+
+);
 
