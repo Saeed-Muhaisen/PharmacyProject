@@ -59,4 +59,12 @@ create table if not exists transactionHistory(
 
 
 );
+create table if not exists useraccounts(
+    username varchar(20) primary key,
+    id int,
+    password varchar(20) not null,
+    type int not null,
+
+    check ( type>0 and type<4 )
+    );
 
