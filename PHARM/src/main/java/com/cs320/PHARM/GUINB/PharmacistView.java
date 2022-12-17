@@ -3,7 +3,7 @@ package com.cs320.PHARM.GUINB;
 
 
 import com.cs320.PHARM.api.*;
-import com.cs320.PHARM.dao.*;
+import com.cs320.PHARM.model.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +32,17 @@ public class PharmacistView extends javax.swing.JFrame {
     @Autowired
     UserAccountAPI userAccountAPI;
     UserLogin userLogin;
+    private UserAccount userAccount;
     //TODO:: End of Beans::
+
+    public void initializeObject(UserAccount userAccount, UserLogin userLogin) {
+        this.setVisible(true);
+        this.setEnabled(true);
+        this.userAccount=userAccount;
+        this.userLogin=userLogin;
+        NameTextField.setText(userAccount.getUsername());
+
+    }
     public static void main(String args[]) {
         JFrame frame=new PharmacistView();
         frame.setVisible(true);

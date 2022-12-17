@@ -106,6 +106,17 @@ public class AdminView extends javax.swing.JFrame {
         initComponents();
 
     }
+    public void initializeObject(UserAccount userAccount,UserLogin userLogin) {
+        this.userLogin=userLogin;
+        this.userAccount=userAccount;
+        this.setVisible(true);
+        this.setEnabled(true);
+        NameTextField.setText(userAccount.getUsername());
+        this.drugPanel.setVisible(false);
+        this.drugPanel.setEnabled(false);
+        this.doctorPanel.setEnabled(true);
+        this.doctorPanel.setVisible(true);
+    }
 
     private void initComponents() {
         GridBagConstraints gridBagConstraints;

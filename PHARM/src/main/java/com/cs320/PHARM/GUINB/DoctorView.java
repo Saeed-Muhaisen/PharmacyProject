@@ -74,10 +74,12 @@ public class DoctorView extends javax.swing.JFrame {
     private javax.swing.JPanel rightP;
     private javax.swing.JPanel top;
 
-    public void initializeObject() {
+    public void initializeObject(UserAccount userAccount,UserLogin userLogin) {
         this.setVisible(true);
         this.setEnabled(true);
-        PatientTableFiller();
+        this.userAccount=userAccount;
+        this.userLogin=userLogin;
+        NameTextField.setText(userAccount.getUsername());
     }
     public DoctorView() {
         initComponents();
