@@ -1,9 +1,38 @@
 package com.cs320.PHARM.GUINB;
 //test
+
+
+import com.cs320.PHARM.api.*;
+import com.cs320.PHARM.dao.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
+@Component
 public class PharmacistView extends javax.swing.JFrame {
+    //TODO:: Beginning of Beans ::
+    @Autowired
+    PrescriptionAPI prescriptionAPI;
+    @Autowired
+    TransactionHistoryAPI transactionHistoryAPI;
+    @Autowired
+    PatientAPI patientAPI;
+    @Autowired
+    DrugListAPI drugListAPI;
+    @Autowired
+    PharmacyAPI pharmacyAPI;
+    @Autowired
+    DoctorAPI doctorAPI;
+    @Autowired
+    InventoryAPI inventoryAPI;
+    @Autowired
+    DrugAPI drugAPI;
+    @Autowired
+    UserAccountAPI userAccountAPI;
+    UserLogin userLogin;
+    //TODO:: End of Beans::
     public static void main(String args[]) {
         JFrame frame=new PharmacistView();
         frame.setVisible(true);

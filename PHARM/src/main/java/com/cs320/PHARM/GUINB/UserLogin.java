@@ -1,9 +1,34 @@
 package com.cs320.PHARM.GUINB;
 
 
-import java.awt.event.ActionEvent;
+import com.cs320.PHARM.dao.UserAccountDao;
+import com.cs320.PHARM.model.UserAccount;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.awt.event.ActionEvent;
+@Component
 public class UserLogin extends javax.swing.JFrame {
+
+    //This is Spring bean: an object controlled by Spring Boot Framework,
+    // you don't need to initialize or do anything
+    // Example: if you want to switch to adminView you just say:
+    // this.setVisible(false) && adminView.setVisible(true)
+
+    //TODO:Beginning of beans
+    @Autowired
+    private final AdminView adminView;
+    @Autowired
+    private final DoctorView doctorView;
+    @Autowired
+    private final PharmacistView pharmacistView;
+    @Autowired
+    private final UserAccountDao userAccountDao;
+    //TODO:End of beans
+    private UserAccount userAccount; //We will use this class to keep track which account is managing the db
+
+
     private int x;
     private javax.swing.JButton Admintog;
 
@@ -17,8 +42,20 @@ public class UserLogin extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
 
-
-    public UserLogin() {
+    //For spring: This initializes this bean (class)
+    // when the software starts, classes with @Component will execute
+    // whatever is inside initializeObject method! So if you want this class to be visable on start
+    // you must write setVisible(true) otherwise you write setVisble(False)
+    @PostConstruct
+    public void initializeObject(){
+        setVisible(true);
+    }
+    public UserLogin(AdminView adminView, DoctorView doctorView, PharmacistView pharmacistView, UserAccountDao userAccountDao, UserAccount userAccount) {
+        this.adminView = adminView;
+        this.doctorView = doctorView;
+        this.pharmacistView = pharmacistView;
+        this.userAccountDao = userAccountDao;
+        this.userAccount = userAccount;
         initComponents();
     }
 

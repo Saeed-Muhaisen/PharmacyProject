@@ -1,13 +1,35 @@
 package com.cs320.PHARM.GUINB;
 
+import com.cs320.PHARM.api.DoctorAPI;
+import com.cs320.PHARM.api.DrugAPI;
+import com.cs320.PHARM.api.PharmacyAPI;
+import com.cs320.PHARM.dao.PatientDao;
+import com.cs320.PHARM.dao.UserAccountDao;
+import com.cs320.PHARM.model.UserAccount;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+@Component
 public class AdminView extends javax.swing.JFrame {
+    //todo: Spring beans Beginning::
+    @Autowired
+    DoctorAPI doctorAPI;
+    @Autowired
+    PharmacyAPI pharmacyAPI;
+    @Autowired
+    PatientDao patientDao;
+    @Autowired
+    DrugAPI drugAPI;
+    @Autowired
+    UserAccountDao userAccountDao;
+    UserLogin userLogin;
 
+    //Todo: Spring beans End::
 
-
+    private UserAccount userAccount;
     private JButton DoctorAddB;
     private JButton DoctorB;
     private JButton DoctorDeleteB;

@@ -1,5 +1,9 @@
 package com.cs320.PHARM.model;
 
+import org.springframework.stereotype.Component;
+
+
+@Component
 public class UserAccount {
     private String Username;
     private String password;

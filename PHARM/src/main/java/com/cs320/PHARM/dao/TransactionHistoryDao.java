@@ -11,11 +11,12 @@ public class TransactionHistoryDao {
     @Autowired
     private final JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<TransactionHistory> TransactionRowMapper = (resultSet, i) -> new TransactionHistory()
+    //TODO: RowMapper is creating an issue with symbols.
+    /*private final RowMapper<TransactionHistory> TransactionRowMapper = (resultSet, i) -> new TransactionHistory()
             .DrugListId(resultSet.getInt("DrugListID"))
             .PharmacyId(resultSet.getInt("PharmacyId"))
             .DrugId(resultSet.getInt("DrugID"))
-            .Amount_Sold(resultSet.getInt("amount_sold"));
+            .Amount_Sold(resultSet.getInt("amount_sold"));*/
 
 
     public TransactionHistoryDao(JdbcTemplate jdbcTemplate) {

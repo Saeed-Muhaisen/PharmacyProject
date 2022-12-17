@@ -1,11 +1,37 @@
 package com.cs320.PHARM.GUINB;
 
+import com.cs320.PHARM.api.*;
+import com.cs320.PHARM.dao.DrugListDao;
+import com.cs320.PHARM.dao.PatientDao;
+import com.cs320.PHARM.dao.UserAccountDao;
+import com.cs320.PHARM.model.UserAccount;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
-
+@Component
 public class DoctorView extends javax.swing.JFrame {
+    //TODO: Spring beans beginning::
+    @Autowired
+    PatientAPI patientAPI;
+    @Autowired
+    DrugAPI drugAPI;
+    @Autowired
+    PharmacyAPI pharmacyAPI;
+    @Autowired
+    PrescriptionAPI prescriptionAPI;
+    @Autowired
+    UserAccountAPI userAccountAPI;
+    @Autowired
+    DrugListAPI drugListAPI;
+    UserLogin userLogin;
 
+    //Todo: Spring beans end::
+
+
+    private UserAccount userAccount;
     public static void main(String args[]) {
         JFrame frame=new DoctorView();
         frame.setVisible(true);
