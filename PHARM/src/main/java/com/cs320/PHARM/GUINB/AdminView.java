@@ -3,12 +3,13 @@ package com.cs320.PHARM.GUINB;
 import com.cs320.PHARM.api.DoctorAPI;
 import com.cs320.PHARM.api.DrugAPI;
 import com.cs320.PHARM.api.PharmacyAPI;
+import com.cs320.PHARM.api.UserAccountAPI;
 import com.cs320.PHARM.dao.PatientDao;
-import com.cs320.PHARM.dao.UserAccountDao;
 import com.cs320.PHARM.model.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -24,7 +25,7 @@ public class AdminView extends javax.swing.JFrame {
     @Autowired
     DrugAPI drugAPI;
     @Autowired
-    UserAccountDao userAccountDao;
+    UserAccountAPI userAccountAPI;
     UserLogin userLogin;
 
     //Todo: Spring beans End::
@@ -67,7 +68,7 @@ public class AdminView extends javax.swing.JFrame {
     private JPanel doctorPanel;
     private JPanel drugPanel;
     private JButton drugsB;
-    private JButton jButton1;
+    private JButton accountSettings;
     private JLabel jLabel10;
     private JLabel jLabel11;
     private JLabel jLabel12;
@@ -189,7 +190,7 @@ public class AdminView extends javax.swing.JFrame {
         NameTextField = new JLabel();
         jLabel9 = new JLabel();
         jLabel11 = new JLabel();
-        jButton1 = new JButton();
+        accountSettings = new JButton();
         Logout = new JButton();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -734,8 +735,8 @@ public class AdminView extends javax.swing.JFrame {
         jLabel11.setText("Administrator");
         jPanel2.add(jLabel11);
 
-        jButton1.setText("Account settings");
-        jPanel2.add(jButton1);
+        accountSettings.setText("Account settings");
+        jPanel2.add(accountSettings);
 
         Logout.setText("Logout");
         Logout.addActionListener(new ActionListener() {
@@ -821,12 +822,19 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
-
-
-
+        actionListeners();
         pack();
-    }
 
+    }
+    //for action listeners
+    private void actionListeners(){
+        accountSettings.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EditAccount();
+            }
+        });
+    }
 
     private void DrugEditBAction() {
         //TODO: popup frame to endi a drug
@@ -1001,5 +1009,165 @@ public class AdminView extends javax.swing.JFrame {
     }
     private void PatientTableFiller(){
         //todo: fill patient table from db
+    }
+    private javax.swing.JPanel AccountSettingsPanel;
+    private javax.swing.JButton CancelPasswordChange;
+    private javax.swing.JButton ConfirmPasswordChange;
+    private javax.swing.JLabel DrugIdLabel;
+    private javax.swing.JLabel DrugNameLabel;
+    private javax.swing.JLabel OldPasswordLabel;
+    private javax.swing.JLabel TempUserId;
+    private javax.swing.JLabel TempUserName;
+    private javax.swing.JTextField newPassword;
+    private javax.swing.JTextField newPassword1;
+    private javax.swing.JLabel newPasswordLabel;
+    private javax.swing.JLabel newPasswordLabel1;
+    private javax.swing.JTextField oldPassword;
+    private void EditAccount(){
+        {
+            JFrame edit=new JFrame();
+            edit.setVisible(true);
+            edit.setEnabled(true);
+            java.awt.GridBagConstraints gridBagConstraints;
+
+            AccountSettingsPanel = new javax.swing.JPanel();
+            DrugNameLabel = new javax.swing.JLabel();
+            TempUserName = new javax.swing.JLabel();
+            DrugIdLabel = new javax.swing.JLabel();
+            newPasswordLabel1 = new javax.swing.JLabel();
+            TempUserId = new javax.swing.JLabel();
+            ConfirmPasswordChange = new javax.swing.JButton();
+            CancelPasswordChange = new javax.swing.JButton();
+            OldPasswordLabel = new javax.swing.JLabel();
+            newPasswordLabel = new javax.swing.JLabel();
+            oldPassword = new javax.swing.JTextField();
+            newPassword = new javax.swing.JTextField();
+            newPassword1 = new javax.swing.JTextField();
+
+            edit.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+            edit.setResizable(false);
+            edit.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+            AccountSettingsPanel.setLayout(new java.awt.GridBagLayout());
+
+            DrugNameLabel.setText("Username");
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.ipadx = 10;
+            gridBagConstraints.ipady = 7;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            AccountSettingsPanel.add(DrugNameLabel, gridBagConstraints);
+
+            TempUserName.setText(userAccount.getUsername());
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.gridwidth = 4;
+            gridBagConstraints.ipadx = 57;
+            gridBagConstraints.ipady = 7;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            AccountSettingsPanel.add(TempUserName, gridBagConstraints);
+
+            DrugIdLabel.setText("UserId");
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 1;
+            gridBagConstraints.ipadx = 21;
+            gridBagConstraints.ipady = 7;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            AccountSettingsPanel.add(DrugIdLabel, gridBagConstraints);
+
+            newPasswordLabel1.setText("Confirm Password");
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 4;
+            gridBagConstraints.ipadx = 21;
+            gridBagConstraints.ipady = 7;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+            AccountSettingsPanel.add(newPasswordLabel1, gridBagConstraints);
+
+            TempUserId.setText(String.valueOf(userAccount.getId()));
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.gridy = 1;
+            gridBagConstraints.gridwidth = 4;
+            gridBagConstraints.ipadx = 78;
+            gridBagConstraints.ipady = 7;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            AccountSettingsPanel.add(TempUserId, gridBagConstraints);
+
+            ConfirmPasswordChange.setText("Confirm");
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 5;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+            AccountSettingsPanel.add(ConfirmPasswordChange, gridBagConstraints);
+
+            CancelPasswordChange.setText("Cancel");
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 2;
+            gridBagConstraints.gridy = 5;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+            AccountSettingsPanel.add(CancelPasswordChange, gridBagConstraints);
+
+            OldPasswordLabel.setText("Old Password");
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 2;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+            AccountSettingsPanel.add(OldPasswordLabel, gridBagConstraints);
+
+            newPasswordLabel.setText("New Password");
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 3;
+            gridBagConstraints.ipadx = 21;
+            gridBagConstraints.ipady = 7;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+            AccountSettingsPanel.add(newPasswordLabel, gridBagConstraints);
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.gridy = 2;
+            gridBagConstraints.gridwidth = 4;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+            AccountSettingsPanel.add(oldPassword, gridBagConstraints);
+
+            newPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.gridy = 3;
+            gridBagConstraints.gridwidth = 4;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+            AccountSettingsPanel.add(newPassword, gridBagConstraints);
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.gridy = 4;
+            gridBagConstraints.gridwidth = 4;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+            AccountSettingsPanel.add(newPassword1, gridBagConstraints);
+            AccountSettingsPanel.setBorder(new EmptyBorder(5,5,5,5));
+            edit.getContentPane().add(AccountSettingsPanel, new java.awt.GridBagConstraints());
+            edit.pack();
+            ConfirmPasswordChange.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(oldPassword.getText().equals(userAccount.getPassword()) && newPassword.getText().equals(newPassword1.getText())){
+                        userAccountAPI.updatePassword(userAccount.getUsername(),newPassword.getText());
+                        JOptionPane.showMessageDialog(edit, "Password change successfully!");
+                        edit.dispose();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(edit, "Check your inputs!");
+                        oldPassword.setText("");
+                        newPassword.setText("");
+                        newPassword1.setText("");
+                    }
+                }
+            });
+        }
     }
 }
