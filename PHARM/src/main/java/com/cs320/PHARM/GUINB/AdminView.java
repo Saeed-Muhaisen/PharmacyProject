@@ -1,18 +1,22 @@
 package com.cs320.PHARM.GUINB;
-
-import com.cs320.PHARM.api.DoctorAPI;
-import com.cs320.PHARM.api.DrugAPI;
-import com.cs320.PHARM.api.PharmacyAPI;
-import com.cs320.PHARM.api.UserAccountAPI;
+//test
+import com.cs320.PHARM.api.*;
 import com.cs320.PHARM.dao.PatientDao;
-import com.cs320.PHARM.model.UserAccount;
+import com.cs320.PHARM.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
+import java.util.regex.PatternSyntaxException;
+
 @Component
 public class AdminView extends javax.swing.JFrame {
     //todo: Spring beans Beginning::
@@ -21,7 +25,7 @@ public class AdminView extends javax.swing.JFrame {
     @Autowired
     PharmacyAPI pharmacyAPI;
     @Autowired
-    PatientDao patientDao;
+    PatientAPI patientAPI;
     @Autowired
     DrugAPI drugAPI;
     @Autowired
@@ -209,44 +213,28 @@ public class AdminView extends javax.swing.JFrame {
         DoctorB.setAlignmentY(0.0F);
         DoctorB.setBorder(BorderFactory.createEtchedBorder());
 
-        DoctorB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                DoctorBActionPerformed(evt);
-            }
-        });
+
         jPanel1.add(DoctorB);
 
         PharmaciesB.setFont(new Font("Calibri", 0, 18)); // NOI18N
         PharmaciesB.setText("Pharmacies");
         PharmaciesB.setAlignmentY(0.0F);
         PharmaciesB.setBorder(BorderFactory.createEtchedBorder());
-        PharmaciesB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                PharmaciesBActionPerformed(evt);
-            }
-        });
+
         jPanel1.add(PharmaciesB);
 
         drugsB.setFont(new Font("Calibri", 0, 18)); // NOI18N
         drugsB.setText("Drugs");
         drugsB.setAlignmentY(0.0F);
         drugsB.setBorder(BorderFactory.createEtchedBorder());
-        drugsB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                drugsBActionPerformed(evt);
-            }
-        });
+
         jPanel1.add(drugsB);
 
         PatientsB.setFont(new Font("Calibri", 0, 18)); // NOI18N
         PatientsB.setText("Patients");
         PatientsB.setAlignmentY(0.0F);
         PatientsB.setBorder(BorderFactory.createEtchedBorder());
-        PatientsB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                PatientsBActionPerformed(evt);
-            }
-        });
+
         jPanel1.add(PatientsB);
 
         gridBagConstraints = new GridBagConstraints();
@@ -285,15 +273,6 @@ public class AdminView extends javax.swing.JFrame {
 
         jLabel2.setText("Search By ID");
 
-        DrugSearchT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                try {
-                    DrugSearchAction(evt);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
 
         DrugEditB.setText("Edit");
 
@@ -339,11 +318,7 @@ public class AdminView extends javax.swing.JFrame {
         jLabel3.setText("Drug Name");
 
         DrugAddB.setText("Add");
-        DrugAddB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                DrugAddBActionPerformed(evt);
-            }
-        });
+
 
         GroupLayout rightLayout = new GroupLayout(right);
         right.setLayout(rightLayout);
@@ -408,15 +383,6 @@ public class AdminView extends javax.swing.JFrame {
 
         jLabel12.setText("Search By ID");
 
-        DoctorSB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                try {
-                    DoctorSBActionPerformed(evt);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
 
         DoctorEditB.setText("Edit");
 
@@ -462,11 +428,7 @@ public class AdminView extends javax.swing.JFrame {
         jLabel5.setText("Doctor Name");
 
         DoctorAddB.setText("Add");
-        DoctorAddB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                DoctorAddBActionPerformed(evt);
-            }
-        });
+
 
         GroupLayout right1Layout = new GroupLayout(right1);
         right1.setLayout(right1Layout);
@@ -526,15 +488,6 @@ public class AdminView extends javax.swing.JFrame {
 
         jLabel13.setText("Search By ID");
 
-        PharmacySearchT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                try {
-                    PharmacySearchActionPerformed(evt);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
 
         PharmacyEditB.setText("Edit");
 
@@ -580,11 +533,7 @@ public class AdminView extends javax.swing.JFrame {
         jLabel7.setText("Pharmacy Name");
 
         PharmaADDB.setText("Add");
-        PharmaADDB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                PharmaADDBActionPerformed(evt);
-            }
-        });
+
 
         GroupLayout right2Layout = new GroupLayout(right2);
         right2.setLayout(right2Layout);
@@ -656,22 +605,13 @@ public class AdminView extends javax.swing.JFrame {
 
         jLabel8.setText("Search By ID");
 
-        PatientSearchT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                PatientSearchTActionPerformed(evt);
-            }
-        });
 
         PatientEditB.setText("Edit");
 
         PatientDeleteB.setText("Delete");
 
         ListAllPatients.setText("List All");
-        ListAllPatients.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                ListAllPatientsActionPerformed(evt);
-            }
-        });
+
 
         GroupLayout left3Layout = new GroupLayout(left3);
         left3.setLayout(left3Layout);
@@ -739,11 +679,7 @@ public class AdminView extends javax.swing.JFrame {
         jPanel2.add(accountSettings);
 
         Logout.setText("Logout");
-        Logout.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                LogoutActionPerformed(evt);
-            }
-        });
+
         jPanel2.add(Logout);
 
         gridBagConstraints = new GridBagConstraints();
@@ -754,14 +690,242 @@ public class AdminView extends javax.swing.JFrame {
         jPanel3.add(jPanel2, gridBagConstraints);
 
         getContentPane().add(jPanel3, new GridBagConstraints());
+
+        DoctorTable.setDefaultEditor(Object.class, null);
+        jTable5.setDefaultEditor(Object.class, null);
+        PharmacyTable.setDefaultEditor(Object.class, null);
+        DrugTable.setDefaultEditor(Object.class, null);
+
+        DoctorEditB.setEnabled(false);
+
+
+        actionListeners();
+        pack();
+
+    }
+    //for action listeners
+    private void actionListeners(){
+
+
+        //Panels:
+        DoctorB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                DoctorBActionPerformed(evt);
+                resetDoctor();
+            }
+        });
+        PharmaciesB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                PharmaciesBActionPerformed(evt);
+                resetPharmacies();
+            }
+        });
+        drugsB.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                drugsBActionPerformed(evt);
+                resetDrug();
+            }
+        });
+        PatientsB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                PatientsBActionPerformed(evt);
+                resetPatient();
+            }
+        });
+
+
+        //Search text fields (I REMOVED ACTION LISTENER SO WE CAN FILTER ACTUALLY)
+        PharmacySearchT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(PharmacyTable,PharmacySearchT);
+                if(PharmacyTable.getRowCount()==1){
+                    PharmacyEditB.setEnabled(true);
+                    PharmacyDeleteB.setEnabled(true);
+                }
+                else{
+                    PharmacyEditB.setEnabled(false);
+                    PharmacyDeleteB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(PharmacyTable,PharmacySearchT);
+                if(PharmacyTable.getRowCount()==1){
+                    PharmacyEditB.setEnabled(true);
+                    PharmacyDeleteB.setEnabled(true);
+                }
+                else{
+                    PharmacyEditB.setEnabled(false);
+                    PharmacyDeleteB.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(PharmacyTable,PharmacySearchT);
+                if(PharmacyTable.getRowCount()==1){
+                    PharmacyEditB.setEnabled(true);
+                    PharmacyDeleteB.setEnabled(true);
+                }
+                else{
+                    PharmacyEditB.setEnabled(false);
+                    PharmacyDeleteB.setEnabled(false);
+                }
+            }
+        });
+        DrugSearchT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(DrugTable,DrugSearchT);
+                if(DrugTable.getRowCount()==1){
+                    DrugDeleteB.setEnabled(true);
+                    DrugEditB.setEnabled(true);
+                }
+                else{
+                    DrugDeleteB.setEnabled(false);
+                    DrugEditB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(DrugTable,DrugSearchT);
+                if(DrugTable.getRowCount()==1){
+                    DrugDeleteB.setEnabled(true);
+                    DrugEditB.setEnabled(true);
+                }
+                else{
+                    DrugDeleteB.setEnabled(false);
+                    DrugEditB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(DrugTable,DrugSearchT);
+                if(DrugTable.getRowCount()==1){
+                    DrugDeleteB.setEnabled(true);
+                    DrugEditB.setEnabled(true);
+                }
+                else{
+                    DrugDeleteB.setEnabled(false);
+                    DrugEditB.setEnabled(false);
+                }
+            }
+        });
+        DoctorSB.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(DoctorTable,DoctorSB);
+                if(DoctorTable.getRowCount()==1){
+                    DoctorEditB.setEnabled(true);
+                    DoctorDeleteB.setEnabled(true);
+                }
+                else{
+                    DoctorEditB.setEnabled(false);
+                    DoctorDeleteB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(DoctorTable,DoctorSB);
+                if(DoctorTable.getRowCount()==1){
+                    DoctorEditB.setEnabled(true);
+                    DoctorDeleteB.setEnabled(true);
+                }
+                else{
+                    DoctorEditB.setEnabled(false);
+                    DoctorDeleteB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(DoctorTable,DoctorSB);
+                if(DoctorTable.getRowCount()==1){
+                    DoctorEditB.setEnabled(true);
+                    DoctorDeleteB.setEnabled(true);
+                }
+                else{
+                    DoctorEditB.setEnabled(false);
+                    DoctorDeleteB.setEnabled(false);
+                }
+            }
+        });
+        PatientSearchT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(jTable5,PatientSearchT);
+                if(jTable5.getRowCount()==1){
+                    PatientDeleteB.setEnabled(true);
+                    PatientEditB.setEnabled(true);
+                }
+                else{
+                    PatientDeleteB.setEnabled(false);
+                    PatientEditB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(jTable5,PatientSearchT);
+                if(jTable5.getRowCount()==1){
+                    PatientDeleteB.setEnabled(true);
+                    PatientEditB.setEnabled(true);
+                }
+                else{
+                    PatientDeleteB.setEnabled(false);
+                    PatientEditB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(jTable5,PatientSearchT);
+                if(jTable5.getRowCount()==1){
+                    PatientDeleteB.setEnabled(true);
+                    PatientEditB.setEnabled(true);
+                }
+                else{
+                    PatientDeleteB.setEnabled(false);
+                    PatientEditB.setEnabled(false);
+                }
+            }
+        });
+
+        //Adding
+        DrugAddB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                DrugAddBActionPerformed(evt);
+            }
+        });
+        DoctorAddB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                DoctorAddBActionPerformed(evt);
+            }
+        });
+        PharmaADDB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                PharmaADDBActionPerformed(evt);
+            }
+        });
+
+        //List all
+        ListAllPatients.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                ListAllPatientsActionPerformed(evt);
+            }
+        });
         DoctorListALL1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 DoctorListallAction();
             }
         });
-
-
-
         DrugListALL.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 DrugListallAction();
@@ -772,6 +936,10 @@ public class AdminView extends javax.swing.JFrame {
                 PharmacyListallAction();
             }
         });
+
+
+
+        //Delete
         DoctorDeleteB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 DoctorDeleteAction();
@@ -794,12 +962,8 @@ public class AdminView extends javax.swing.JFrame {
                 DrugDeleteAction();
             }
         });
-        DoctorTable.setDefaultEditor(Object.class, null);
-        jTable5.setDefaultEditor(Object.class, null);
-        PharmacyTable.setDefaultEditor(Object.class, null);
-        DrugTable.setDefaultEditor(Object.class, null);
 
-        DoctorEditB.setEnabled(false);
+        //Edit
         DoctorEditB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 DoctorEditAction();
@@ -810,7 +974,6 @@ public class AdminView extends javax.swing.JFrame {
                 PatientEditAction();
             }
         });
-
         PharmacyEditB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 PharmacyEditBAction();
@@ -822,12 +985,11 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
-        actionListeners();
-        pack();
-
-    }
-    //for action listeners
-    private void actionListeners(){
+        Logout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
         accountSettings.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -889,27 +1051,12 @@ public class AdminView extends javax.swing.JFrame {
         //todo fill doctor Table
     }
 
-    private void DrugSearchAction(ActionEvent evt) throws Exception {
-        //todo: search a drug
-    }
-
-    private void PharmacySearchActionPerformed(ActionEvent evt) throws Exception {
-        //todo: search a pharmacy
-    }
-
     private void ListAllPatientsActionPerformed(ActionEvent evt) {
         //todo: show all patients in db
     }
 
 
-    private void DoctorSBActionPerformed(java.awt.event.ActionEvent evt) throws Exception {
-        //todo: Search for a doctor
-    }
-    private void PatientSearchTActionPerformed(java.awt.event.ActionEvent evt) {
-        //todo: search for a patient
 
-
-    }
     private void PharmaciesBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaciesBActionPerformed
         drugPanel.setEnabled(false);
         drugPanel.setVisible(false );
@@ -920,8 +1067,6 @@ public class AdminView extends javax.swing.JFrame {
         patientPanel.setEnabled(false);
         patientPanel.setVisible(false);
         PharmacyTableFiller();
-
-
     }
     private void PatientsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PatientsBActionPerformed
         drugPanel.setEnabled(false);
@@ -961,14 +1106,11 @@ public class AdminView extends javax.swing.JFrame {
         DrugTableFiller();
     }
 
-    private void DrugTableFiller() {
-        //todo:Fill drug table from db
-    }
+
 
     private void DrugAddBActionPerformed(java.awt.event.ActionEvent evt) {
         //todo: add a new drug to db
     }
-
 
 
     private void PharmaADDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaADDBActionPerformed
@@ -991,25 +1133,110 @@ public class AdminView extends javax.swing.JFrame {
     }
 
 
-
-
-    private void DoctorTableFiller() {
-        //todo: fill doctor table from db
-
-    }
     private void DoctorAddBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorAddBActionPerformed
         //todo: add a new doctor to db
 
     }
 
-
+    //I use these methods to fill Jtables in every tab
     private void PharmacyTableFiller() {
+        List<Pharmacy> pharmacyList=pharmacyAPI.PharmacyList();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PharmacyTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[3];
 
-        //todo: fill pharmacy table from db
+        for(int i=0;i<pharmacyList.size();i++){
+            rowData[1]=pharmacyList.get(i).getPharmacyName();
+            rowData[0]=pharmacyList.get(i).getPharmacyID();
+            rowData[2]=pharmacyList.get(i).getInventoryId();
+            model.addRow(rowData);
+        }
     }
     private void PatientTableFiller(){
-        //todo: fill patient table from db
+        List<Patient> temp = patientAPI.findAll();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable5.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<temp.size();i++){
+            rowData[0]=temp.get(i).getId();
+            rowData[1]=temp.get(i).getName();
+            model.addRow(rowData);
+        }
     }
+    private void DoctorTableFiller() {
+        List<Doctor> d=doctorAPI.DoctorList();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DoctorTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<d.size();i++){
+            rowData[1]=d.get(i).getDoctorName();
+            rowData[0]=d.get(i).getDoctorId();
+            model.addRow(rowData);
+        }
+    }
+    private void DrugTableFiller() {
+        List<Drug> temp = drugAPI.DrugList();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<temp.size();i++){
+            rowData[1]=temp.get(i).getDrugName();
+            rowData[0]=temp.get(i).getDrugID();
+            model.addRow(rowData);
+        }
+    }
+    private void TableFilter(JTable table,JTextField textField) {
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+        table.setRowSorter(sorter);
+        String text = textField.getText();
+        if(text.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+                int col=0;
+                sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text+"$",col));
+            } catch(PatternSyntaxException pse) {
+                System.out.println("Bad regex pattern");
+            }
+        }
+    }
+
+    //Reset methods: (after clicking a tab a table is filled and all settings are reset to normal
+    private void resetDoctor(){
+        DoctorDeleteB.setEnabled(false);
+        DoctorEditB.setEnabled(false);
+        DoctorAddB.setEnabled(false);
+        DoctorSB.setText("");
+        DoctorNameT.setText("");
+        DoctorTableFiller();
+    }
+    private void resetDrug(){
+        DrugAddB.setEnabled(false);
+        DrugEditB.setEnabled(false);
+        DrugDeleteB.setEnabled(false);
+        DrugNameT.setText("");
+        DrugSearchT.setText("");
+        DrugTableFiller();
+    }
+    private void resetPatient(){
+        PatientEditB.setEnabled(false);
+        PatientDeleteB.setEnabled(false);
+        PatientSearchT.setText("");
+        PatientTableFiller();
+    }
+    private void resetPharmacies(){
+        PharmacyEditB.setEnabled(false);
+        PharmacyDeleteB.setEnabled(false);
+        PharmaADDB.setEnabled(false);
+        PharmacySearchT.setText("");
+        PharmaNameT.setText("");
+        PharmacyTableFiller();
+
+    }
+
     private javax.swing.JPanel AccountSettingsPanel;
     private javax.swing.JButton CancelPasswordChange;
     private javax.swing.JButton ConfirmPasswordChange;
