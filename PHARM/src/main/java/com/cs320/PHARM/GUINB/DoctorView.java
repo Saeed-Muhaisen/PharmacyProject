@@ -1,16 +1,24 @@
 package com.cs320.PHARM.GUINB;
 
 import com.cs320.PHARM.api.*;
+import com.cs320.PHARM.model.Drug;
+import com.cs320.PHARM.model.Patient;
 import com.cs320.PHARM.model.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 @Component
 public class DoctorView extends javax.swing.JFrame {
@@ -38,7 +46,7 @@ public class DoctorView extends javax.swing.JFrame {
         frame.setVisible(true);
         frame.setEnabled(true);
     }
-
+    private JFrame create;
     private javax.swing.JButton AddPatientB;
     private javax.swing.JButton CreateB;
     private javax.swing.JButton DeletePatientB;
@@ -74,6 +82,45 @@ public class DoctorView extends javax.swing.JFrame {
     private javax.swing.JPanel right;
     private javax.swing.JPanel rightP;
     private javax.swing.JPanel top;
+    //TODO: create/edit frame objects -----------
+    private javax.swing.JButton AddDrugB;
+
+    private javax.swing.JPanel Bot;
+    private javax.swing.JButton CancelPrescriptionB;
+    private javax.swing.JButton CreatePrescriptionB;
+    private javax.swing.JTable DrugListTable;
+    private javax.swing.JTextField DrugSearchT;
+    private javax.swing.JButton ListAllDrugsB;
+    private javax.swing.JButton ListAllPrescriptionsB1;
+    private javax.swing.JPanel Mid;
+    private javax.swing.JPanel Mid1;
+    private javax.swing.JPanel Mid2;
+    private javax.swing.JTextArea NoteTextArea;
+    private javax.swing.JLabel PatientTempID;
+    private javax.swing.JLabel PatientTempName;
+    private javax.swing.JTextField PrescriptionSearchT1;
+    private javax.swing.JTable PrescriptionTable;
+    private javax.swing.JButton RemovePrescirptionB1;
+    private javax.swing.JPanel drugpanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JPanel prescriptionpanel;
+    private javax.swing.JScrollPane scrool;
+    private javax.swing.JPanel topPanel;
+    private JTextField AmountfieldT;
+    private JLabel Amount;
+
 
     public void initializeObject(UserAccount userAccount,UserLogin userLogin) {
         this.setVisible(true);
@@ -81,12 +128,13 @@ public class DoctorView extends javax.swing.JFrame {
         this.userAccount=userAccount;
         this.userLogin=userLogin;
         NameTextField.setText(userAccount.getUsername());
+        PatientTableFiller();
     }
     public DoctorView() {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
+
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -445,10 +493,461 @@ public class DoctorView extends javax.swing.JFrame {
                 EditAccount();
             }
         });
+        jTextField7.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(PatientTable,jTextField7);
+                if(PatientTable.getRowCount()==1){
+                    if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
+                        EditB.setEnabled(true);
+                    }
+                    else {
+                        CreateB.setEnabled(true);
+                    }
+                    DeletePatientB.setEnabled(true);
+
+                }
+                else{
+                    EditB.setEnabled(false);
+                    CreateB.setEnabled(false);
+                    DeletePatientB.setEnabled(false);
+
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(PatientTable,jTextField7);
+                if(PatientTable.getRowCount()==1){
+                    if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
+                        EditB.setEnabled(true);
+                    }
+                    else {
+                        CreateB.setEnabled(true);
+                    }
+                    DeletePatientB.setEnabled(true);
+
+                }
+                else{
+                    EditB.setEnabled(false);
+                    CreateB.setEnabled(false);
+                    DeletePatientB.setEnabled(false);
+
+                }
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(PatientTable,jTextField7);
+                if(PatientTable.getRowCount()==1){
+                    if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
+                        EditB.setEnabled(true);
+                    }
+                    else {
+                        CreateB.setEnabled(true);
+                    }
+                    DeletePatientB.setEnabled(true);
+
+                }
+                else{
+                    EditB.setEnabled(false);
+                    CreateB.setEnabled(false);
+                    DeletePatientB.setEnabled(false);
+
+                }
+
+            }
+        });
+
     }
-    private void createFrame() {
-        //todo: new jframe will be created for creating prescription.
+    private void createFrame(){
+        create=new JFrame();
+        create.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                create.dispose();
+            }
+        });
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jPanel1 = new javax.swing.JPanel();
+        topPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        PatientTempID = new javax.swing.JLabel();
+        PatientTempName = new javax.swing.JLabel();
+        //todo
+        PatientTempID.setText(String.valueOf(PatientTable.getValueAt(0,0)));
+        PatientTempName.setText(String.valueOf(PatientTable.getValueAt(0,1)));
+        //todo
+        jLabel4 = new javax.swing.JLabel();
+        Mid = new javax.swing.JPanel();
+        Mid1 = new javax.swing.JPanel();
+        jPanel33 = new javax.swing.JPanel();
+        scrool = new javax.swing.JScrollPane();
+        DrugListTable = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        PrescriptionTable = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        drugpanel = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        DrugSearchT = new javax.swing.JTextField();
+        ListAllDrugsB = new javax.swing.JButton();
+        AddDrugB = new javax.swing.JButton();
+        AmountfieldT = new javax.swing.JTextField();
+        Amount = new javax.swing.JLabel();
+        prescriptionpanel = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        PrescriptionSearchT1 = new javax.swing.JTextField();
+        ListAllPrescriptionsB1 = new javax.swing.JButton();
+        RemovePrescirptionB1 = new javax.swing.JButton();
+        Mid2 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        // NoteTextArea = new javax.swing.JTextArea();
+        jLabel8 = new javax.swing.JLabel();
+        Bot = new javax.swing.JPanel();
+        CreatePrescriptionB = new javax.swing.JButton();
+        CancelPrescriptionB = new javax.swing.JButton();
+
+
+        DrugTableFiller();
+
+
+        create.setResizable(false);
+        create.getContentPane().setLayout(new java.awt.CardLayout(10, 10));
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        topPanel.setLayout(new java.awt.GridBagLayout());
+
+        jLabel1.setText("Patient ID:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        topPanel.add(jLabel1, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        topPanel.add(PatientTempID, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        topPanel.add(PatientTempName, gridBagConstraints);
+
+        jLabel4.setText("Patient Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        topPanel.add(jLabel4, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel1.add(topPanel, gridBagConstraints);
+
+        Mid.setLayout(new java.awt.GridBagLayout());
+
+        Mid1.setLayout(new java.awt.GridBagLayout());
+
+        jPanel33.setLayout(new java.awt.GridBagLayout());
+
+        DrugListTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                new String [] {
+                        "Drug ID", "Drug Name"
+                }
+        ) {
+            Class[] types = new Class [] {
+                    java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                    false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scrool.setViewportView(DrugListTable);
+        if (DrugListTable.getColumnModel().getColumnCount() > 0) {
+            DrugListTable.getColumnModel().getColumn(0).setResizable(false);
+            DrugListTable.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 290;
+        gridBagConstraints.ipady = 100;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel33.add(scrool, gridBagConstraints);
+
+        jLabel7.setText("Drug List");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 26);
+        jPanel33.add(jLabel7, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        Mid1.add(jPanel33, gridBagConstraints);
+
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        PrescriptionTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][][] {
+
+                },
+                new String [] {
+                        "Drug ID", "Drug Name","amount"
+                }
+        ) {
+            Class[] types = new Class [] {
+                    java.lang.Integer.class, java.lang.String.class,java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(PrescriptionTable);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 290;
+        gridBagConstraints.ipady = 100;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 3);
+        jPanel5.add(jScrollPane3, gridBagConstraints);
+
+        jLabel6.setText("Prescription");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 26);
+        jPanel5.add(jLabel6, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 25, 0, 0);
+        Mid1.add(jPanel5, gridBagConstraints);
+
+        drugpanel.setLayout(new java.awt.GridBagLayout());
+
+        jLabel5.setText("Drug ID:   ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 50);
+        drugpanel.add(jLabel5, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 149;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        drugpanel.add(DrugSearchT, gridBagConstraints);
+
+        ListAllDrugsB.setText("List All");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 29;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 5, 0);
+        drugpanel.add(ListAllDrugsB, gridBagConstraints);
+
+        AddDrugB.setText("Add");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 29;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 5, 1);
+        drugpanel.add(AddDrugB, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 149;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        drugpanel.add(AmountfieldT, gridBagConstraints);
+        Amount.setText("Amount:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 50);
+        drugpanel.add(Amount, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        Mid1.add(drugpanel, gridBagConstraints);
+
+        prescriptionpanel.setLayout(new java.awt.GridBagLayout());
+
+        jLabel9.setText("Drug ID:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 50);
+        prescriptionpanel.add(jLabel9, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 149;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        prescriptionpanel.add(PrescriptionSearchT1, gridBagConstraints);
+
+        ListAllPrescriptionsB1.setText("List All");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 29;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 5, 0);
+        prescriptionpanel.add(ListAllPrescriptionsB1, gridBagConstraints);
+
+        RemovePrescirptionB1.setText("Remove");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 29;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 5, 1);
+        prescriptionpanel.add(RemovePrescirptionB1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 25, 0, 0);
+        Mid1.add(prescriptionpanel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 21);
+        Mid.add(Mid1, gridBagConstraints);
+
+        Mid2.setLayout(new java.awt.GridBagLayout());
+
+        jPanel7.setLayout(new java.awt.GridBagLayout());
+        NoteTextArea =new JTextArea();
+        NoteTextArea.setColumns(20);
+        NoteTextArea.setRows(5);
+        NoteTextArea.setText("temporary note.");
+        jScrollPane4.setViewportView(NoteTextArea);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 620;
+        gridBagConstraints.ipady = 102;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel7.add(jScrollPane4, gridBagConstraints);
+
+        jLabel8.setText("Attatch a Note:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 26);
+        jPanel7.add(jLabel8, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        Mid2.add(jPanel7, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        Mid.add(Mid2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = -872;
+        gridBagConstraints.ipady = -477;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(35, 0, 0, 0);
+        jPanel1.add(Mid, gridBagConstraints);
+
+        Bot.setLayout(new java.awt.GridBagLayout());
+
+        CreatePrescriptionB.setText("Create Prescription");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 4;
+        gridBagConstraints.ipady = 4;
+        gridBagConstraints.insets = new java.awt.Insets(15, 3, 0, 3);
+        Bot.add(CreatePrescriptionB, gridBagConstraints);
+
+        CancelPrescriptionB.setText("Cancel ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 62;
+        gridBagConstraints.ipady = 4;
+        gridBagConstraints.insets = new java.awt.Insets(15, 3, 0, 3);
+        Bot.add(CancelPrescriptionB, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 23, 0, 0);
+        jPanel1.add(Bot, gridBagConstraints);
+
+        create.getContentPane().add(jPanel1, "card2");
+        create.setResizable(false);
+        create.pack();
+        create.setVisible(true);
+        create.setEnabled(true);
+
     }
+
+
     private void EditBActionPerformed(ActionEvent evt) {}
 
 
@@ -484,8 +983,52 @@ public class DoctorView extends javax.swing.JFrame {
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {}
 
+    //table fillers here:-
+    private void PatientTableFiller(){
+        DeletePatientB.setEnabled(false);
+        CreateB.setEnabled(false);
+        EditB.setEnabled(false);
+        DeletePrescriptionB.setEnabled(false);
+        List<Patient> temp = patientAPI.findAll();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PatientTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[3];
 
-    private void PatientTableFiller(){}
+        for(int i=0;i<temp.size();i++){
+            rowData[0]=temp.get(i).getId();
+            rowData[1]=temp.get(i).getName();
+            rowData[2]= prescriptionAPI.sumOfPrescriptionByPatientID(temp.get(i).getId(),userAccount.getId());
+            model.addRow(rowData);
+        }
+    }
+    private void DrugTableFiller(){
+        List<Drug> temp = drugAPI.DrugList();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugListTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<temp.size();i++){
+            rowData[1]=temp.get(i).getDrugName();
+            rowData[0]=temp.get(i).getDrugID();
+            model.addRow(rowData);
+        }
+    }
+    private void TableFilter(JTable table,JTextField textField) {
+        System.out.println("d");
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+        table.setRowSorter(sorter);
+        String text = textField.getText();
+        if(text.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+                int col=0;
+                sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text+"$",col));
+            } catch(PatternSyntaxException pse) {
+                System.out.println("Bad regex pattern");
+            }
+        }
+    }
 
     //TODO:: Edit account settings Beginning::
     private javax.swing.JPanel AccountSettingsPanel;
