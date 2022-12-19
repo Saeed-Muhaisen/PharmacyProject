@@ -998,23 +998,503 @@ public class AdminView extends javax.swing.JFrame {
         });
     }
 
+    //TODO: editing frame for all panels
+    private javax.swing.JButton CancelButton;
+    private javax.swing.JButton ConfirmButton;
+    private javax.swing.JLabel EditIDLabel;
+    private javax.swing.JLabel EditNameLabel;
+    private java.awt.TextField NewNameT;
+    private javax.swing.JLabel jLabela;
+    private javax.swing.JLabel jLabelb;
+    private javax.swing.JLabel jLabelc;
     private void DrugEditBAction() {
-        //TODO: popup frame to endi a drug
-    }
 
+        JFrame edit=new JFrame();
+
+        edit.setEnabled(true);
+        edit.setVisible(true);
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabela = new javax.swing.JLabel();
+        jLabelb = new javax.swing.JLabel();
+        EditNameLabel = new javax.swing.JLabel();
+        EditIDLabel = new javax.swing.JLabel();
+        jLabelc = new javax.swing.JLabel();
+        NewNameT = new java.awt.TextField();
+        ConfirmButton = new javax.swing.JButton();
+        CancelButton = new javax.swing.JButton();
+
+
+        EditNameLabel.setText(DrugTable.getValueAt(0,1).toString());
+        EditIDLabel.setText(DrugTable.getValueAt(0,0).toString());
+
+        edit.setResizable(false);
+        edit.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabela.setText("Drug Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabela, gridBagConstraints);
+
+        jLabelb.setText("New Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabelb, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 57;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(EditNameLabel, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 78;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(EditIDLabel, gridBagConstraints);
+
+        jLabelc.setText("Drug ID:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabelc, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 73;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(NewNameT, gridBagConstraints);
+
+        ConfirmButton.setText("Confirm");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        edit.getContentPane().add(ConfirmButton, gridBagConstraints);
+
+        CancelButton.setText("Cancel");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        edit.getContentPane().add(CancelButton, gridBagConstraints);
+        edit.pack();
+        edit.setSize(new Dimension(300,200));
+        edit.setAlwaysOnTop(true);
+        ConfirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                Drug temp=new Drug();
+                temp.setDrugName(NewNameT.getText());
+                temp.setDrugID(Integer.parseInt(EditIDLabel.getText()));
+                drugAPI.updateDrug(temp);
+                edit.dispose();
+                resetDrug();
+
+            }
+        });
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit.dispose();
+                resetDrug();
+            }
+        });
+
+    }
 
     private void PharmacyEditBAction() {
-        //TODO: popup frame to edit a Pharmacy info
+
+        JFrame edit=new JFrame();
+
+
+        edit.setEnabled(true);
+        edit.setVisible(true);
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabela = new javax.swing.JLabel();
+        jLabelb = new javax.swing.JLabel();
+        EditNameLabel = new javax.swing.JLabel();
+        EditIDLabel = new javax.swing.JLabel();
+        jLabelc = new javax.swing.JLabel();
+        NewNameT = new java.awt.TextField();
+        ConfirmButton = new javax.swing.JButton();
+        CancelButton = new javax.swing.JButton();
+
+
+        EditNameLabel.setText(PharmacyTable.getValueAt(0,1).toString());
+        EditIDLabel.setText(PharmacyTable.getValueAt(0,0).toString());
+
+        edit.setResizable(false);
+        edit.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabela.setText("Pharmacist Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabela, gridBagConstraints);
+
+        jLabelb.setText("New Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabelb, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 57;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(EditNameLabel, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 78;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(EditIDLabel, gridBagConstraints);
+
+        jLabelc.setText("Pharmacist ID:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabelc, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 73;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(NewNameT, gridBagConstraints);
+
+        ConfirmButton.setText("Confirm");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        edit.getContentPane().add(ConfirmButton, gridBagConstraints);
+
+        CancelButton.setText("Cancel");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        edit.getContentPane().add(CancelButton, gridBagConstraints);
+        edit.pack();
+        edit.setSize(new Dimension(300,200));
+        edit.setAlwaysOnTop(true);
+        ConfirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                Pharmacy temp=new Pharmacy();
+                temp.setPharmacyName(NewNameT.getText());
+                temp.setPharmacyID(Integer.parseInt(EditIDLabel.getText()));
+                pharmacyAPI.updatePharmacy(temp);
+                edit.dispose();
+                resetPharmacies();
+            }
+        });
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit.dispose();
+                resetPharmacies();
+            }
+        });
+
     }
 
-    private void PatientEditAction(){
-        //TODO: popup frame to edit a Patient
+    private void PatientEditAction() {
+
+        JFrame edit=new JFrame();
+
+        edit.setEnabled(true);
+        edit.setVisible(true);
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabela = new javax.swing.JLabel();
+        jLabelb = new javax.swing.JLabel();
+        EditNameLabel = new javax.swing.JLabel();
+        EditIDLabel = new javax.swing.JLabel();
+        jLabelc = new javax.swing.JLabel();
+        NewNameT = new java.awt.TextField();
+        ConfirmButton = new javax.swing.JButton();
+        CancelButton = new javax.swing.JButton();
+
+        EditNameLabel.setText(jTable5.getValueAt(0,1).toString());
+        EditIDLabel.setText(jTable5.getValueAt(0,0).toString());
+
+        edit.setResizable(false);
+        edit.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabela.setText("Patient Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabela, gridBagConstraints);
+
+        jLabelb.setText("New Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabelb, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 57;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(EditNameLabel, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 78;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(EditIDLabel, gridBagConstraints);
+
+        jLabelc.setText("Patient ID:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabelc, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 73;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(NewNameT, gridBagConstraints);
+
+        ConfirmButton.setText("Confirm");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        edit.getContentPane().add(ConfirmButton, gridBagConstraints);
+
+        CancelButton.setText("Cancel");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        edit.getContentPane().add(CancelButton, gridBagConstraints);
+        edit.pack();
+        edit.setSize(new Dimension(300,200));
+        edit.setAlwaysOnTop(true);
+        ConfirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                Patient temp=new Patient();
+                temp.setName(NewNameT.getText());
+                temp.setId(Integer.parseInt(EditIDLabel.getText()));
+                patientAPI.save(temp);
+                edit.dispose();
+                resetPatient();
+
+
+            }
+        });
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit.dispose();
+                resetPatient();
+
+            }
+        });
+
     }
 
     private void DoctorEditAction() {
-        //TODO: popup frame to edit a doctor
-    }
+        JFrame edit=new JFrame();
 
+        edit.setEnabled(true);
+        edit.setVisible(true);
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabela = new javax.swing.JLabel();
+        jLabelb = new javax.swing.JLabel();
+        EditNameLabel = new javax.swing.JLabel();
+        EditIDLabel = new javax.swing.JLabel();
+        jLabelc = new javax.swing.JLabel();
+        NewNameT = new java.awt.TextField();
+        ConfirmButton = new javax.swing.JButton();
+        CancelButton = new javax.swing.JButton();
+
+
+
+        EditNameLabel.setText(DoctorTable.getValueAt(0,1).toString());
+        EditIDLabel.setText(DoctorTable.getValueAt(0,0).toString());
+
+        edit.setResizable(false);
+        edit.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabela.setText("Doctor Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabela, gridBagConstraints);
+
+        jLabelb.setText("New Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabelb, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 57;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(EditNameLabel, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 78;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(EditIDLabel, gridBagConstraints);
+
+        jLabelc.setText("Doctor ID:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        edit.getContentPane().add(jLabelc, gridBagConstraints);
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 73;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        edit.getContentPane().add(NewNameT, gridBagConstraints);
+
+        ConfirmButton.setText("Confirm");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        edit.getContentPane().add(ConfirmButton, gridBagConstraints);
+
+        CancelButton.setText("Cancel");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        edit.getContentPane().add(CancelButton, gridBagConstraints);
+        edit.pack();
+        edit.setSize(new Dimension(300,200));
+        edit.setAlwaysOnTop(true);
+        ConfirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                Doctor temp=new Doctor();
+                temp.setDoctorName(NewNameT.getText());
+                temp.setDoctorId(Integer.parseInt(EditIDLabel.getText()));
+                doctorAPI.updateDoctor(temp);
+                edit.dispose();
+                resetDoctor();
+
+            }
+        });
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit.dispose();
+                resetDoctor();
+            }
+        });
+    }
+    //Todo: End of editing frame::
     private void PharmacyDeleteAction() {
         //TODO:delete pharmacy
 
