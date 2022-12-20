@@ -1751,7 +1751,6 @@ public class AdminView extends javax.swing.JFrame {
             newPassword = new javax.swing.JTextField();
             newPassword1 = new javax.swing.JTextField();
 
-            edit.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
             edit.setResizable(false);
             edit.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -1873,6 +1872,18 @@ public class AdminView extends javax.swing.JFrame {
                         newPassword.setText("");
                         newPassword1.setText("");
                     }
+                }
+            });
+            edit.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    edit.dispose();
+                }
+            });
+            CancelPasswordChange.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    edit.dispose();
                 }
             });
         }

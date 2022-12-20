@@ -3,18 +3,20 @@ package com.cs320.PHARM.GUINB;
 
 
 import com.cs320.PHARM.api.*;
-import com.cs320.PHARM.model.Inventory;
-import com.cs320.PHARM.model.UserAccount;
+import com.cs320.PHARM.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
@@ -41,6 +43,10 @@ public class PharmacistView extends javax.swing.JFrame {
     UserAccountAPI userAccountAPI;
     UserLogin userLogin;
     private UserAccount userAccount;
+    private List<TransactionHistory> old_TransactionHistory;
+    private int row;
+    private int active_prescription_id;
+    private List<Prescription> prescriptionList;
     //TODO:: End of Beans::
 
     public void initializeObject(UserAccount userAccount, UserLogin userLogin) {
@@ -876,7 +882,255 @@ public class PharmacistView extends javax.swing.JFrame {
             }
         });
 
+        //Find Prescription:
+        PatientNameT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+            }
+        }); //Done
+        PatientIdT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+            }
+        });  //Done
+        SearchPatientB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SearchPatientAndFillPrescriptionTable();
+                resetPrescriptionInfo();
+            }
+        });
+        PrescriptionListTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                JTable source = (JTable)e.getSource();
+                row = source.rowAtPoint( e.getPoint() );
+                active_prescription_id=Integer.valueOf(PrescriptionListTable.getValueAt(row,0).toString());
+                informationFiller();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+
+        });
+
+
+        //Sell drugs:
+        PrescriptionListTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                JTable source = (JTable)e.getSource();
+                row = source.rowAtPoint( e.getPoint() );
+                active_prescription_id=Integer.valueOf(PrescriptionListTable.getValueAt(row,0).toString());
+                informationFiller();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+
+        });
+        DrugListTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(AvailableStock() && !AlreadyAddedTest()){
+                    addDrugToSell.setEnabled(true);
+                }
+                else{
+                    addDrugToSell.setEnabled(false);
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        addDrugToSell.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addDrugToSell();
+            }
+        });
+
+        DrugListTable1.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                RemoveDrugB1.setEnabled(true);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        DrugIdSearchInSell.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(DrugListTable1,DrugIdSearchInSell);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(DrugListTable1,DrugIdSearchInSell);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(DrugListTable1,DrugIdSearchInSell);
+            }
+        });
+
+        RemoveDrugB1.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveDrugB1ActionPerformed(evt);
+            }
+        });
+        DrugIdSearchInSell.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchSellByID();
+
+            }
+        });
+
     }
+    //TODO: Selling methods::
+    private boolean AvailableStock(){
+        int amount = Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 2).toString());
+        int available=Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 3).toString());
+        return amount < available;
+
+    }
+    private void addDrugToSell() {
+
+        if(AvailableStock()) {
+
+            int id = Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 0).toString());
+            int amount = Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 2).toString());
+            String name = DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 1).toString();
+            DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
+            model.addRow(new Object[]{id, name, amount});
+            DefaultTableModel m= (DefaultTableModel) DrugListTable.getModel();
+            m.removeRow(DrugListTable.getSelectedRow());
+        }
+    }
+    private boolean AlreadyAddedTest() {
+        for (int i = 0; i < DrugListTable1.getRowCount(); i++) {
+            int test = Integer.valueOf(DrugListTable1.getValueAt(i, 0).toString());
+            if (test == Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 0).toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void informationFiller() {
+        PatientNameTemp.setText(String.valueOf(prescriptionList.get(row).getPatientId()));
+        PatientIDTemp.setText(String.valueOf(prescriptionList.get(row).getPatientId()));
+        DoctorIDTemp.setText(String.valueOf(prescriptionList.get(row).getDoctorID()));
+        DoctorNameTemp.setText(doctorAPI.findDoctorById(prescriptionList.get(row).getDoctorID()).getDoctorName());
+        PrescriptionStatusTemp.setText("Active");
+        NoteArea.setText(prescriptionList.get(row).getNote());
+        PrescribedMedTableFiller();
+    }
+    private void PrescribedMedTableFiller() {
+
+        List<DrugList> temp = drugListAPI.findDrugList(prescriptionList.get(row).getPrescriptionId());
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugListTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[4];
+
+        for(int i=0;i<temp.size();i++){
+            rowData[0]= temp.get(i).getDrugID();
+            rowData[1]= drugAPI.findDrugByID(temp.get(i).getDrugID()).getDrugName();
+            rowData[2]= temp.get(i).getAmount();
+            try {
+                rowData[3] = inventoryAPI.findByInventoryIdAndDrugID(userAccount.getId(), temp.get(i).getDrugID()).getCapacity();
+            } catch(EmptyResultDataAccessException e){
+                rowData[3]=0;
+            }
+            model.addRow(rowData);
+        }
+    }
+    //TODO: Selling methods end::
     //Table filler and filters
     private void TableFilter(JTable table,JTextField textField) {
         System.out.println("d");
@@ -911,7 +1165,21 @@ public class PharmacistView extends javax.swing.JFrame {
             model.addRow(rowData);
         }
     }
-
+    private void SellTableFilter() {
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(DrugListTable1.getModel());
+        DrugListTable1.setRowSorter(sorter);
+        String text = DrugIdSearchInSell.getText();
+        if(text.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+                int col=0;
+                sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text,col));
+            } catch(PatternSyntaxException pse) {
+                System.out.println("Bad regex pattern");
+            }
+        }
+    }
 
     //resets Stock tab settings and texts
     public void resetStock(){
@@ -924,8 +1192,41 @@ public class PharmacistView extends javax.swing.JFrame {
         AddDrugToInventoryB.setEnabled(false);
         PharmacyTableFiller();
     }
+    public void resetPrescriptionInfo(){
+        DefaultTableModel model = (DefaultTableModel) DrugListTable.getModel();
+        model.setRowCount(0);
+        model = (DefaultTableModel) DrugListTable1.getModel();
+        model.setRowCount(0);
+        NoteArea.setText("");
+        PatientNameTemp.setText("N/A");
+        PatientIDTemp.setText("N/A");
+        DoctorNameTemp.setText("N/A");
+        DoctorIDTemp.setText("N/A");
+        PrescriptionStatusTemp.setText("N/A");
 
+    }
+    private void cache_sellTable(){
+        old_TransactionHistory=new ArrayList<>();
+        for(int i=0;i<DrugListTable1.getRowCount();i++){
+            TransactionHistory temp= new TransactionHistory();
+            temp.setDrugID((Integer) DrugListTable1.getValueAt(0,0));
+            temp.setAmount_sold((Integer) DrugListTable1.getValueAt(0,2));
+        }
+    }
     private void SearchSellByID() {
+        cache_sellTable();
+        int drugid= Integer.parseInt(DrugIdSearchInSell.getText());
+        for(int i=0;i<old_TransactionHistory.size();i++){
+            if(old_TransactionHistory.get(i).getDrugID()==drugid){
+                DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
+                model.setRowCount(0);
+                model.addRow(new Object[]{old_TransactionHistory.get(i).getDrugID(),
+                        drugAPI.findDrugByID(old_TransactionHistory.get(i).getDrugID()),old_TransactionHistory.get(i).getAmount_sold()
+                });
+                old_TransactionHistory.remove(i);
+                break;
+            }
+        }
 
     }
 
@@ -945,7 +1246,19 @@ public class PharmacistView extends javax.swing.JFrame {
     }
 
     private void SearchPatientAndFillPrescriptionTable() {
+        int id= Integer.parseInt(PatientIdT.getText());
+        String name=PatientNameT.getText();
+        prescriptionList=prescriptionAPI.findPrescriptionByPatientIdAndName(id,name);
 
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PrescriptionListTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<prescriptionList.size();i++){
+            rowData[0]=prescriptionList.get(i).getPrescriptionId();
+            rowData[1]=doctorAPI.findDoctorById(prescriptionList.get(i).getDoctorID()).getDoctorName();
+            model.addRow(rowData);
+        }
     }
 
     //Switching tabs
@@ -976,7 +1289,11 @@ public class PharmacistView extends javax.swing.JFrame {
 
     }
     private void RemoveDrugB1ActionPerformed(java.awt.event.ActionEvent evt) {
-
+        DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
+        model.removeRow(DrugListTable1.getSelectedRow());
+        RemoveDrugB1.setEnabled(false);
+        DrugIdSearchInSell.setText("");
+        SellTableFilter();
     }
 
     //editing Drug JFrame Instance and method Beginning:
