@@ -1,9 +1,7 @@
 package com.cs320.PHARM.GUINB;
 
 import com.cs320.PHARM.api.*;
-import com.cs320.PHARM.model.Drug;
-import com.cs320.PHARM.model.Patient;
-import com.cs320.PHARM.model.UserAccount;
+import com.cs320.PHARM.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
@@ -38,8 +37,8 @@ public class DoctorView extends javax.swing.JFrame {
     UserLogin userLogin;
 
     //Todo: Spring beans end::
-
-
+    private boolean editing=false;
+    private int active_DrugListID;
     private UserAccount userAccount;
     public static void main(String args[]) {
         JFrame frame=new DoctorView();
@@ -230,11 +229,7 @@ public class DoctorView extends javax.swing.JFrame {
                 DoctorBMouseClicked1(evt);
             }
         });
-        DoctorB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DoctorBActionPerformed(evt);
-            }
-        });
+
         jpanel1.add(DoctorB);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -274,35 +269,15 @@ public class DoctorView extends javax.swing.JFrame {
         CreateB.setText("Create Prescription");
 
         EditB.setText("Edit Prescription");
-        EditB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditBActionPerformed(evt);
-            }
-        });
 
         DeletePrescriptionB.setText("Delete Prescription");
-        DeletePrescriptionB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeletePrescriptionBActionPerformed(evt);
-            }
-        });
 
         DeletePatientB.setText("Delete Patient");
-        DeletePatientB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeletePatientBActionPerformed(evt);
-            }
-        });
 
         jLabel14.setText("Manage Prescriptions:");
 
         ListAllB.setText("List All");
-        ListAllB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PatientTableFiller();
-            }
-        });
 
         javax.swing.GroupLayout rightPLayout = new javax.swing.GroupLayout(rightP);
         rightP.setLayout(rightPLayout);
@@ -370,26 +345,10 @@ public class DoctorView extends javax.swing.JFrame {
 
         jLabel2.setText("Patient Name");
 
-        PatientNameT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PatientNameTActionPerformed(evt);
-            }
-        });
-
         AddPatientB.setText("Add Patient");
-        AddPatientB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddPatientBActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Patient ID");
 
-        PatientIDT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PatientIDTActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout leftLayout = new javax.swing.GroupLayout(left);
         left.setLayout(leftLayout);
@@ -455,11 +414,7 @@ public class DoctorView extends javax.swing.JFrame {
         jPanel2.add(accountSettings);
 
         Logout.setText("Logout");
-        Logout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LogoutActionPerformed(evt);
-            }
-        });
+
         jPanel2.add(Logout);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -472,12 +427,7 @@ public class DoctorView extends javax.swing.JFrame {
 
         jPanel3.setBorder(new EmptyBorder(5,5,5,5));
         getContentPane().add(jPanel3, new java.awt.GridBagConstraints());
-        CreateB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                createFrame();
-            }
-        });
         accountSettings.setEnabled(true);
 
         actionListeners();
@@ -557,6 +507,64 @@ public class DoctorView extends javax.swing.JFrame {
 
                 }
 
+            }
+        });
+        ListAllB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7.setText("");
+            }
+        });
+
+        //Adding and deleting functionality
+        DeletePatientB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeletePatientBActionPerformed(evt);
+            }
+        });
+        AddPatientB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddPatientBActionPerformed(evt);
+            }
+        });
+
+        CreateB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createFrame();
+            }
+        });
+        EditB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editing=true;
+                createFrame();
+                PrescrptionTableFiller();
+            }
+        });
+
+        DoctorB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DoctorBActionPerformed(evt);
+            }
+        });
+        DeletePrescriptionB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeletePrescriptionBActionPerformed(evt);
+            }
+        });
+
+        PatientNameT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PatientNameTActionPerformed(evt);
+            }
+        });
+
+        PatientIDT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PatientIDTActionPerformed(evt);
+            }
+        });
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
             }
         });
 
@@ -939,6 +947,7 @@ public class DoctorView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 23, 0, 0);
         jPanel1.add(Bot, gridBagConstraints);
 
+        createFrameActionListeners();
         create.getContentPane().add(jPanel1, "card2");
         create.setResizable(false);
         create.pack();
@@ -946,18 +955,272 @@ public class DoctorView extends javax.swing.JFrame {
         create.setEnabled(true);
 
     }
+    private void createFrameActionListeners() {
+        AmountfieldT.setEnabled(false);
+        AddDrugB.setEnabled(false);
+        RemovePrescirptionB1.setEnabled(false);
+        DrugTableFiller();
+
+        DrugSearchT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(DrugListTable,DrugSearchT);
+                if(DrugListTable.getRowCount()==1) {
+                    AmountfieldT.setEnabled(true);
+                    if(!AmountfieldT.getText().equals("")){
+                        AddDrugB.setEnabled(true);
+                    }
+                }
+                else{
+                    AmountfieldT.setEnabled(false);
+                    AddDrugB.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(DrugListTable,DrugSearchT);
+                if(DrugListTable.getRowCount()!=1){
+                    AmountfieldT.setEnabled(false);
+                    AddDrugB.setEnabled(false);
+                    AmountfieldT.setText("");
+                }
+                else{
+                    AmountfieldT.setEnabled(true);
+                    AddDrugB.setEnabled(true);
+                    AmountfieldT.setText("");
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(DrugListTable,DrugSearchT);
+                if(DrugListTable.getRowCount()==1) {
+                    AmountfieldT.setEnabled(true);
+                    if(!AmountfieldT.getText().equals("")){
+                        AddDrugB.setEnabled(true);
+                    }
+
+                }
+                else{
+                    AmountfieldT.setEnabled(false);
+                    AddDrugB.setEnabled(false);
+                    AmountfieldT.setText("");
+                }
+            }
+        });
+        AmountfieldT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if(DrugListTable.getRowCount()==1 && !DrugSearchT.getText().equals("")) {
+                    AddDrugB.setEnabled(true);
+                }
+                else{
+                    AddDrugB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if(AmountfieldT.getText().equals("")) {
+                    AddDrugB.setEnabled(false);
+                }
+                else{
+                    if(DrugListTable.getRowCount()==1 && !DrugSearchT.getText().equals("")) {
+                        AddDrugB.setEnabled(true);
+                    }
+                    else{
+                        AddDrugB.setEnabled(false);
+                    }
+                }
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if(DrugListTable.getRowCount()==1 && !DrugSearchT.getText().equals("")) {
+                    AddDrugB.setEnabled(true);
+                }
+                else{
+                    AddDrugB.setEnabled(false);
+                }
+
+            }
+        });
+        PrescriptionSearchT1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(PrescriptionTable,PrescriptionSearchT1);
+                if(PrescriptionTable.getRowCount()==1){
+                    RemovePrescirptionB1.setEnabled(true);
+                }
+                else{
+                    RemovePrescirptionB1.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(PrescriptionTable,PrescriptionSearchT1);
+                if(PrescriptionTable.getRowCount()==1){
+                    RemovePrescirptionB1.setEnabled(true);
+                }
+                else{
+                    RemovePrescirptionB1.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(PrescriptionTable,PrescriptionSearchT1);
+                if(PrescriptionTable.getRowCount()==1){
+                    RemovePrescirptionB1.setEnabled(true);
+                }
+                else{
+                    RemovePrescirptionB1.setEnabled(false);
+                }
+            }
+        });
+
+        RemovePrescirptionB1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeDrugFromPrescription();
+            }
+        });
+        AddDrugB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                AddDrugAction(evt);
+            }
+        });
+        ListAllDrugsB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                DrugSearchT.setText("");
+                AmountfieldT.setText("");
+            }
+        });
+        ListAllPrescriptionsB1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+
+                PrescriptionSearchT1.setText("");
+            }
+        });
+
+        CreatePrescriptionB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                createPrescription();
+            }
+        });
+        CancelPrescriptionB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                create.dispose();
+            }
+        });
+    }
+    private void removeDrugFromPrescription() {
+        DefaultTableModel tableModel= (DefaultTableModel) PrescriptionTable.getModel();
+        tableModel.removeRow(PrescriptionTable.getRowSorter().convertRowIndexToModel(0));
+        PrescriptionSearchT1.setText("");
+    }
+    private void createPrescription() {
+
+        Prescription prescription = new Prescription();
+        prescription.setDoctorID(userAccount.getId());
+        prescription.setPatientName(PatientTempName.getText());
+        prescription.setPatientId(Integer.parseInt(PatientTempID.getText()));
+        prescription.setNote(NoteTextArea.getText());
 
 
+        if(editing==false) {
+            active_DrugListID = prescriptionAPI.addPrescription(prescription);
+            for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
+                drugListAPI.insertDrugList(active_DrugListID, Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()), Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
+            }
+        }
+        else if(editing==true){
+            editing=false;
+            active_DrugListID =prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(Integer.parseInt(PatientTempID.getText())
+                    ,userAccount.getId()).getDrugListId();
+            prescription.setDrugListId(active_DrugListID);
+            prescription.setPrescriptionId(active_DrugListID);
+            prescriptionAPI.updatePrescription(prescription);
+            drugListAPI.deleteDrugListById(active_DrugListID);
+            for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
+                drugListAPI.insertDrugList(active_DrugListID, Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()), Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
+
+            }
+
+        }
+        create.dispose();
+
+        jTextField7.setText("");
+        PatientTableFiller();
+
+
+    }
+    private void AddDrugAction(ActionEvent evt)  {
+        int id=Integer.valueOf(DrugListTable.getValueAt(0,0).toString());
+        String drugName=DrugListTable.getValueAt(0,1).toString();
+        int newAmount= Integer.parseInt(AmountfieldT.getText());
+
+        System.out.println("id "+ id+" drugname "+drugName);
+        DefaultTableModel model = (DefaultTableModel) PrescriptionTable.getModel();
+        boolean available=false;
+        for(int i=0; i<PrescriptionTable.getRowCount();i++){
+            if(id==Integer.valueOf(PrescriptionTable.getValueAt(i,0).toString())){
+                int oldAmount= Integer.valueOf(PrescriptionTable.getValueAt(i,2).toString());
+                System.out.println("newAmount "+ newAmount+" oldAmount "+oldAmount);
+                PrescriptionTable.setValueAt(oldAmount+newAmount,i,2);
+                available=true;
+            }
+        }
+        if(!available){
+            model.addRow(new Object[]{id,drugName,AmountfieldT.getText()
+            });
+        }
+        DrugSearchT.setText("");
+        AmountfieldT.setText("");
+
+    /*//todo: when pressing add to a drug that is already on prescription, we should increase the amount of throw and error
+
+        TableModel drugtable = DrugListTable.getModel();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PrescriptionTable.getModel();
+        int id=Integer.valueOf(drugtable.getValueAt(0,0).toString());
+        int amount=Integer.parseInt(AmountfieldT.getText());
+        drugListDao.insertDrugList(active_DrugListID,id, amount);
+        PrescrptionTableFiller();*/
+    }
     private void EditBActionPerformed(ActionEvent evt) {}
 
 
 
 
-    private void AddPatientBActionPerformed(ActionEvent evt) {}
+    private void AddPatientBActionPerformed(ActionEvent evt) {
+        Patient patient=new Patient();
+        patient.setName(PatientNameT.getText());
+        patient.setId(Integer.parseInt(PatientIDT.getText()));
+        patientAPI.save(patient);
+        PatientTableFiller();
+    }
 
-    private void DeletePatientBActionPerformed(ActionEvent evt) {}
+    private void DeletePatientBActionPerformed(ActionEvent evt) {
+        TableModel tm = PatientTable.getModel();
+        int id = Integer.parseInt(tm.getValueAt(0, 0).toString());
+        patientAPI.deletePatientById(id);
+        PatientTable.removeAll();
+        DeletePatientB.setEnabled(false);
+        PatientTableFiller();
+    }
 
-    private void DeletePrescriptionBActionPerformed(ActionEvent evt) {}
+    private void DeletePrescriptionBActionPerformed(ActionEvent evt) {
+        int PatientId=Integer.valueOf(PatientTable.getValueAt(0,0).toString());
+        Prescription prescription=prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(PatientId,userAccount.getId());
+
+        drugListAPI.deleteDrugListById(prescription.getDrugListId());
+        prescriptionAPI.deletePrescriptionbyId(prescription.getPrescriptionId());
+        PatientTableFiller();
+    }
 
     private void PatientIDTActionPerformed(ActionEvent evt) {
 
@@ -1014,7 +1277,6 @@ public class DoctorView extends javax.swing.JFrame {
         }
     }
     private void TableFilter(JTable table,JTextField textField) {
-        System.out.println("d");
         final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
         table.setRowSorter(sorter);
         String text = textField.getText();
@@ -1027,6 +1289,23 @@ public class DoctorView extends javax.swing.JFrame {
             } catch(PatternSyntaxException pse) {
                 System.out.println("Bad regex pattern");
             }
+        }
+    }
+    private void PrescrptionTableFiller()  {
+        RemovePrescirptionB1.setEnabled(false);
+        List<DrugList> temp = drugListAPI.findDrugList(active_DrugListID);
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PrescriptionTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[3];
+        try {
+            for (int i = 0; i < temp.size(); i++) {
+                rowData[0] = temp.get(i).getDrugID();
+                rowData[1] = drugAPI.findDrugByID(temp.get(i).getDrugID()).getDrugName();
+                rowData[2] = temp.get(i).getAmount();
+                model.addRow(rowData);
+            }
+        }catch (Exception e){
+            //todo ignore??
         }
     }
 
