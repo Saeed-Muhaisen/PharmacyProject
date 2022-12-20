@@ -59,6 +59,7 @@ create table if not exists transactionHistory(
 
 
 );
+
 create table if not exists useraccounts(
     username varchar(20) primary key,
     id int,
@@ -67,4 +68,19 @@ create table if not exists useraccounts(
 
     check ( type>0 and type<4 )
     );
+create FUNCTION IncreaseAmountinInventory() RETURNS TRIGGER AS
 
+    ' BEGIN
+   if(Exists (Select InventoryID,drugid from inventory where inventoryid=NEW.InventoryID and drugid=NEW.DrugID))
+then
+    UPDATE Inventory  SET capacity = inventory.capacity + NEW.Capacity
+    WHERE inventoryid=NEW.InventoryID AND DrugID = NEW.DrugID;
+return null;
+END IF;
+   return NEW;
+END;
+
+' LANGUAGE plpgsql;
+
+create TRIGGER IncreaseInventoryAmount before insert on inventory
+    FOR EACH ROW EXECUTE PROCEDURE IncreaseAmountinInventory();
