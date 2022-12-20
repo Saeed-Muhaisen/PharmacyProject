@@ -3,13 +3,21 @@ package com.cs320.PHARM.GUINB;
 
 
 import com.cs320.PHARM.api.*;
+import com.cs320.PHARM.model.Inventory;
 import com.cs320.PHARM.model.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
+import java.util.List;
+import java.util.regex.PatternSyntaxException;
+
 @Component
 public class PharmacistView extends javax.swing.JFrame {
     //TODO:: Beginning of Beans ::
@@ -112,9 +120,9 @@ public class PharmacistView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField DrugAmountToAddT;
     private javax.swing.JTextField SearchInventoryT;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField DrugIdToAddT;
     private javax.swing.JPanel left2;
     private javax.swing.JPanel right2;
     private javax.swing.JPanel top2;
@@ -180,10 +188,10 @@ public class PharmacistView extends javax.swing.JFrame {
         ListAllB = new javax.swing.JButton();
         right2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        DrugIdToAddT = new javax.swing.JTextField();
         AddDrugToInventoryB = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        DrugAmountToAddT = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         NameTextField = new javax.swing.JLabel();
@@ -208,22 +216,14 @@ public class PharmacistView extends javax.swing.JFrame {
         ManageStockB.setText("Manage Stock");
         ManageStockB.setAlignmentY(0.0F);
         ManageStockB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        ManageStockB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ManageStockBActionPerformed(evt);
-            }
-        });
+
         jPanel1.add(ManageStockB);
 
         ManagePrescriptionsB.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         ManagePrescriptionsB.setText("Manage Prescriptions");
         ManagePrescriptionsB.setAlignmentY(0.0F);
         ManagePrescriptionsB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        ManagePrescriptionsB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ManagePrescriptionsBActionPerformed(evt);
-            }
-        });
+
         jPanel1.add(ManagePrescriptionsB);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -643,11 +643,7 @@ public class PharmacistView extends javax.swing.JFrame {
         jLabel7.setText("Drug ID");
 
         AddDrugToInventoryB.setText("Add");
-        AddDrugToInventoryB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddDrugToInventoryActionPerformed(evt);
-            }
-        });
+
 
         jLabel24.setText("Amount");
 
@@ -661,13 +657,13 @@ public class PharmacistView extends javax.swing.JFrame {
                                         .addGroup(right2Layout.createSequentialGroup()
                                                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGap(16, 16, 16)
-                                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(DrugIdToAddT, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, right2Layout.createSequentialGroup()
                                                 .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(right2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(AddDrugToInventoryB)
-                                                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addComponent(DrugAmountToAddT, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap())
         );
         right2Layout.setVerticalGroup(
@@ -676,11 +672,11 @@ public class PharmacistView extends javax.swing.JFrame {
                                 .addGap(14, 14, 14)
                                 .addGroup(right2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(DrugIdToAddT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(right2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(DrugAmountToAddT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(AddDrugToInventoryB)
                                 .addGap(18, 18, 18))
@@ -735,35 +731,8 @@ public class PharmacistView extends javax.swing.JFrame {
         getContentPane().add(jPanel3, new java.awt.GridBagConstraints());
         jPanel3.setBorder(new EmptyBorder(5,5,5,5));
 
-        pack();
-
-        SearchPatientB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SearchPatientAndFillPrescriptionTable();
-            }
-        });
-
-        ManageStockB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PharmacyTableFiller();
-            }
-        });
-
-        ListAllB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PharmacyTableFiller();
-            }
-        });
-        DeleteB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DeleteDrugFromInventory();
-            }
-        });
         actionListeners();
+        pack();
 
     }
     private void actionListeners(){
@@ -773,44 +742,220 @@ public class PharmacistView extends javax.swing.JFrame {
                 EditAccount();
             }
         });
+        //switching tabs
+        ManageStockB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ManageStockBActionPerformed();
+                resetStock();
+            }
+        });
+        ManagePrescriptionsB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ManagePrescriptionsBActionPerformed();
+            }
+        });
+
+        //Stock Tab buttons
+        ListAllB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SearchInventoryT.setText("");
+            }
+        }); //Done
+        EditB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EditDrug();
+            }
+        }); //Done
+        DeleteB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DeleteDrugFromInventory();
+                resetStock();
+            }
+        }); //Done
+
+        //Filtering pharmacyTable and adding drugs into it
+        DrugIdToAddT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if(!DrugIdToAddT.getText().isEmpty()){
+                    DrugAmountToAddT.setEnabled(true);}
+                else{
+                    DrugAmountToAddT.setText("");
+                    DrugAmountToAddT.setEnabled(false);
+                    AddDrugToInventoryB.setEnabled(false);
+
+                }
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if(!DrugIdToAddT.getText().isEmpty()){
+                    DrugAmountToAddT.setEnabled(true);}
+                else{
+                    DrugAmountToAddT.setText("");
+                    DrugAmountToAddT.setEnabled(false);
+                    AddDrugToInventoryB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if(!DrugIdToAddT.getText().isEmpty()){
+                    DrugAmountToAddT.setEnabled(true);}
+                else{
+                    DrugAmountToAddT.setText("");
+                    DrugAmountToAddT.setEnabled(false);
+                    AddDrugToInventoryB.setEnabled(false);
+                }
+            }
+        }); //done
+        DrugAmountToAddT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                AddDrugToInventoryB.setEnabled(!DrugAmountToAddT.getText().isEmpty());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                AddDrugToInventoryB.setEnabled(!DrugAmountToAddT.getText().isEmpty());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                AddDrugToInventoryB.setEnabled(!DrugAmountToAddT.getText().isEmpty());
+            }
+        });
+        SearchInventoryT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TableFilter(PharmacyTable,SearchInventoryT);
+                if(PharmacyTable.getRowCount()==1){
+                    EditB.setEnabled(true);
+                    DeleteB.setEnabled(true);
+                }
+                else{
+                    EditB.setEnabled(false);
+                    DeleteB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TableFilter(PharmacyTable,SearchInventoryT);
+                if(PharmacyTable.getRowCount()==1){
+                    EditB.setEnabled(true);
+                    DeleteB.setEnabled(true);
+                }
+                else{
+                    EditB.setEnabled(false);
+                    DeleteB.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TableFilter(PharmacyTable,SearchInventoryT);
+                if(PharmacyTable.getRowCount()==1){
+                    EditB.setEnabled(true);
+                    DeleteB.setEnabled(true);
+                }
+                else{
+                    EditB.setEnabled(false);
+                    DeleteB.setEnabled(false);
+                }
+            }
+        });
+        AddDrugToInventoryB.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddDrugToInventoryActionPerformed(evt);
+                resetStock();
+            }
+        });
+
+    }
+    //Table filler and filters
+    private void TableFilter(JTable table,JTextField textField) {
+        System.out.println("d");
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+        table.setRowSorter(sorter);
+        String text = textField.getText();
+        if(text.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+                int col=0;
+                sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text+"$",col));
+            } catch(PatternSyntaxException pse) {
+                System.out.println("Bad regex pattern");
+            }
+        }
+    }
+    private void PharmacyTableFiller() {
+
+        EditB.setEnabled(false);
+        DeleteB.setEnabled(false);
+        List<Inventory> temp = inventoryAPI.findByInventoryId(userAccount.getId());
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PharmacyTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[3];
+
+
+        for(int i=0;i<temp.size();i++){
+            rowData[0]=temp.get(i).getDrugID();
+            rowData[1]= drugAPI.findDrugByID(temp.get(i).getDrugID()).getDrugName();
+            rowData[2]=temp.get(i).getCapacity();
+            model.addRow(rowData);
+        }
     }
 
+
+    //resets Stock tab settings and texts
+    public void resetStock(){
+        SearchInventoryT.setText("");
+        DrugIdToAddT.setText("");
+        DrugAmountToAddT.setText("");
+        DeleteB.setEnabled(false);
+        EditB.setEnabled(false);
+        DrugAmountToAddT.setEnabled(false);
+        AddDrugToInventoryB.setEnabled(false);
+        PharmacyTableFiller();
+    }
 
     private void SearchSellByID() {
 
     }
 
-
-
-
-    private void DeleteDrugFromInventory() {
-
+    private void DeleteDrugFromInventory() { //Todo: Fix the optionpane being at the back!
+        String msg=PharmacyTable.getValueAt(0,1).toString()+ " has been removed from inventory";
+        int DrugId=Integer.valueOf(PharmacyTable.getValueAt(0,0).toString());
+        inventoryAPI.deleteDrugFromInventory(userAccount.getId(), DrugId);
+        PharmacyTableFiller();
+        SearchInventoryT.setText("");
+        JOptionPane.showMessageDialog(this, msg);
     }
-
     private void AddDrugToInventoryActionPerformed(ActionEvent evt) {
+        int drugId= Integer.parseInt(DrugIdToAddT.getText());
+        int amount= Integer.parseInt(DrugAmountToAddT.getText());
+        inventoryAPI.insertDrug(userAccount.getId(),drugId,amount);
 
     }
-
-
-
-    private void PharmacyTableFiller() {
-
-    }
-
 
     private void SearchPatientAndFillPrescriptionTable() {
 
     }
 
-
-    private void ManagePrescriptionsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManagePrescriptionsBActionPerformed
+    //Switching tabs
+    private void ManagePrescriptionsBActionPerformed() {
         PatientPanel.setEnabled(true);
         PatientPanel.setVisible(true);
         StockPanel.setEnabled(false);
         StockPanel.setVisible(false);
     }
-
-    private void ManageStockBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageStockBActionPerformed
+    private void ManageStockBActionPerformed() {
         PatientPanel.setEnabled(false);
         PatientPanel.setVisible(false);
         StockPanel.setEnabled(true);
@@ -824,20 +969,175 @@ public class PharmacistView extends javax.swing.JFrame {
 
     }
 
-
     private void CancelBActionPerformed(java.awt.event.ActionEvent evt) {
 
     }
-
     private void ConfirmBActionPerformed(java.awt.event.ActionEvent evt) {
 
     }
-
-
     private void RemoveDrugB1ActionPerformed(java.awt.event.ActionEvent evt) {
 
     }
 
+    //editing Drug JFrame Instance and method Beginning:
+    private JFrame edit;
+    private JPanel FullPanel;
+    private javax.swing.JButton CancelCapacityB;
+    private javax.swing.JLabel CapacityLabel;
+    private javax.swing.JButton ConfirmCapacityB;
+    private javax.swing.JLabel DrugIdLabel;
+    private javax.swing.JLabel DrugNameLabel;
+    private javax.swing.JLabel ECapacityTemp;
+    private javax.swing.JLabel EDrugIDTemp;
+    private javax.swing.JLabel EDrugNameTemp;
+    private javax.swing.JLabel NewCapacityLabel;
+    private java.awt.TextField NewCapacityT;
+    private void EditDrug() {
+        edit=new JFrame();
+
+        edit.setEnabled(true);
+        edit.setVisible(true);
+        edit.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                edit.dispose();
+            }
+        });
+
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        FullPanel = new javax.swing.JPanel();
+        DrugNameLabel = new javax.swing.JLabel();
+        EDrugNameTemp = new javax.swing.JLabel();
+        DrugIdLabel = new javax.swing.JLabel();
+        NewCapacityLabel = new javax.swing.JLabel();
+        EDrugIDTemp = new javax.swing.JLabel();
+        ConfirmCapacityB = new javax.swing.JButton();
+        NewCapacityT = new java.awt.TextField();
+        CancelCapacityB = new javax.swing.JButton();
+        CapacityLabel = new javax.swing.JLabel();
+        ECapacityTemp = new javax.swing.JLabel();
+
+
+        EDrugIDTemp.setText(PharmacyTable.getValueAt(0,0).toString());
+        EDrugNameTemp.setText(PharmacyTable.getValueAt(0,1).toString());
+        ECapacityTemp.setText(PharmacyTable.getValueAt(0,2).toString());
+
+
+        edit.setResizable(false);
+        edit.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        FullPanel.setLayout(new java.awt.GridBagLayout());
+
+        DrugNameLabel.setText("Drug Name");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        FullPanel.add(DrugNameLabel, gridBagConstraints);
+
+        //EDrugNameTemp.setText("TempName");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 57;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        FullPanel.add(EDrugNameTemp, gridBagConstraints);
+
+        DrugIdLabel.setText("Drug ID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        FullPanel.add(DrugIdLabel, gridBagConstraints);
+
+        NewCapacityLabel.setText("New Capacity:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 0, 0, 0);
+        FullPanel.add(NewCapacityLabel, gridBagConstraints);
+
+        //EDrugIDTemp.setText("TempID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 78;
+        gridBagConstraints.ipady = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        FullPanel.add(EDrugIDTemp, gridBagConstraints);
+
+        ConfirmCapacityB.setText("Confirm");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        FullPanel.add(ConfirmCapacityB, gridBagConstraints);
+
+        NewCapacityT.setText("textField1");
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 73;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 5, 0, 0);
+        FullPanel.add(NewCapacityT, gridBagConstraints);
+
+        CancelCapacityB.setText("Cancel");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        FullPanel.add(CancelCapacityB, gridBagConstraints);
+
+        CapacityLabel.setText("Capacity");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        FullPanel.add(CapacityLabel, gridBagConstraints);
+
+        //ECapacityTemp.setText("CapacityTemp");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 6);
+        FullPanel.add(ECapacityTemp, gridBagConstraints);
+        FullPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); //todo: added the padding!!
+        edit.getContentPane().add(FullPanel, new java.awt.GridBagConstraints());
+
+        edit.pack();
+        //issue: java Lang!
+        ConfirmCapacityB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Inventory inv=new Inventory();
+                inv.setDrugID(Integer.parseInt(EDrugIDTemp.getText()));
+                inv.setCapacity(Integer.parseInt(NewCapacityT.getText()));
+                inv.setInventoryID(userAccount.getId());
+                inventoryAPI.updateInventory(inv);
+                resetStock();
+                edit.dispose();
+            }
+        });
+    }
+    //editing Drug JFrame end
     private javax.swing.JPanel AccountSettingsPanel;
     private javax.swing.JButton CancelPasswordChange;
     private javax.swing.JButton ConfirmPasswordChange;
@@ -1010,5 +1310,4 @@ public class PharmacistView extends javax.swing.JFrame {
             });
         }
     }
-
 }

@@ -32,6 +32,6 @@ public class InventoryAPI {
     }
     @PutMapping
     public void updateInventory(Inventory inv) {
-        updateInventory(inv);
+        inventoryDao.updateInventory(inv);
     }
 }
