@@ -1,6 +1,5 @@
 package com.cs320.PHARM.GUINB;
 //test
-import com.cs320.PHARM.GUINB.UserLogin;
 import com.cs320.PHARM.api.*;
 import com.cs320.PHARM.dao.PatientDao;
 import com.cs320.PHARM.model.*;

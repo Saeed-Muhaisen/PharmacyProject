@@ -1,6 +1,6 @@
 Create table if not EXISTS Doctor(
-                                     DoctorID serial PRIMARY KEY,
-                                     DoctorName VARCHAR(64) not null,
+    DoctorID serial PRIMARY KEY,
+    DoctorName VARCHAR(64) not null,
     CHECK (DoctorName <> '')
     );
 
@@ -11,8 +11,8 @@ Create table if not EXISTS Drug
 
     );
 Create table if not EXISTS Pharmacy(
-                                       PharmacyID serial UNIQUE,
-                                       PharmacyName varchar(64) not null,
+    PharmacyID serial UNIQUE,
+    PharmacyName varchar(64) not null,
     InventoryID serial UNIQUE,
     PRIMARY key(PharmacyID,InventoryID)
 
@@ -20,23 +20,23 @@ Create table if not EXISTS Pharmacy(
 
     );
 create table if not exists Inventory(
-                                        InventoryID INTEGER UNIQUE,
-                                        DrugID INTEGER	UNIQUE,
-                                        Capacity INTEGER,
-                                        foreign key(DrugID) references Drug(drugid),
+     InventoryID INTEGER UNIQUE,
+     DrugID INTEGER	UNIQUE,
+     Capacity INTEGER,
+    foreign key(DrugID) references Drug(drugid),
     foreign key(InventoryID) references Pharmacy(inventoryid)
     );
 create table if not exists Patient(
-                                      PatientID serial primary key,
-                                      patientName varchar(64) not null
+    PatientID serial primary key,
+    patientName varchar(64) not null
     );
 
 create Table if not exists Prescription(
-                                           PrescriptionId serial UNIQUE ,
-                                           DrugListID serial UNIQUE,
-                                           DoctorID INTEGER not null,
-                                           PatientID int not null,
-                                           PatientName VARCHAR(64) not null,
+    PrescriptionId serial UNIQUE ,
+    DrugListID serial UNIQUE,
+    DoctorID INTEGER not null,
+    PatientID int not null,
+    PatientName VARCHAR(64) not null,
     Notes VARCHAR(255),
     PRIMARY Key (prescriptionID, DrugListID),
     FOREIGN KEY (DoctorID) references Doctor(DoctorID),
@@ -44,18 +44,18 @@ create Table if not exists Prescription(
     );
 
 create table if not exists DrugList(
-                                       DrugListID serial,
-                                       DrugID int,
-                                       Amount int,
-                                       FOREIGN KEY (DrugID) references Drug(drugid),
+    DrugListID serial,
+    DrugID int,
+    Amount int,
+    FOREIGN KEY (DrugID) references Drug(drugid),
     Foreign Key (DrugListID) references Prescription(DrugListID)
     );
 
 create table if not exists transactionHistory(
-                                                 PharmacyID int,
-                                                 DrugListID int NOT NULL,
-                                                 drugID int not null,
-                                                 amount_sold int not null
+    PharmacyID int,
+    DrugListID int NOT NULL,
+    drugID int not null,
+    amount_sold int not null
 
 
 );
