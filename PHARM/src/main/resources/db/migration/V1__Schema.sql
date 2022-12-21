@@ -129,3 +129,22 @@ END;
 
 create TRIGGER deleteDrug before delete on Pharmacy
     FOR EACH ROW EXECUTE PROCEDURE deletePharmacyAccount();
+
+create FUNCTION transactionHistoryTrigger() RETURNS TRIGGER AS
+    '    BEGIN
+        IF NEW.amount_sold=(select c.amount from druglist c where c.druglistid=NEW.DrugListID and c.drugid=NEW.drugID)
+        THEN
+            delete from druglist c where c.drugid=NEW.drugID and c.DrugListID=NEW.DrugListID;
+            update inventory set capacity=Capacity-NEW.amount_sold where inventoryid=NEW.PharmacyID and DrugID=NEW.drugID;
+        end if;
+        IF (not EXISTS (select * from druglist c where c.druglistid=NEW.DrugListID))
+        THEN
+            delete from prescription c where c.DrugListID=NEW.DrugListID;
+        END IF;
+        RETURN old;
+    END;
+
+    ' LANGUAGE plpgsql;
+
+create TRIGGER Transaction after INSERT on transactionhistory
+    FOR EACH ROW EXECUTE PROCEDURE transactionHistoryTrigger();

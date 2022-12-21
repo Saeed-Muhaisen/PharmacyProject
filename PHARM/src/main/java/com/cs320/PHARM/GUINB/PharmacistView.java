@@ -1277,8 +1277,9 @@ public class PharmacistView extends javax.swing.JFrame {
     }
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {
-        this.setVisible(false);
-        this.setEnabled(false);
+        this.dispose();
+        userLogin.setEnabled(true);
+        userLogin.setVisible(true);
 
     }
 
@@ -1286,10 +1287,31 @@ public class PharmacistView extends javax.swing.JFrame {
 
     }
     private void ConfirmBActionPerformed(java.awt.event.ActionEvent evt) {
+        for(int i=0;i<DrugListTable1.getRowCount();i++){
+            transactionHistoryAPI.insertTransactionHistory(
+                    (int) PrescriptionListTable.getValueAt(0,0),
+                    userAccount.getId(),
+                    (Integer) DrugListTable1.getValueAt(i,0),
+                    (Integer) DrugListTable1.getValueAt(i,2));
 
+        }
+        PatientNameT.setText("");
+        PatientIdT.setText("");
+        ((DefaultTableModel) PrescriptionListTable.getModel()).setRowCount(0);
+        resetPrescriptionInfo();
     }
     private void RemoveDrugB1ActionPerformed(java.awt.event.ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
+        DefaultTableModel drugT = (DefaultTableModel) DrugListTable.getModel();
+        int drug_Id= (int) DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),0);
+        drugT.addRow(new Object[]{
+                drug_Id,
+                DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),1),
+                DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),2),
+                inventoryAPI.findByInventoryIdAndDrugID(
+                        userAccount.getId(),drug_Id).getCapacity()
+
+        });
         model.removeRow(DrugListTable1.getSelectedRow());
         RemoveDrugB1.setEnabled(false);
         DrugIdSearchInSell.setText("");

@@ -1689,7 +1689,9 @@ public class AdminView extends javax.swing.JFrame {
 
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
-        //todo: logout from account
+        this.dispose();
+        userLogin.setEnabled(true);
+        userLogin.setVisible(true);
     }
 
 

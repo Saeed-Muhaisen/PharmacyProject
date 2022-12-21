@@ -1250,7 +1250,11 @@ public class DoctorView extends javax.swing.JFrame {
 
     }
 
-    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {}
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {
+        this.dispose();
+        userLogin.setEnabled(true);
+        userLogin.setVisible(true);
+    }
 
     //table fillers here:-
     private void PatientTableFiller(){
