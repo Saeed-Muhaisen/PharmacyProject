@@ -1,5 +1,6 @@
 package com.cs320.PHARM.GUINB;
 //test
+import com.cs320.PHARM.GUINB.UserLogin;
 import com.cs320.PHARM.api.*;
 import com.cs320.PHARM.dao.PatientDao;
 import com.cs320.PHARM.model.*;
@@ -898,6 +899,93 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
+        //adding text enables ADD Done
+        DoctorNameT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!DoctorNameT.getText().equals("")) {
+                    DoctorAddB.setEnabled(true);
+                } else {
+                    DoctorAddB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (!DoctorNameT.getText().equals("")) {
+                    DoctorAddB.setEnabled(true);
+                } else {
+                    DoctorAddB.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (!DoctorNameT.getText().equals("")) {
+                    DoctorAddB.setEnabled(true);
+                } else {
+                    DoctorAddB.setEnabled(false);
+                }
+            }
+        });
+        DrugNameT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!DrugNameT.getText().equals("")) {
+                    DrugAddB.setEnabled(true);
+                } else {
+                    DrugAddB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (!DrugNameT.getText().equals("")) {
+                    DrugAddB.setEnabled(true);
+                } else {
+                    DrugAddB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (!DrugNameT.getText().equals("")) {
+                    DrugAddB.setEnabled(true);
+                } else {
+                    DrugAddB.setEnabled(false);
+                }
+            }
+        });
+        PharmaNameT.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!PharmaNameT.getText().equals("")) {
+                    PharmaADDB.setEnabled(true);
+                } else {
+                    PharmaADDB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (!PharmaNameT.getText().equals("")) {
+                    PharmaADDB.setEnabled(true);
+                } else {
+                    PharmaADDB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (!PharmaNameT.getText().equals("")) {
+                    PharmaADDB.setEnabled(true);
+                } else {
+                    PharmaADDB.setEnabled(false);
+                }
+            }
+        });
+
         //Adding
         DrugAddB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -1495,46 +1583,38 @@ public class AdminView extends javax.swing.JFrame {
         });
     }
     //Todo: End of editing frame::
+    //Delete methods begins:
     private void PharmacyDeleteAction() {
-        //TODO:delete pharmacy
-
+        pharmacyAPI.deletePHarmacy(Integer.parseInt(PharmacyTable.getValueAt(0,0).toString()));
+        resetPharmacies();
     }
-
     private void DoctorDeleteAction() {
-
-        //todo:Delete a doctor
-
-
+        doctorAPI.deleteDoctor(Integer.parseInt(DoctorTable.getValueAt(0,0).toString()));
+        resetDoctor();
     }
-
     private void DrugDeleteAction() {
-
-        //todo:delete a drug
+        drugAPI.deleteDrug(Integer.parseInt(DrugTable.getValueAt(0,0).toString()));
+        resetDrug();
     }
-
     private void PatientDeleteB() {
-
-        //todo: delete a patient
-
-
+        patientAPI.deletePatientById(Integer.parseInt(jTable5.getValueAt(0,0).toString()));
+        resetPatient();
     }
-
+    //Delete Methods ends:
+    //Listing All methods;
     private void PharmacyListallAction() {
-        //todo: fill pharmacy table
+        resetPharmacies();
     }
-
     private void DrugListallAction() {
-        //todo: fill drugtable
+        resetDrug();
     }
-
     private void DoctorListallAction() {
-        //todo fill doctor Table
+        resetDoctor();
     }
-
     private void ListAllPatientsActionPerformed(ActionEvent evt) {
-        //todo: show all patients in db
+        resetPatient();
     }
-
+    //Listing all end;
 
 
     private void PharmaciesBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaciesBActionPerformed
@@ -1560,7 +1640,7 @@ public class AdminView extends javax.swing.JFrame {
         PatientTableFiller();
     }
 
-    private void DoctorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorBActionPerformed
+    private void DoctorBActionPerformed(java.awt.event.ActionEvent evt) {
         drugPanel.setEnabled(false);
         drugPanel.setVisible(false);
         doctorPanel.setEnabled(true);
@@ -1570,7 +1650,7 @@ public class AdminView extends javax.swing.JFrame {
         patientPanel.setEnabled(false);
         patientPanel.setVisible(false);
         DoctorTableFiller();
-    }//GEN-LAST:event_DoctorBActionPerformed
+    }
 
 
 
@@ -1589,12 +1669,23 @@ public class AdminView extends javax.swing.JFrame {
 
 
     private void DrugAddBActionPerformed(java.awt.event.ActionEvent evt) {
-        //todo: add a new drug to db
+        Drug drug=new Drug();
+        drug.setDrugName(DrugNameT.getText());
+        try{
+            drugAPI.addDrug(drug);
+        }
+        catch(Exception e){
+            //should we add something here? because sometimes we catch exceptions
+        }
+        resetDrug();
     }
 
 
     private void PharmaADDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaADDBActionPerformed
-        //todo: add a new pharmacy to db
+        Pharmacy temp=new Pharmacy();
+        temp.setPharmacyName(PharmaNameT.getText());
+        pharmacyAPI.addPharmacy(temp);
+        resetPharmacies();
     }
 
 
@@ -1614,8 +1705,10 @@ public class AdminView extends javax.swing.JFrame {
 
 
     private void DoctorAddBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorAddBActionPerformed
-        //todo: add a new doctor to db
-
+        Doctor doctor = new Doctor();
+        doctor.setDoctorName(DoctorNameT.getText());
+        doctorAPI.addDoctor(doctor);
+        resetDoctor();
     }
 
     //I use these methods to fill Jtables in every tab
