@@ -1,7 +1,6 @@
 package com.cs320.PHARM.GUINB;
-//test
+
 import com.cs320.PHARM.api.*;
-import com.cs320.PHARM.dao.PatientDao;
 import com.cs320.PHARM.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,10 +29,9 @@ public class AdminView extends javax.swing.JFrame {
     DrugAPI drugAPI;
     @Autowired
     UserAccountAPI userAccountAPI;
-    UserLogin userLogin;
-
     //Todo: Spring beans End::
 
+    private UserLogin userLogin;
     private UserAccount userAccount;
     private JButton DoctorAddB;
     private JButton DoctorB;
@@ -91,7 +89,7 @@ public class AdminView extends javax.swing.JFrame {
     private JScrollPane jScrollPane3;
     private JScrollPane jScrollPane4;
     private JScrollPane jScrollPane5;
-    private JTable jTable5;
+    private JTable PatientTable;
     private JPanel left;
     private JPanel left1;
     private JPanel left2;
@@ -106,11 +104,7 @@ public class AdminView extends javax.swing.JFrame {
     private JPanel top2;
     private JPanel top3;
 
-
-    public AdminView() {
-        initComponents();
-
-    }
+    //init and action listeners Beginning
     public void initializeObject(UserAccount userAccount,UserLogin userLogin) {
         this.userLogin=userLogin;
         this.userAccount=userAccount;
@@ -122,7 +116,9 @@ public class AdminView extends javax.swing.JFrame {
         this.doctorPanel.setEnabled(true);
         this.doctorPanel.setVisible(true);
     }
-
+    public AdminView() {
+        initComponents();
+    }
     private void initComponents() {
         GridBagConstraints gridBagConstraints;
 
@@ -151,7 +147,11 @@ public class AdminView extends javax.swing.JFrame {
         doctorPanel = new JPanel();
         top1 = new JPanel();
         jScrollPane3 = new JScrollPane();
-        DoctorTable = new JTable();
+        DoctorTable = new JTable(){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         bot1 = new JPanel();
         left1 = new JPanel();
         jLabel12 = new JLabel();
@@ -181,7 +181,12 @@ public class AdminView extends javax.swing.JFrame {
         patientPanel = new JPanel();
         top3 = new JPanel();
         jScrollPane5 = new JScrollPane();
-        jTable5 = new JTable();
+        PatientTable = new JTable()
+        {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         bot3 = new JPanel();
         left3 = new JPanel();
         jLabel8 = new JLabel();
@@ -574,7 +579,7 @@ public class AdminView extends javax.swing.JFrame {
 
         jScrollPane5.setBackground(new Color(255, 255, 255));
 
-        jTable5.setModel(new DefaultTableModel(
+        PatientTable.setModel(new DefaultTableModel(
                 new Object [][] {
                         {null, null},
                         {null, null},
@@ -593,7 +598,7 @@ public class AdminView extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(jTable5);
+        jScrollPane5.setViewportView(PatientTable);
 
         top3.add(jScrollPane5, BorderLayout.CENTER);
 
@@ -692,7 +697,7 @@ public class AdminView extends javax.swing.JFrame {
         getContentPane().add(jPanel3, new GridBagConstraints());
 
         DoctorTable.setDefaultEditor(Object.class, null);
-        jTable5.setDefaultEditor(Object.class, null);
+        PatientTable.setDefaultEditor(Object.class, null);
         PharmacyTable.setDefaultEditor(Object.class, null);
         DrugTable.setDefaultEditor(Object.class, null);
 
@@ -703,9 +708,7 @@ public class AdminView extends javax.swing.JFrame {
         pack();
 
     }
-    //for action listeners
     private void actionListeners(){
-
 
         //Panels:
         DoctorB.addActionListener(new ActionListener() {
@@ -860,8 +863,8 @@ public class AdminView extends javax.swing.JFrame {
         PatientSearchT.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                TableFilter(jTable5,PatientSearchT);
-                if(jTable5.getRowCount()==1){
+                TableFilter(PatientTable,PatientSearchT);
+                if(PatientTable.getRowCount()==1){
                     PatientDeleteB.setEnabled(true);
                     PatientEditB.setEnabled(true);
                 }
@@ -873,8 +876,8 @@ public class AdminView extends javax.swing.JFrame {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                TableFilter(jTable5,PatientSearchT);
-                if(jTable5.getRowCount()==1){
+                TableFilter(PatientTable,PatientSearchT);
+                if(PatientTable.getRowCount()==1){
                     PatientDeleteB.setEnabled(true);
                     PatientEditB.setEnabled(true);
                 }
@@ -886,8 +889,8 @@ public class AdminView extends javax.swing.JFrame {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                TableFilter(jTable5,PatientSearchT);
-                if(jTable5.getRowCount()==1){
+                TableFilter(PatientTable,PatientSearchT);
+                if(PatientTable.getRowCount()==1){
                     PatientDeleteB.setEnabled(true);
                     PatientEditB.setEnabled(true);
                 }
@@ -1024,8 +1027,6 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
-
-
         //Delete
         DoctorDeleteB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -1072,6 +1073,190 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
+        //Key Listeners (To not allow letters in id sections or numbers in letter sections
+        DrugSearchT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        PharmacySearchT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        PatientSearchT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        DoctorSB.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        DoctorNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        DrugNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        PharmaNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+
+        DrugTable.getTableHeader().setReorderingAllowed(false);
+        PatientTable.getTableHeader().setReorderingAllowed(false);
+        PharmacyTable.getTableHeader().setReorderingAllowed(false);
+        DoctorTable.getTableHeader().setReorderingAllowed(false);
+
+
+
         Logout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 LogoutActionPerformed(evt);
@@ -1084,6 +1269,216 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
     }
+    //init and action listeners end
+
+    //Adding methods Beginning
+    private void DrugAddBActionPerformed(java.awt.event.ActionEvent evt) {
+        Drug drug=new Drug();
+        drug.setDrugName(DrugNameT.getText());
+        try{
+            drugAPI.addDrug(drug);
+        }
+        catch(Exception e){
+            //should we add something here? because sometimes we catch exceptions
+        }
+        resetDrug();
+    }
+    private void PharmaADDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaADDBActionPerformed
+        Pharmacy temp=new Pharmacy();
+        temp.setPharmacyName(PharmaNameT.getText());
+        pharmacyAPI.addPharmacy(temp);
+        resetPharmacies();
+    }
+    private void DoctorAddBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorAddBActionPerformed
+        Doctor doctor = new Doctor();
+        doctor.setDoctorName(DoctorNameT.getText());
+        doctorAPI.addDoctor(doctor);
+        resetDoctor();
+    }
+    //Adding methods END
+
+    //Delete methods begins:
+    private void PharmacyDeleteAction() {
+        pharmacyAPI.deletePHarmacy(Integer.parseInt(PharmacyTable.getValueAt(0,0).toString()));
+        resetPharmacies();
+    }
+    private void DoctorDeleteAction() {
+        doctorAPI.deleteDoctor(Integer.parseInt(DoctorTable.getValueAt(0,0).toString()));
+        resetDoctor();
+    }
+    private void DrugDeleteAction() {
+        drugAPI.deleteDrug(Integer.parseInt(DrugTable.getValueAt(0,0).toString()));
+        resetDrug();
+    }
+    private void PatientDeleteB() {
+        patientAPI.deletePatientById(Integer.parseInt(PatientTable.getValueAt(0,0).toString()));
+        resetPatient();
+    }
+    //Delete Methods ends:
+
+    //Listing All methods;
+    private void PharmacyListallAction() {
+        resetPharmacies();
+    }
+    private void DrugListallAction() {
+        resetDrug();
+    }
+    private void DoctorListallAction() {
+        resetDoctor();
+    }
+    private void ListAllPatientsActionPerformed(ActionEvent evt) {
+        resetPatient();
+    }
+    //Listing all end;
+
+    //Switching pannels functions Beginning
+    private void PharmaciesBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaciesBActionPerformed
+        drugPanel.setEnabled(false);
+        drugPanel.setVisible(false );
+        doctorPanel.setEnabled(false);
+        doctorPanel.setVisible(false);
+        pharmacyPanel.setEnabled(true);
+        pharmacyPanel.setVisible(true);
+        patientPanel.setEnabled(false);
+        patientPanel.setVisible(false);
+        PharmacyTableFiller();
+    }
+    private void PatientsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PatientsBActionPerformed
+        drugPanel.setEnabled(false);
+        drugPanel.setVisible(false );
+        doctorPanel.setEnabled(false);
+        doctorPanel.setVisible(false);
+        pharmacyPanel.setEnabled(false);
+        pharmacyPanel.setVisible(false);
+        patientPanel.setEnabled(true);
+        patientPanel.setVisible(true);
+        PatientTableFiller();
+    }
+    private void DoctorBActionPerformed(java.awt.event.ActionEvent evt) {
+        drugPanel.setEnabled(false);
+        drugPanel.setVisible(false);
+        doctorPanel.setEnabled(true);
+        doctorPanel.setVisible(true);
+        pharmacyPanel.setEnabled(false);
+        pharmacyPanel.setVisible(false);
+        patientPanel.setEnabled(false);
+        patientPanel.setVisible(false);
+        DoctorTableFiller();
+    }
+    private void drugsBActionPerformed(java.awt.event.ActionEvent evt) {
+        drugPanel.setEnabled(true);
+        drugPanel.setVisible(true);
+        doctorPanel.setEnabled(false);
+        doctorPanel.setVisible(false);
+        pharmacyPanel.setEnabled(false);
+        pharmacyPanel.setVisible(false);
+        patientPanel.setEnabled(false);
+        patientPanel.setVisible(false);
+        DrugTableFiller();
+    }
+    //Switching pannels functions End
+
+    //Table Fillers and Filters
+    private void PharmacyTableFiller() {
+        List<Pharmacy> pharmacyList=pharmacyAPI.PharmacyList();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PharmacyTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[3];
+
+        for(int i=0;i<pharmacyList.size();i++){
+            rowData[1]=pharmacyList.get(i).getPharmacyName();
+            rowData[0]=pharmacyList.get(i).getPharmacyID();
+            rowData[2]=pharmacyList.get(i).getInventoryId();
+            model.addRow(rowData);
+        }
+    }
+    private void PatientTableFiller(){
+        List<Patient> temp = patientAPI.findAll();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PatientTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<temp.size();i++){
+            rowData[0]=temp.get(i).getId();
+            rowData[1]=temp.get(i).getName();
+            model.addRow(rowData);
+        }
+    }
+    private void DoctorTableFiller() {
+        List<Doctor> d=doctorAPI.DoctorList();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DoctorTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<d.size();i++){
+            rowData[1]=d.get(i).getDoctorName();
+            rowData[0]=d.get(i).getDoctorId();
+            model.addRow(rowData);
+        }
+    }
+    private void DrugTableFiller() {
+        List<Drug> temp = drugAPI.DrugList();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<temp.size();i++){
+            rowData[1]=temp.get(i).getDrugName();
+            rowData[0]=temp.get(i).getDrugID();
+            model.addRow(rowData);
+        }
+    }
+    private void TableFilter(JTable table,JTextField textField) {
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+        table.setRowSorter(sorter);
+        String text = textField.getText();
+        if(text.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+                int col=0;
+                sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text+"$",col));
+            } catch(PatternSyntaxException pse) {
+                System.out.println("Bad regex pattern");
+            }
+        }
+    }
+    //Table Fillers and Filters
+
+    //Reset methods: (after clicking a tab a table is filled and all settings are reset to normal
+    private void resetDoctor(){
+        DoctorDeleteB.setEnabled(false);
+        DoctorEditB.setEnabled(false);
+        DoctorAddB.setEnabled(false);
+        DoctorSB.setText("");
+        DoctorNameT.setText("");
+        DoctorTableFiller();
+    }
+    private void resetDrug(){
+        DrugAddB.setEnabled(false);
+        DrugEditB.setEnabled(false);
+        DrugDeleteB.setEnabled(false);
+        DrugNameT.setText("");
+        DrugSearchT.setText("");
+        DrugTableFiller();
+    }
+    private void resetPatient(){
+        PatientEditB.setEnabled(false);
+        PatientDeleteB.setEnabled(false);
+        PatientSearchT.setText("");
+        PatientTableFiller();
+    }
+    private void resetPharmacies(){
+        PharmacyEditB.setEnabled(false);
+        PharmacyDeleteB.setEnabled(false);
+        PharmaADDB.setEnabled(false);
+        PharmacySearchT.setText("");
+        PharmaNameT.setText("");
+        PharmacyTableFiller();
+
+    }
+    //Reset Methods end
+
 
     //TODO: editing frame for all panels
     private javax.swing.JButton CancelButton;
@@ -1213,8 +1608,35 @@ public class AdminView extends javax.swing.JFrame {
                 resetDrug();
             }
         });
+        NewNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
 
     }
+
+
 
     private void PharmacyEditBAction() {
 
@@ -1335,9 +1757,32 @@ public class AdminView extends javax.swing.JFrame {
                 resetPharmacies();
             }
         });
+        NewNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
 
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
     }
-
     private void PatientEditAction() {
 
         JFrame edit=new JFrame();
@@ -1355,8 +1800,8 @@ public class AdminView extends javax.swing.JFrame {
         ConfirmButton = new javax.swing.JButton();
         CancelButton = new javax.swing.JButton();
 
-        EditNameLabel.setText(jTable5.getValueAt(0,1).toString());
-        EditIDLabel.setText(jTable5.getValueAt(0,0).toString());
+        EditNameLabel.setText(PatientTable.getValueAt(0,1).toString());
+        EditIDLabel.setText(PatientTable.getValueAt(0,0).toString());
 
         edit.setResizable(false);
         edit.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -1458,9 +1903,32 @@ public class AdminView extends javax.swing.JFrame {
 
             }
         });
+        NewNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
 
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
     }
-
     private void DoctorEditAction() {
         JFrame edit=new JFrame();
 
@@ -1580,236 +2048,34 @@ public class AdminView extends javax.swing.JFrame {
                 resetDoctor();
             }
         });
-    }
-    //Todo: End of editing frame::
-    //Delete methods begins:
-    private void PharmacyDeleteAction() {
-        pharmacyAPI.deletePHarmacy(Integer.parseInt(PharmacyTable.getValueAt(0,0).toString()));
-        resetPharmacies();
-    }
-    private void DoctorDeleteAction() {
-        doctorAPI.deleteDoctor(Integer.parseInt(DoctorTable.getValueAt(0,0).toString()));
-        resetDoctor();
-    }
-    private void DrugDeleteAction() {
-        drugAPI.deleteDrug(Integer.parseInt(DrugTable.getValueAt(0,0).toString()));
-        resetDrug();
-    }
-    private void PatientDeleteB() {
-        patientAPI.deletePatientById(Integer.parseInt(jTable5.getValueAt(0,0).toString()));
-        resetPatient();
-    }
-    //Delete Methods ends:
-    //Listing All methods;
-    private void PharmacyListallAction() {
-        resetPharmacies();
-    }
-    private void DrugListallAction() {
-        resetDrug();
-    }
-    private void DoctorListallAction() {
-        resetDoctor();
-    }
-    private void ListAllPatientsActionPerformed(ActionEvent evt) {
-        resetPatient();
-    }
-    //Listing all end;
+        NewNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
 
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
 
-    private void PharmaciesBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaciesBActionPerformed
-        drugPanel.setEnabled(false);
-        drugPanel.setVisible(false );
-        doctorPanel.setEnabled(false);
-        doctorPanel.setVisible(false);
-        pharmacyPanel.setEnabled(true);
-        pharmacyPanel.setVisible(true);
-        patientPanel.setEnabled(false);
-        patientPanel.setVisible(false);
-        PharmacyTableFiller();
-    }
-    private void PatientsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PatientsBActionPerformed
-        drugPanel.setEnabled(false);
-        drugPanel.setVisible(false );
-        doctorPanel.setEnabled(false);
-        doctorPanel.setVisible(false);
-        pharmacyPanel.setEnabled(false);
-        pharmacyPanel.setVisible(false);
-        patientPanel.setEnabled(true);
-        patientPanel.setVisible(true);
-        PatientTableFiller();
-    }
-
-    private void DoctorBActionPerformed(java.awt.event.ActionEvent evt) {
-        drugPanel.setEnabled(false);
-        drugPanel.setVisible(false);
-        doctorPanel.setEnabled(true);
-        doctorPanel.setVisible(true);
-        pharmacyPanel.setEnabled(false);
-        pharmacyPanel.setVisible(false);
-        patientPanel.setEnabled(false);
-        patientPanel.setVisible(false);
-        DoctorTableFiller();
-    }
-
-
-
-    private void drugsBActionPerformed(java.awt.event.ActionEvent evt) {
-        drugPanel.setEnabled(true);
-        drugPanel.setVisible(true);
-        doctorPanel.setEnabled(false);
-        doctorPanel.setVisible(false);
-        pharmacyPanel.setEnabled(false);
-        pharmacyPanel.setVisible(false);
-        patientPanel.setEnabled(false);
-        patientPanel.setVisible(false);
-        DrugTableFiller();
-    }
-
-
-
-    private void DrugAddBActionPerformed(java.awt.event.ActionEvent evt) {
-        Drug drug=new Drug();
-        drug.setDrugName(DrugNameT.getText());
-        try{
-            drugAPI.addDrug(drug);
-        }
-        catch(Exception e){
-            //should we add something here? because sometimes we catch exceptions
-        }
-        resetDrug();
-    }
-
-
-    private void PharmaADDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaADDBActionPerformed
-        Pharmacy temp=new Pharmacy();
-        temp.setPharmacyName(PharmaNameT.getText());
-        pharmacyAPI.addPharmacy(temp);
-        resetPharmacies();
-    }
-
-
-    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
-        this.dispose();
-        userLogin.setEnabled(true);
-        userLogin.setVisible(true);
-    }
-
-
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdminView().setVisible(true);
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
             }
         });
     }
 
-
-    private void DoctorAddBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorAddBActionPerformed
-        Doctor doctor = new Doctor();
-        doctor.setDoctorName(DoctorNameT.getText());
-        doctorAPI.addDoctor(doctor);
-        resetDoctor();
-    }
-
-    //I use these methods to fill Jtables in every tab
-    private void PharmacyTableFiller() {
-        List<Pharmacy> pharmacyList=pharmacyAPI.PharmacyList();
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PharmacyTable.getModel();
-        model.setRowCount(0);
-        Object rowData[]=new Object[3];
-
-        for(int i=0;i<pharmacyList.size();i++){
-            rowData[1]=pharmacyList.get(i).getPharmacyName();
-            rowData[0]=pharmacyList.get(i).getPharmacyID();
-            rowData[2]=pharmacyList.get(i).getInventoryId();
-            model.addRow(rowData);
-        }
-    }
-    private void PatientTableFiller(){
-        List<Patient> temp = patientAPI.findAll();
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable5.getModel();
-        model.setRowCount(0);
-        Object rowData[]=new Object[2];
-
-        for(int i=0;i<temp.size();i++){
-            rowData[0]=temp.get(i).getId();
-            rowData[1]=temp.get(i).getName();
-            model.addRow(rowData);
-        }
-    }
-    private void DoctorTableFiller() {
-        List<Doctor> d=doctorAPI.DoctorList();
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DoctorTable.getModel();
-        model.setRowCount(0);
-        Object rowData[]=new Object[2];
-
-        for(int i=0;i<d.size();i++){
-            rowData[1]=d.get(i).getDoctorName();
-            rowData[0]=d.get(i).getDoctorId();
-            model.addRow(rowData);
-        }
-    }
-    private void DrugTableFiller() {
-        List<Drug> temp = drugAPI.DrugList();
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugTable.getModel();
-        model.setRowCount(0);
-        Object rowData[]=new Object[2];
-
-        for(int i=0;i<temp.size();i++){
-            rowData[1]=temp.get(i).getDrugName();
-            rowData[0]=temp.get(i).getDrugID();
-            model.addRow(rowData);
-        }
-    }
-    private void TableFilter(JTable table,JTextField textField) {
-        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-        table.setRowSorter(sorter);
-        String text = textField.getText();
-        if(text.length() == 0) {
-            sorter.setRowFilter(null);
-        } else {
-            try {
-                int col=0;
-                sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text+"$",col));
-            } catch(PatternSyntaxException pse) {
-                System.out.println("Bad regex pattern");
-            }
-        }
-    }
-
-    //Reset methods: (after clicking a tab a table is filled and all settings are reset to normal
-    private void resetDoctor(){
-        DoctorDeleteB.setEnabled(false);
-        DoctorEditB.setEnabled(false);
-        DoctorAddB.setEnabled(false);
-        DoctorSB.setText("");
-        DoctorNameT.setText("");
-        DoctorTableFiller();
-    }
-    private void resetDrug(){
-        DrugAddB.setEnabled(false);
-        DrugEditB.setEnabled(false);
-        DrugDeleteB.setEnabled(false);
-        DrugNameT.setText("");
-        DrugSearchT.setText("");
-        DrugTableFiller();
-    }
-    private void resetPatient(){
-        PatientEditB.setEnabled(false);
-        PatientDeleteB.setEnabled(false);
-        PatientSearchT.setText("");
-        PatientTableFiller();
-    }
-    private void resetPharmacies(){
-        PharmacyEditB.setEnabled(false);
-        PharmacyDeleteB.setEnabled(false);
-        PharmaADDB.setEnabled(false);
-        PharmacySearchT.setText("");
-        PharmaNameT.setText("");
-        PharmacyTableFiller();
-
-    }
+    //Todo: End of editing frame::
 
     private javax.swing.JPanel AccountSettingsPanel;
     private javax.swing.JButton CancelPasswordChange;
@@ -1981,5 +2247,10 @@ public class AdminView extends javax.swing.JFrame {
                 }
             });
         }
+    }
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+        this.dispose();
+        userLogin.setEnabled(true);
+        userLogin.setVisible(true);
     }
 }
