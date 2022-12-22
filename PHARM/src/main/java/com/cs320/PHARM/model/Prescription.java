@@ -30,7 +30,7 @@ public class Prescription {
 
     }
     public Prescription PatientName(String patientName) {
-        this.PatientName=PatientName;
+        this.PatientName=patientName;
         return this;
 
     }

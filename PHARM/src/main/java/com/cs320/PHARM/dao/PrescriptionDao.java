@@ -24,9 +24,9 @@ public class PrescriptionDao {
     public PrescriptionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    public int insertPerscription(int doctorID, int patientId,String PatientName) {
-        String sql = "INSERT INTO prescription (doctorid,patientID, patientname) values (?,?,?) returning prescriptionid";
-        return jdbcTemplate.queryForObject(sql, new Object[]{doctorID,patientId,PatientName},Integer.class);
+    public int insertPerscription(int doctorID, int patientId,String PatientName,String note) {
+        String sql = "INSERT INTO prescription (doctorid,patientID, patientname,notes) values (?,?,?,?) returning prescriptionid";
+        return jdbcTemplate.queryForObject(sql, new Object[]{doctorID,patientId,PatientName,note},Integer.class);
 
     }
 

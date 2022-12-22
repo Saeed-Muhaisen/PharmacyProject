@@ -20,8 +20,8 @@ Create table if not EXISTS Pharmacy(
 
     );
 create table if not exists Inventory(
-     InventoryID INTEGER UNIQUE,
-     DrugID INTEGER	UNIQUE,
+     InventoryID INTEGER,
+     DrugID INTEGER	,
      Capacity INTEGER,
     foreign key(DrugID) references Drug(drugid),
     foreign key(InventoryID) references Pharmacy(inventoryid)

@@ -24,7 +24,7 @@ public class PrescriptionAPI {
     @PostMapping
     public int addPrescription(Prescription prescription){
         return prescriptionDao.insertPerscription(prescription.getDoctorID(),prescription.getPatientId() ,
-                prescription.getPatientName());
+                prescription.getPatientName(),prescription.getNote());
     }
 
     @PutMapping

@@ -94,7 +94,7 @@ public class DoctorView extends javax.swing.JFrame {
     private javax.swing.JPanel Mid;
     private javax.swing.JPanel Mid1;
     private javax.swing.JPanel Mid2;
-    private javax.swing.JTextArea NoteTextArea;
+    private javax.swing.JTextArea NoteTextArea=new JTextArea();
     private javax.swing.JLabel PatientTempID;
     private javax.swing.JLabel PatientTempName;
     private javax.swing.JTextField PrescriptionSearchT1;
@@ -120,7 +120,7 @@ public class DoctorView extends javax.swing.JFrame {
     private JTextField AmountfieldT;
     private JLabel Amount;
 
-
+    //Initialize & ActionListeners Beginning
     public void initializeObject(UserAccount userAccount,UserLogin userLogin) {
         this.setVisible(true);
         this.setEnabled(true);
@@ -129,11 +129,10 @@ public class DoctorView extends javax.swing.JFrame {
         NameTextField.setText(userAccount.getUsername());
         PatientTableFiller();
     }
+
     public DoctorView() {
         initComponents();
     }
-
-
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -223,12 +222,7 @@ public class DoctorView extends javax.swing.JFrame {
         DoctorB.setText("Patients");
         DoctorB.setAlignmentY(0.0F);
         DoctorB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DoctorB.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                DoctorBMouseClicked(evt);
-                DoctorBMouseClicked1(evt);
-            }
-        });
+
 
         jpanel1.add(DoctorB);
 
@@ -435,7 +429,6 @@ public class DoctorView extends javax.swing.JFrame {
         setResizable(false);
 
     }
-    //we put here everything for actionListeners!
     private void actionListeners(){
         accountSettings.addActionListener(new ActionListener() {
             @Override
@@ -536,6 +529,7 @@ public class DoctorView extends javax.swing.JFrame {
         CreateB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editing=false;
+                NoteTextArea.setText("temporary note.");
                 createFrame();
             }
         });
@@ -544,8 +538,9 @@ public class DoctorView extends javax.swing.JFrame {
                 editing=true;
                 Prescription prescription=prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(Integer.parseInt(PatientTable.getValueAt(0, 0).toString()),userAccount.getId());
                 active_DrugListID= prescription.getDrugListId();
+                NoteTextArea.setText(prescription.getNote());
                 createFrame();
-                PrescrptionTableFiller();
+                prescriptionTableFiller();
             }
         });
 
@@ -560,17 +555,6 @@ public class DoctorView extends javax.swing.JFrame {
             }
         });
 
-        PatientNameT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PatientNameTActionPerformed(evt);
-            }
-        });
-
-        PatientIDT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PatientIDTActionPerformed(evt);
-            }
-        });
         Logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LogoutActionPerformed(evt);
@@ -578,6 +562,7 @@ public class DoctorView extends javax.swing.JFrame {
         });
 
     }
+
     private void createFrame(){
         create=new JFrame();
         create.setEnabled(true);
@@ -624,7 +609,7 @@ public class DoctorView extends javax.swing.JFrame {
         Mid2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        // NoteTextArea = new javax.swing.JTextArea();
+
         jLabel8 = new javax.swing.JLabel();
         Bot = new javax.swing.JPanel();
         CreatePrescriptionB = new javax.swing.JButton();
@@ -884,10 +869,10 @@ public class DoctorView extends javax.swing.JFrame {
         Mid2.setLayout(new java.awt.GridBagLayout());
 
         jPanel7.setLayout(new java.awt.GridBagLayout());
-        NoteTextArea =new JTextArea();
+
         NoteTextArea.setColumns(20);
         NoteTextArea.setRows(5);
-        NoteTextArea.setText("temporary note.");
+
         jScrollPane4.setViewportView(NoteTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1129,41 +1114,47 @@ public class DoctorView extends javax.swing.JFrame {
             }
         });
     }
-    private void removeDrugFromPrescription() {
-        DefaultTableModel tableModel= (DefaultTableModel) PrescriptionTable.getModel();
-        tableModel.removeRow(PrescriptionTable.getRowSorter().convertRowIndexToModel(0));
-        PrescriptionSearchT1.setText("");
-    }
-    private void createPrescription() {
-        if(editing){
-            Prescription test= prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(
-                    Integer.parseInt(PatientTempID.getText()),userAccount.getId());
-            drugListAPI.deleteDrugListById(test.getDrugListId());
-            for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
-                drugListAPI.insertDrugList(test.getDrugListId(),
-                        Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
-                        Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
-            }
+    //Initialize & ActionListeners End
 
-        }
-        else{
-            Prescription prescription = new Prescription();
-            prescription.setDoctorID(userAccount.getId());
-            prescription.setPatientName(PatientTempName.getText());
-            prescription.setPatientId(Integer.parseInt(PatientTempID.getText()));
-            prescription.setNote(NoteTextArea.getText());
-            active_DrugListID = prescriptionAPI.addPrescription(prescription);
-            for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
-                drugListAPI.insertDrugList(active_DrugListID,
-                        Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
-                        Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
-            }
-        }
-        create.dispose();
 
-        jTextField7.setText("");
+    //Main frame methods Beginning:-
+    private void AddPatientBActionPerformed() {
+
+        Patient patient=new Patient();
+        patient.setName(PatientNameT.getText());
+        patient.setId(Integer.parseInt(PatientIDT.getText()));
+        patientAPI.save(patient);
         PatientTableFiller();
     }
+    private void DeletePatientBActionPerformed(ActionEvent evt) {
+        TableModel tm = PatientTable.getModel();
+        int id = Integer.parseInt(tm.getValueAt(0, 0).toString());
+        patientAPI.deletePatientById(id);
+        PatientTable.removeAll();
+        DeletePatientB.setEnabled(false);
+        PatientTableFiller();
+    }
+    private void DeletePrescriptionBActionPerformed(ActionEvent evt) {
+        int PatientId=Integer.valueOf(PatientTable.getValueAt(0,0).toString());
+        Prescription prescription=prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(PatientId,userAccount.getId());
+
+        drugListAPI.deleteDrugListById(prescription.getDrugListId());
+        prescriptionAPI.deletePrescriptionbyId(prescription.getPrescriptionId());
+        PatientTableFiller();
+    }
+    private void DoctorBActionPerformed(java.awt.event.ActionEvent evt) {
+        drugPanel.setEnabled(false);
+        drugPanel.setVisible(false);
+
+    }
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {
+        this.dispose();
+        userLogin.setEnabled(true);
+        userLogin.setVisible(true);
+    }
+    //Main frame methods End--
+
+    //Prescription Frame methods Beginning
     private void AddDrugAction(ActionEvent evt)  {
         int id=Integer.valueOf(DrugListTable.getValueAt(0,0).toString());
         String drugName=DrugListTable.getValueAt(0,1).toString();
@@ -1196,65 +1187,45 @@ public class DoctorView extends javax.swing.JFrame {
         drugListDao.insertDrugList(active_DrugListID,id, amount);
         PrescrptionTableFiller();*/
     }
-    private void EditBActionPerformed(ActionEvent evt) {}
+    private void removeDrugFromPrescription() {
+        DefaultTableModel tableModel= (DefaultTableModel) PrescriptionTable.getModel();
+        tableModel.removeRow(PrescriptionTable.getRowSorter().convertRowIndexToModel(0));
+        PrescriptionSearchT1.setText("");
+    }
+    private void createPrescription() {
+        if(editing){
+            Prescription test= prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(
+                    Integer.parseInt(PatientTempID.getText()),userAccount.getId());
+            drugListAPI.deleteDrugListById(test.getDrugListId());
+            test.setNote(NoteTextArea.getText());
+            prescriptionAPI.updatePrescription(test);
+            for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
+                drugListAPI.insertDrugList(test.getDrugListId(),
+                        Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
+                        Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
+            }
 
+        }
+        else{
+            Prescription prescription = new Prescription();
+            prescription.setDoctorID(userAccount.getId());
+            prescription.setPatientName(PatientTempName.getText());
+            prescription.setPatientId(Integer.parseInt(PatientTempID.getText()));
+            prescription.setNote(NoteTextArea.getText());
+            active_DrugListID = prescriptionAPI.addPrescription(prescription);
+            for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
+                drugListAPI.insertDrugList(active_DrugListID,
+                        Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
+                        Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
+            }
+        }
+        create.dispose();
 
-
-
-    private void AddPatientBActionPerformed() {
-
-        Patient patient=new Patient();
-        patient.setName(PatientNameT.getText());
-        patient.setId(Integer.parseInt(PatientIDT.getText()));
-        patientAPI.save(patient);
+        jTextField7.setText("");
         PatientTableFiller();
     }
+    //Prescription Frame methods End--
 
-    private void DeletePatientBActionPerformed(ActionEvent evt) {
-        TableModel tm = PatientTable.getModel();
-        int id = Integer.parseInt(tm.getValueAt(0, 0).toString());
-        patientAPI.deletePatientById(id);
-        PatientTable.removeAll();
-        DeletePatientB.setEnabled(false);
-        PatientTableFiller();
-    }
-
-    private void DeletePrescriptionBActionPerformed(ActionEvent evt) {
-        int PatientId=Integer.valueOf(PatientTable.getValueAt(0,0).toString());
-        Prescription prescription=prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(PatientId,userAccount.getId());
-
-        drugListAPI.deleteDrugListById(prescription.getDrugListId());
-        prescriptionAPI.deletePrescriptionbyId(prescription.getPrescriptionId());
-        PatientTableFiller();
-    }
-
-    private void PatientIDTActionPerformed(ActionEvent evt) {
-
-    }
-
-    private void PatientNameTActionPerformed(ActionEvent evt) {
-
-    }
-
-    private void DoctorBActionPerformed(java.awt.event.ActionEvent evt) {
-        drugPanel.setEnabled(false);
-        drugPanel.setVisible(false);
-
-    }
-
-    private void DoctorBMouseClicked(java.awt.event.MouseEvent evt) {
-
-    }
-
-    private void DoctorBMouseClicked1(java.awt.event.MouseEvent evt) {
-
-    }
-
-    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {
-        this.dispose();
-        userLogin.setEnabled(true);
-        userLogin.setVisible(true);
-    }
 
     //table fillers here:-
     private void PatientTableFiller(){
@@ -1301,7 +1272,7 @@ public class DoctorView extends javax.swing.JFrame {
             }
         }
     }
-    private void PrescrptionTableFiller()  {
+    private void prescriptionTableFiller()  {
         RemovePrescirptionB1.setEnabled(false);
         List<DrugList> temp = drugListAPI.findDrugList(active_DrugListID);
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PrescriptionTable.getModel();
@@ -1318,6 +1289,7 @@ public class DoctorView extends javax.swing.JFrame {
             //todo ignore??
         }
     }
+    //Table fillers end
 
     //TODO:: Edit account settings Beginning::
     private javax.swing.JPanel AccountSettingsPanel;
