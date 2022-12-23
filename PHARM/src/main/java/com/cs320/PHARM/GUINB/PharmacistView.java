@@ -45,24 +45,9 @@ public class PharmacistView extends javax.swing.JFrame {
     private UserAccount userAccount;
     private List<TransactionHistory> old_TransactionHistory;
     private int row;
-    private int active_prescription_id;
     private List<Prescription> prescriptionList;
     //TODO:: End of Beans::
 
-    public void initializeObject(UserAccount userAccount, UserLogin userLogin) {
-        this.setVisible(true);
-        this.setEnabled(true);
-        this.userAccount=userAccount;
-        this.userLogin=userLogin;
-        NameTextField.setText(userAccount.getUsername());
-
-    }
-    public static void main(String args[]) {
-        JFrame frame=new PharmacistView();
-        frame.setVisible(true);
-        frame.setEnabled(true);
-
-    }
 
 
     private javax.swing.JButton ListAllB;
@@ -132,10 +117,19 @@ public class PharmacistView extends javax.swing.JFrame {
     private javax.swing.JPanel left2;
     private javax.swing.JPanel right2;
     private javax.swing.JPanel top2;
+
+    //Init and actionListener beginning
+    public void initializeObject(UserAccount userAccount, UserLogin userLogin) {
+        this.setVisible(true);
+        this.setEnabled(true);
+        this.userAccount=userAccount;
+        this.userLogin=userLogin;
+        NameTextField.setText(userAccount.getUsername());
+
+    }
     public PharmacistView() {
         initComponents();
     }
-
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -928,7 +922,6 @@ public class PharmacistView extends javax.swing.JFrame {
 
                 JTable source = (JTable)e.getSource();
                 row = source.rowAtPoint( e.getPoint() );
-                active_prescription_id=Integer.valueOf(PrescriptionListTable.getValueAt(row,0).toString());
                 informationFiller();
             }
 
@@ -962,7 +955,6 @@ public class PharmacistView extends javax.swing.JFrame {
 
                 JTable source = (JTable)e.getSource();
                 row = source.rowAtPoint( e.getPoint() );
-                active_prescription_id=Integer.valueOf(PrescriptionListTable.getValueAt(row,0).toString());
                 informationFiller();
             }
 
@@ -1016,6 +1008,158 @@ public class PharmacistView extends javax.swing.JFrame {
                 addDrugToSell();
             }
         });
+        //Key Listeners:
+        PatientIdT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        DrugIdSearchInSell.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        DrugIdToAddT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        SearchInventoryT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        DrugAmountToAddT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        PatientNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+
 
         DrugListTable1.addMouseListener(new MouseListener() {
             @Override
@@ -1073,7 +1217,42 @@ public class PharmacistView extends javax.swing.JFrame {
         });
 
     }
-    //TODO: Selling methods::
+    //Init and actionListeners End
+
+    //Switching Panels methods Beginning
+    private void ManagePrescriptionsBActionPerformed() {
+        PatientPanel.setEnabled(true);
+        PatientPanel.setVisible(true);
+        StockPanel.setEnabled(false);
+        StockPanel.setVisible(false);
+    }
+    private void ManageStockBActionPerformed() {
+        PatientPanel.setEnabled(false);
+        PatientPanel.setVisible(false);
+        StockPanel.setEnabled(true);
+        StockPanel.setVisible(true);
+
+    }
+    //Switching Panels methods End
+
+    //StockPanel Methods Beginning:
+    private void DeleteDrugFromInventory() { //Todo: Fix the optionpane being at the back!
+        String msg=PharmacyTable.getValueAt(0,1).toString()+ " has been removed from inventory";
+        int DrugId=Integer.valueOf(PharmacyTable.getValueAt(0,0).toString());
+        inventoryAPI.deleteDrugFromInventory(userAccount.getId(), DrugId);
+        PharmacyTableFiller();
+        SearchInventoryT.setText("");
+        JOptionPane.showMessageDialog(this, msg);
+    }
+    private void AddDrugToInventoryActionPerformed(ActionEvent evt) {
+        int drugId= Integer.parseInt(DrugIdToAddT.getText());
+        int amount= Integer.parseInt(DrugAmountToAddT.getText());
+        inventoryAPI.insertDrug(userAccount.getId(),drugId,amount);
+
+    }
+    //StockPanel Methods end:
+
+    //PrescriptionPanel Methods beginning:
     private boolean AvailableStock(){
         int amount = Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 2).toString());
         int available=Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 3).toString());
@@ -1111,26 +1290,81 @@ public class PharmacistView extends javax.swing.JFrame {
         NoteArea.setText(prescriptionList.get(row).getNote());
         PrescribedMedTableFiller();
     }
-    private void PrescribedMedTableFiller() {
-
-        List<DrugList> temp = drugListAPI.findDrugList(prescriptionList.get(row).getPrescriptionId());
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugListTable.getModel();
-        model.setRowCount(0);
-        Object rowData[]=new Object[4];
-
-        for(int i=0;i<temp.size();i++){
-            rowData[0]= temp.get(i).getDrugID();
-            rowData[1]= drugAPI.findDrugByID(temp.get(i).getDrugID()).getDrugName();
-            rowData[2]= temp.get(i).getAmount();
-            try {
-                rowData[3] = inventoryAPI.findByInventoryIdAndDrugID(userAccount.getId(), temp.get(i).getDrugID()).getCapacity();
-            } catch(EmptyResultDataAccessException e){
-                rowData[3]=0;
+    private void cache_sellTable(){
+        old_TransactionHistory=new ArrayList<>();
+        for(int i=0;i<DrugListTable1.getRowCount();i++){
+            TransactionHistory temp= new TransactionHistory();
+            temp.setDrugID((Integer) DrugListTable1.getValueAt(0,0));
+            temp.setAmount_sold((Integer) DrugListTable1.getValueAt(0,2));
+        }
+    }
+    private void SearchSellByID() {
+        cache_sellTable();
+        int drugid= Integer.parseInt(DrugIdSearchInSell.getText());
+        for(int i=0;i<old_TransactionHistory.size();i++){
+            if(old_TransactionHistory.get(i).getDrugID()==drugid){
+                DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
+                model.setRowCount(0);
+                model.addRow(new Object[]{old_TransactionHistory.get(i).getDrugID(),
+                        drugAPI.findDrugByID(old_TransactionHistory.get(i).getDrugID()),old_TransactionHistory.get(i).getAmount_sold()
+                });
+                old_TransactionHistory.remove(i);
+                break;
             }
+        }
+
+    }
+    private void SearchPatientAndFillPrescriptionTable() {
+        int id= Integer.parseInt(PatientIdT.getText());
+        String name=PatientNameT.getText();
+        prescriptionList=prescriptionAPI.findPrescriptionByPatientIdAndName(id,name);
+
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PrescriptionListTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[2];
+
+        for(int i=0;i<prescriptionList.size();i++){
+            rowData[0]=prescriptionList.get(i).getPrescriptionId();
+            rowData[1]=doctorAPI.findDoctorById(prescriptionList.get(i).getDoctorID()).getDoctorName();
             model.addRow(rowData);
         }
     }
-    //TODO: Selling methods end::
+    private void CancelBActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
+    private void ConfirmBActionPerformed(java.awt.event.ActionEvent evt) {
+        for(int i=0;i<DrugListTable1.getRowCount();i++){
+            transactionHistoryAPI.insertTransactionHistory(
+                    (int) PrescriptionListTable.getValueAt(0,0),
+                    userAccount.getId(),
+                    (Integer) DrugListTable1.getValueAt(i,0),
+                    (Integer) DrugListTable1.getValueAt(i,2));
+
+        }
+        PatientNameT.setText("");
+        PatientIdT.setText("");
+        ((DefaultTableModel) PrescriptionListTable.getModel()).setRowCount(0);
+        resetPrescriptionInfo();
+    }
+    private void RemoveDrugB1ActionPerformed(java.awt.event.ActionEvent evt) {
+        DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
+        DefaultTableModel drugT = (DefaultTableModel) DrugListTable.getModel();
+        int drug_Id= (int) DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),0);
+        drugT.addRow(new Object[]{
+                drug_Id,
+                DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),1),
+                DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),2),
+                inventoryAPI.findByInventoryIdAndDrugID(
+                        userAccount.getId(),drug_Id).getCapacity()
+
+        });
+        model.removeRow(DrugListTable1.getSelectedRow());
+        RemoveDrugB1.setEnabled(false);
+        DrugIdSearchInSell.setText("");
+        SellTableFilter();
+    }
+    //PrescriptionPanel Methods end:
+
     //Table filler and filters
     private void TableFilter(JTable table,JTextField textField) {
         System.out.println("d");
@@ -1180,8 +1414,28 @@ public class PharmacistView extends javax.swing.JFrame {
             }
         }
     }
+    private void PrescribedMedTableFiller() {
 
-    //resets Stock tab settings and texts
+        List<DrugList> temp = drugListAPI.findDrugList(prescriptionList.get(row).getPrescriptionId());
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugListTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[4];
+
+        for(int i=0;i<temp.size();i++){
+            rowData[0]= temp.get(i).getDrugID();
+            rowData[1]= drugAPI.findDrugByID(temp.get(i).getDrugID()).getDrugName();
+            rowData[2]= temp.get(i).getAmount();
+            try {
+                rowData[3] = inventoryAPI.findByInventoryIdAndDrugID(userAccount.getId(), temp.get(i).getDrugID()).getCapacity();
+            } catch(EmptyResultDataAccessException e){
+                rowData[3]=0;
+            }
+            model.addRow(rowData);
+        }
+    }
+    //Table Filler and filters end
+
+    //resetors Beginning
     public void resetStock(){
         SearchInventoryT.setText("");
         DrugIdToAddT.setText("");
@@ -1205,120 +1459,9 @@ public class PharmacistView extends javax.swing.JFrame {
         PrescriptionStatusTemp.setText("N/A");
 
     }
-    private void cache_sellTable(){
-        old_TransactionHistory=new ArrayList<>();
-        for(int i=0;i<DrugListTable1.getRowCount();i++){
-            TransactionHistory temp= new TransactionHistory();
-            temp.setDrugID((Integer) DrugListTable1.getValueAt(0,0));
-            temp.setAmount_sold((Integer) DrugListTable1.getValueAt(0,2));
-        }
-    }
-    private void SearchSellByID() {
-        cache_sellTable();
-        int drugid= Integer.parseInt(DrugIdSearchInSell.getText());
-        for(int i=0;i<old_TransactionHistory.size();i++){
-            if(old_TransactionHistory.get(i).getDrugID()==drugid){
-                DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
-                model.setRowCount(0);
-                model.addRow(new Object[]{old_TransactionHistory.get(i).getDrugID(),
-                        drugAPI.findDrugByID(old_TransactionHistory.get(i).getDrugID()),old_TransactionHistory.get(i).getAmount_sold()
-                });
-                old_TransactionHistory.remove(i);
-                break;
-            }
-        }
+    //resetors End
 
-    }
-
-    private void DeleteDrugFromInventory() { //Todo: Fix the optionpane being at the back!
-        String msg=PharmacyTable.getValueAt(0,1).toString()+ " has been removed from inventory";
-        int DrugId=Integer.valueOf(PharmacyTable.getValueAt(0,0).toString());
-        inventoryAPI.deleteDrugFromInventory(userAccount.getId(), DrugId);
-        PharmacyTableFiller();
-        SearchInventoryT.setText("");
-        JOptionPane.showMessageDialog(this, msg);
-    }
-    private void AddDrugToInventoryActionPerformed(ActionEvent evt) {
-        int drugId= Integer.parseInt(DrugIdToAddT.getText());
-        int amount= Integer.parseInt(DrugAmountToAddT.getText());
-        inventoryAPI.insertDrug(userAccount.getId(),drugId,amount);
-
-    }
-
-    private void SearchPatientAndFillPrescriptionTable() {
-        int id= Integer.parseInt(PatientIdT.getText());
-        String name=PatientNameT.getText();
-        prescriptionList=prescriptionAPI.findPrescriptionByPatientIdAndName(id,name);
-
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PrescriptionListTable.getModel();
-        model.setRowCount(0);
-        Object rowData[]=new Object[2];
-
-        for(int i=0;i<prescriptionList.size();i++){
-            rowData[0]=prescriptionList.get(i).getPrescriptionId();
-            rowData[1]=doctorAPI.findDoctorById(prescriptionList.get(i).getDoctorID()).getDoctorName();
-            model.addRow(rowData);
-        }
-    }
-
-    //Switching tabs
-    private void ManagePrescriptionsBActionPerformed() {
-        PatientPanel.setEnabled(true);
-        PatientPanel.setVisible(true);
-        StockPanel.setEnabled(false);
-        StockPanel.setVisible(false);
-    }
-    private void ManageStockBActionPerformed() {
-        PatientPanel.setEnabled(false);
-        PatientPanel.setVisible(false);
-        StockPanel.setEnabled(true);
-        StockPanel.setVisible(true);
-
-    }
-
-    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {
-        this.dispose();
-        userLogin.setEnabled(true);
-        userLogin.setVisible(true);
-
-    }
-
-    private void CancelBActionPerformed(java.awt.event.ActionEvent evt) {
-
-    }
-    private void ConfirmBActionPerformed(java.awt.event.ActionEvent evt) {
-        for(int i=0;i<DrugListTable1.getRowCount();i++){
-            transactionHistoryAPI.insertTransactionHistory(
-                    (int) PrescriptionListTable.getValueAt(0,0),
-                    userAccount.getId(),
-                    (Integer) DrugListTable1.getValueAt(i,0),
-                    (Integer) DrugListTable1.getValueAt(i,2));
-
-        }
-        PatientNameT.setText("");
-        PatientIdT.setText("");
-        ((DefaultTableModel) PrescriptionListTable.getModel()).setRowCount(0);
-        resetPrescriptionInfo();
-    }
-    private void RemoveDrugB1ActionPerformed(java.awt.event.ActionEvent evt) {
-        DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
-        DefaultTableModel drugT = (DefaultTableModel) DrugListTable.getModel();
-        int drug_Id= (int) DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),0);
-        drugT.addRow(new Object[]{
-                drug_Id,
-                DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),1),
-                DrugListTable1.getValueAt(DrugListTable1.getSelectedRow(),2),
-                inventoryAPI.findByInventoryIdAndDrugID(
-                        userAccount.getId(),drug_Id).getCapacity()
-
-        });
-        model.removeRow(DrugListTable1.getSelectedRow());
-        RemoveDrugB1.setEnabled(false);
-        DrugIdSearchInSell.setText("");
-        SellTableFilter();
-    }
-
-    //editing Drug JFrame Instance and method Beginning:
+    //Edit Drug and Account settings Frame Beginning:
     private JFrame edit;
     private JPanel FullPanel;
     private javax.swing.JButton CancelCapacityB;
@@ -1331,6 +1474,19 @@ public class PharmacistView extends javax.swing.JFrame {
     private javax.swing.JLabel EDrugNameTemp;
     private javax.swing.JLabel NewCapacityLabel;
     private java.awt.TextField NewCapacityT;
+    private javax.swing.JPanel AccountSettingsPanel;
+    private javax.swing.JButton CancelPasswordChange;
+    private javax.swing.JButton ConfirmPasswordChange;
+    private javax.swing.JLabel DrugIdLabel1;
+    private javax.swing.JLabel DrugNameLabel1;
+    private javax.swing.JLabel OldPasswordLabel;
+    private javax.swing.JLabel TempUserId;
+    private javax.swing.JLabel TempUserName;
+    private javax.swing.JTextField newPassword;
+    private javax.swing.JTextField newPassword1;
+    private javax.swing.JLabel newPasswordLabel;
+    private javax.swing.JLabel newPasswordLabel1;
+    private javax.swing.JTextField oldPassword;
     private void EditDrug() {
         edit=new JFrame();
 
@@ -1476,20 +1632,6 @@ public class PharmacistView extends javax.swing.JFrame {
             }
         });
     }
-    //editing Drug JFrame end
-    private javax.swing.JPanel AccountSettingsPanel;
-    private javax.swing.JButton CancelPasswordChange;
-    private javax.swing.JButton ConfirmPasswordChange;
-    private javax.swing.JLabel DrugIdLabel1;
-    private javax.swing.JLabel DrugNameLabel1;
-    private javax.swing.JLabel OldPasswordLabel;
-    private javax.swing.JLabel TempUserId;
-    private javax.swing.JLabel TempUserName;
-    private javax.swing.JTextField newPassword;
-    private javax.swing.JTextField newPassword1;
-    private javax.swing.JLabel newPasswordLabel;
-    private javax.swing.JLabel newPasswordLabel1;
-    private javax.swing.JTextField oldPassword;
     private void EditAccount(){
         {
             JFrame edit=new JFrame();
@@ -1649,4 +1791,11 @@ public class PharmacistView extends javax.swing.JFrame {
             });
         }
     }
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {
+        this.dispose();
+        userLogin.setEnabled(true);
+        userLogin.setVisible(true);
+
+    }
+    //Edit Drug and Account Frame End:
 }
