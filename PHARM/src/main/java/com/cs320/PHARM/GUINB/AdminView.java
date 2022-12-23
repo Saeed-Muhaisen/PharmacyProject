@@ -1,3 +1,4 @@
+
 package com.cs320.PHARM.GUINB;
 
 import com.cs320.PHARM.api.*;
@@ -67,6 +68,7 @@ public class AdminView extends javax.swing.JFrame {
     private JPanel bot1;
     private JPanel bot2;
     private JPanel bot3;
+    private JPanel bot4;
     private JPanel doctorPanel;
     private JPanel drugPanel;
     private JButton drugsB;
@@ -75,6 +77,10 @@ public class AdminView extends javax.swing.JFrame {
     private JLabel jLabel11;
     private JLabel jLabel12;
     private JLabel jLabel13;
+    private JLabel jLabel14;
+    private JLabel jLabel15;
+    private JLabel jLabel16;
+    private JLabel jLabel17;
     private JLabel jLabel2;
     private JLabel jLabel3;
     private JLabel jLabel5;
@@ -89,11 +95,13 @@ public class AdminView extends javax.swing.JFrame {
     private JScrollPane jScrollPane3;
     private JScrollPane jScrollPane4;
     private JScrollPane jScrollPane5;
+    private JScrollPane jScrollPane6;
     private JTable PatientTable;
     private JPanel left;
     private JPanel left1;
     private JPanel left2;
     private JPanel left3;
+    private JPanel left4;
     private JPanel patientPanel;
     private JPanel pharmacyPanel;
     private JPanel right;
@@ -103,6 +111,20 @@ public class AdminView extends javax.swing.JFrame {
     private JPanel top1;
     private JPanel top2;
     private JPanel top3;
+    private JPanel top4;
+
+    //New Panel Transactions:
+    private javax.swing.JButton TransactionDeleteB;
+
+    private javax.swing.JPanel TransactionHistory;
+    private javax.swing.JButton TransactionListAllB;
+    private javax.swing.JButton TransactionReActivateB;
+    private javax.swing.JTextField TransactionT1;
+    private javax.swing.JTextField TransactionT2;
+    private javax.swing.JTextField TransactionT3;
+    private javax.swing.JTextField TransactionT4;
+    private javax.swing.JTable TransactionTable;
+    private javax.swing.JButton Transactions;
 
     //init and action listeners Beginning
     public void initializeObject(UserAccount userAccount,UserLogin userLogin) {
@@ -202,6 +224,26 @@ public class AdminView extends javax.swing.JFrame {
         accountSettings = new JButton();
         Logout = new JButton();
 
+        Transactions = new javax.swing.JButton();
+        TransactionHistory = new javax.swing.JPanel();
+        top4 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        TransactionTable = new javax.swing.JTable();
+        bot4 = new javax.swing.JPanel();
+        left4 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        TransactionT1 = new javax.swing.JTextField();
+
+        TransactionDeleteB = new javax.swing.JButton();
+        TransactionListAllB = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        TransactionT2 = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        TransactionT3 = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        TransactionT4 = new javax.swing.JTextField();
+        TransactionReActivateB = new javax.swing.JButton();
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setBackground(new Color(255, 255, 255));
@@ -211,7 +253,7 @@ public class AdminView extends javax.swing.JFrame {
 
         jPanel3.setLayout(new GridBagLayout());
 
-        jPanel1.setLayout(new GridLayout(4, 1));
+        jPanel1.setLayout(new GridLayout(5, 1));
 
         DoctorB.setFont(new Font("Calibri", 0, 18)); // NOI18N
         DoctorB.setText("Doctors");
@@ -241,6 +283,12 @@ public class AdminView extends javax.swing.JFrame {
         PatientsB.setBorder(BorderFactory.createEtchedBorder());
 
         jPanel1.add(PatientsB);
+
+        Transactions.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        Transactions.setText("Transactions");
+        Transactions.setAlignmentY(0.0F);
+        Transactions.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.add(Transactions);
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -657,6 +705,139 @@ public class AdminView extends javax.swing.JFrame {
 
         jLayeredPane1.add(patientPanel, "card2");
 
+        TransactionHistory.setLayout(new javax.swing.BoxLayout(TransactionHistory, javax.swing.BoxLayout.Y_AXIS));
+
+        top4.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane6.setBackground(new java.awt.Color(255, 255, 255));
+
+        TransactionTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                },
+                new String [] {
+                        "Prescription ID","Doctor ID","Patient ID","Pharmacy ID","Doctor Name","Patient Name","Pharmacy Name"
+                }
+        ) {
+            Class[] types = new Class [] {
+                    java.lang.Integer.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                    false, false,false,false,false,false,false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(TransactionTable);
+        if (TransactionTable.getColumnModel().getColumnCount() > 0) {
+            TransactionTable.getColumnModel().getColumn(0).setResizable(false);
+            TransactionTable.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        top4.add(jScrollPane6, java.awt.BorderLayout.CENTER);
+
+        TransactionHistory.add(top4);
+
+        bot4.setBackground(new java.awt.Color(204, 204, 255));
+        bot4.setForeground(new java.awt.Color(204, 204, 255));
+        bot4.setLayout(new java.awt.GridLayout());
+
+        jLabel14.setText("Search By TransactionID");
+
+
+
+
+        TransactionDeleteB.setText("Delete");
+
+        TransactionListAllB.setText("List All");
+
+
+        jLabel15.setText("Search By Patient ID");
+
+
+        jLabel16.setText("Search By Doctor ID");
+
+
+        jLabel17.setText("Search By Pharmacy ID");
+
+
+
+        TransactionReActivateB.setText("ReActivate");
+
+
+        javax.swing.GroupLayout left4Layout = new javax.swing.GroupLayout(left4);
+        left4.setLayout(left4Layout);
+        left4Layout.setHorizontalGroup(
+                left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(left4Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(left4Layout.createSequentialGroup()
+                                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                                                        .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(21, 21, 21))
+                                        .addGroup(left4Layout.createSequentialGroup()
+                                                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(19, 19, 19)))
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(TransactionT1, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                                        .addComponent(TransactionT2)
+                                        .addComponent(TransactionT3)
+                                        .addComponent(TransactionT4))
+
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(TransactionListAllB)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(TransactionReActivateB)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(TransactionDeleteB)
+                                .addGap(50, 50, 50))
+        );
+        left4Layout.setVerticalGroup(
+                left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(left4Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                                        .addComponent(TransactionT1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(TransactionT2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(TransactionT3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                                        .addComponent(TransactionT4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
+                        .addGroup(left4Layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(TransactionListAllB, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(TransactionReActivateB, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(TransactionDeleteB, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        bot4.add(left4);
+
+        TransactionHistory.add(bot4);
+
+        jLayeredPane1.add(TransactionHistory, "card6");
+
+
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -734,6 +915,12 @@ public class AdminView extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent evt) {
                 PatientsBActionPerformed(evt);
                 resetPatient();
+            }
+        });
+        Transactions.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TransactionsActionPerformed();
             }
         });
 
@@ -1249,6 +1436,106 @@ public class AdminView extends javax.swing.JFrame {
                 }
             }
         });
+        TransactionT1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        TransactionT2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        TransactionT3.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        TransactionT4.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
 
         DrugTable.getTableHeader().setReorderingAllowed(false);
         PatientTable.getTableHeader().setReorderingAllowed(false);
@@ -1269,6 +1556,8 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
     }
+
+
     //init and action listeners end
 
     //Adding methods Beginning
@@ -1341,6 +1630,8 @@ public class AdminView extends javax.swing.JFrame {
         pharmacyPanel.setVisible(true);
         patientPanel.setEnabled(false);
         patientPanel.setVisible(false);
+        TransactionHistory.setEnabled(false);
+        TransactionHistory.setVisible(false);
         PharmacyTableFiller();
     }
     private void PatientsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PatientsBActionPerformed
@@ -1352,6 +1643,8 @@ public class AdminView extends javax.swing.JFrame {
         pharmacyPanel.setVisible(false);
         patientPanel.setEnabled(true);
         patientPanel.setVisible(true);
+        TransactionHistory.setEnabled(false);
+        TransactionHistory.setVisible(false);
         PatientTableFiller();
     }
     private void DoctorBActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1363,6 +1656,8 @@ public class AdminView extends javax.swing.JFrame {
         pharmacyPanel.setVisible(false);
         patientPanel.setEnabled(false);
         patientPanel.setVisible(false);
+        TransactionHistory.setEnabled(false);
+        TransactionHistory.setVisible(false);
         DoctorTableFiller();
     }
     private void drugsBActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1374,8 +1669,25 @@ public class AdminView extends javax.swing.JFrame {
         pharmacyPanel.setVisible(false);
         patientPanel.setEnabled(false);
         patientPanel.setVisible(false);
+        TransactionHistory.setEnabled(false);
+        TransactionHistory.setVisible(false);
+
         DrugTableFiller();
     }
+    private void TransactionsActionPerformed() {
+        drugPanel.setEnabled(false);
+        drugPanel.setVisible(false);
+        doctorPanel.setEnabled(false);
+        doctorPanel.setVisible(false);
+        pharmacyPanel.setEnabled(false);
+        pharmacyPanel.setVisible(false);
+        patientPanel.setEnabled(false);
+        patientPanel.setVisible(false);
+        TransactionHistory.setEnabled(true);
+        TransactionHistory.setVisible(true);
+        TransactionTableFiller();
+    }
+
     //Switching pannels functions End
 
     //Table Fillers and Filters
@@ -1427,6 +1739,8 @@ public class AdminView extends javax.swing.JFrame {
             rowData[0]=temp.get(i).getDrugID();
             model.addRow(rowData);
         }
+    }
+    private void TransactionTableFiller() {
     }
     private void TableFilter(JTable table,JTextField textField) {
         final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
