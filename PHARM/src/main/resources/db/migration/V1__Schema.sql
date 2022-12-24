@@ -20,9 +20,9 @@ Create table if not EXISTS Pharmacy(
 
     );
 create table if not exists Inventory(
-     InventoryID INTEGER,
-     DrugID INTEGER	,
-     Capacity INTEGER,
+    InventoryID INTEGER,
+    DrugID INTEGER	,
+    Capacity INTEGER,
     foreign key(DrugID) references Drug(drugid),
     foreign key(InventoryID) references Pharmacy(inventoryid)
     );
@@ -52,11 +52,13 @@ create table if not exists DrugList(
     );
 
 create table if not exists transactionHistory(
-    PharmacyID int,
+    transactionHistoryID serial,
     DrugListID int NOT NULL,
+    doctorId int not null,
+    PatientId int not null,
+    PharmacyID int not null,
     drugID int not null,
     amount_sold int not null
-
 
 );
 

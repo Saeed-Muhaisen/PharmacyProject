@@ -84,4 +84,10 @@ public class PrescriptionDao {
 
         return prescription;
     }
+
+    public void insertPerscriptionWithId(int prescriptionId,int doctorID, int patientId,String PatientName,String note,int druglistid) {
+        String sql = "INSERT INTO prescription (prescriptionid,doctorid,patientID, patientname,notes,druglistid) values (?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, new Object[]{prescriptionId,doctorID,patientId,PatientName,note,druglistid});
+
+    }
 }

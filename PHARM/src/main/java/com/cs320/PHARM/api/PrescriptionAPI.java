@@ -64,4 +64,8 @@ public class PrescriptionAPI {
         return prescriptionDao.findPerscriptionByPatientIdAndDoctorID(PatientId,DoctorId);
     }
 
+    public void addPrescriptionWithIDs(Prescription prescription) {
+        prescriptionDao.insertPerscriptionWithId(prescription.getPrescriptionId(),prescription.getDoctorID(),prescription.getPatientId() ,
+                prescription.getPatientName(),prescription.getNote(),prescription.getDrugListId());
+    }
 }

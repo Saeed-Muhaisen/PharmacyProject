@@ -1,9 +1,9 @@
-
 package com.cs320.PHARM.GUINB;
 
 import com.cs320.PHARM.api.*;
 import com.cs320.PHARM.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -30,6 +30,12 @@ public class AdminView extends javax.swing.JFrame {
     DrugAPI drugAPI;
     @Autowired
     UserAccountAPI userAccountAPI;
+    @Autowired
+    TransactionHistoryAPI transactionHistoryAPI;
+    @Autowired
+    PrescriptionAPI prescriptionAPI;
+    @Autowired
+    DrugListAPI drugListAPI;
     //Todo: Spring beans End::
 
     private UserLogin userLogin;
@@ -715,7 +721,7 @@ public class AdminView extends javax.swing.JFrame {
                 new Object [][] {
                 },
                 new String [] {
-                        "Prescription ID","Doctor ID","Patient ID","Pharmacy ID","Doctor Name","Patient Name","Pharmacy Name"
+                        "Transaction ID","Prescription ID","Doctor ID","Patient ID","Pharmacy ID","Drug ID","Amount","Doctor Name","Patient Name","Pharmacy Name"
                 }
         ) {
             Class[] types = new Class [] {
@@ -725,14 +731,16 @@ public class AdminView extends javax.swing.JFrame {
                     java.lang.String.class,
                     java.lang.String.class,
                     java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
                     java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                    false, false,false,false,false,false,false
+                    false, false,false,false,false,false,false,false,false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return false;
             }
         });
         jScrollPane6.setViewportView(TransactionTable);
@@ -1087,6 +1095,175 @@ public class AdminView extends javax.swing.JFrame {
                 }
             }
         });
+        TransactionT1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TransactionFilters(TransactionTable, TransactionT1,0);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TransactionFilters(TransactionTable, TransactionT1,0);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TransactionFilters(TransactionTable, TransactionT1,0);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+        });
+        TransactionT2.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TransactionFilters(TransactionTable, TransactionT2,3);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+                TransactionT1.setText("");
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT2,3);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT2,3);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+        });
+        TransactionT3.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT3,2);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT3,2);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT3,2);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+        });
+        TransactionT4.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT4,4);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT4,4);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT4,4);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionDeleteB.setEnabled(true);
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionDeleteB.setEnabled(false);
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+        });
 
         //adding text enables ADD Done
         DoctorNameT.getDocument().addDocumentListener(new DocumentListener() {
@@ -1213,6 +1390,12 @@ public class AdminView extends javax.swing.JFrame {
                 PharmacyListallAction();
             }
         });
+        TransactionListAllB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetTransactionHistory();
+            }
+        });
 
         //Delete
         DoctorDeleteB.addActionListener(new ActionListener() {
@@ -1237,6 +1420,12 @@ public class AdminView extends javax.swing.JFrame {
                 DrugDeleteAction();
             }
         });
+        TransactionDeleteB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteTransactionHistory();
+            }
+        });
 
         //Edit
         DoctorEditB.addActionListener(new ActionListener() {
@@ -1257,6 +1446,12 @@ public class AdminView extends javax.swing.JFrame {
         DrugEditB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 DrugEditBAction();
+            }
+        });
+        TransactionReActivateB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reActivateTransaction();
             }
         });
 
@@ -1603,6 +1798,10 @@ public class AdminView extends javax.swing.JFrame {
         patientAPI.deletePatientById(Integer.parseInt(PatientTable.getValueAt(0,0).toString()));
         resetPatient();
     }
+    private void deleteTransactionHistory() {
+        transactionHistoryAPI.deleteByID(Integer.parseInt(TransactionTable.getValueAt(0,0).toString()));
+        resetTransactionHistory();
+    }
     //Delete Methods ends:
 
     //Listing All methods;
@@ -1671,7 +1870,6 @@ public class AdminView extends javax.swing.JFrame {
         patientPanel.setVisible(false);
         TransactionHistory.setEnabled(false);
         TransactionHistory.setVisible(false);
-
         DrugTableFiller();
     }
     private void TransactionsActionPerformed() {
@@ -1685,7 +1883,7 @@ public class AdminView extends javax.swing.JFrame {
         patientPanel.setVisible(false);
         TransactionHistory.setEnabled(true);
         TransactionHistory.setVisible(true);
-        TransactionTableFiller();
+        resetTransactionHistory();
     }
 
     //Switching pannels functions End
@@ -1741,6 +1939,25 @@ public class AdminView extends javax.swing.JFrame {
         }
     }
     private void TransactionTableFiller() {
+        List<TransactionHistory> temp = transactionHistoryAPI.ListAll();
+        DefaultTableModel model = (javax.swing.table.DefaultTableModel) TransactionTable.getModel();
+        model.setRowCount(0);
+        Object rowData[]=new Object[10];
+
+        for(int i=0;i<temp.size();i++){
+            rowData[0]=temp.get(i).getTransactionhistoryId();
+            rowData[1]=temp.get(i).getDrugListId();
+            rowData[2]=temp.get(i).getDoctorId();
+            rowData[3]=temp.get(i).getPatientID();
+            rowData[4]=temp.get(i).getPharmacyId();
+            rowData[5]=temp.get(i).getDrugID();
+            rowData[6]=temp.get(i).getAmount_sold();
+            rowData[7]=doctorAPI.findDoctorById(temp.get(i).getPharmacyId()).getDoctorName(); //doc name
+            rowData[8]=patientAPI.findPatientById(temp.get(i).getPatientID()).getName(); //patient name
+            rowData[9]=pharmacyAPI.findPharmacyByID(temp.get(i).getPharmacyId()).getPharmacyName();; //pharmacy name
+
+            model.addRow(rowData);
+        }
     }
     private void TableFilter(JTable table,JTextField textField) {
         final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
@@ -1751,6 +1968,21 @@ public class AdminView extends javax.swing.JFrame {
         } else {
             try {
                 int col=0;
+                sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text+"$",col));
+            } catch(PatternSyntaxException pse) {
+                System.out.println("Bad regex pattern");
+            }
+        }
+    }
+    private void TransactionFilters(JTable table,JTextField textField,int col) {
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+        table.setRowSorter(sorter);
+        String text = textField.getText();
+        if(text.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+
                 sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text+"$",col));
             } catch(PatternSyntaxException pse) {
                 System.out.println("Bad regex pattern");
@@ -1790,6 +2022,15 @@ public class AdminView extends javax.swing.JFrame {
         PharmaNameT.setText("");
         PharmacyTableFiller();
 
+    }
+    private void resetTransactionHistory() {
+        TransactionDeleteB.setEnabled(false);
+        TransactionReActivateB.setEnabled(false);
+        TransactionT1.setText("");
+        TransactionT2.setText("");
+        TransactionT3.setText("");
+        TransactionT4.setText("");
+        TransactionTableFiller();
     }
     //Reset Methods end
 
@@ -1949,9 +2190,6 @@ public class AdminView extends javax.swing.JFrame {
         });
 
     }
-
-
-
     private void PharmacyEditBAction() {
 
         JFrame edit=new JFrame();
@@ -2388,6 +2626,31 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
     }
+    private void reActivateTransaction() {
+        Prescription prescription=new Prescription();
+        prescription.setPrescriptionId((Integer) TransactionTable.getValueAt(0,1));
+        prescription.setDoctorID((Integer) TransactionTable.getValueAt(0,2));
+        prescription.setPatientId((Integer) TransactionTable.getValueAt(0,3));
+        prescription.setDrugListId((Integer) TransactionTable.getValueAt(0,1));
+        prescription.setPatientName(TransactionTable.getValueAt(0,8).toString());
+
+        DrugList drugList=new DrugList();
+        drugList.setDrugID((Integer) TransactionTable.getValueAt(0,5));
+        drugList.setDrugListID((Integer) TransactionTable.getValueAt(0,1));
+        drugList.setAmount((Integer) TransactionTable.getValueAt(0,6));
+
+        try{
+            prescriptionAPI.findPrescriptionById(prescription.getPrescriptionId());
+            drugListAPI.insertDrugList(prescription.getPrescriptionId(), drugList.getDrugID(),drugList.getAmount());
+            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0,0));
+        }
+        catch (EmptyResultDataAccessException e){
+            prescriptionAPI.addPrescriptionWithIDs(prescription);
+            drugListAPI.insertDrugList(prescription.getDrugListId(),drugList.getDrugID(), drugList.getAmount());
+            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0,0));
+        }
+
+    }
 
     //Todo: End of editing frame::
 
@@ -2562,7 +2825,7 @@ public class AdminView extends javax.swing.JFrame {
             });
         }
     }
-    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
         userLogin.setEnabled(true);
         userLogin.setVisible(true);

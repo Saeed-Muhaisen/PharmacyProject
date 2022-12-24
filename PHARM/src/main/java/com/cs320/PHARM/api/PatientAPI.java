@@ -29,6 +29,6 @@ public class PatientAPI {
     }
     @ModelAttribute
     public Patient findPatientById(int id){
-        return findPatientById(id);
+        return patientDao.findPatientById(id);
     }
 }
