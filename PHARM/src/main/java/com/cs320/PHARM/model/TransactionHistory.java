@@ -14,8 +14,8 @@ public class TransactionHistory {
         return this;
     }
 
-    public TransactionHistory DoctorID(int patientId) {
-        this.patientID = patientId;
+    public TransactionHistory DoctorID(int doctorId) {
+        this.doctorId = doctorId;
         return this;
     }
 
