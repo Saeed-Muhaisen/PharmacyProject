@@ -12,10 +12,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
@@ -40,11 +37,6 @@ public class DoctorView extends javax.swing.JFrame {
     private boolean editing=false;
     private int active_DrugListID;
     private UserAccount userAccount;
-    public static void main(String args[]) {
-        JFrame frame=new DoctorView();
-        frame.setVisible(true);
-        frame.setEnabled(true);
-    }
     private JFrame create;
     private javax.swing.JButton AddPatientB;
     private javax.swing.JButton CreateB;
@@ -76,14 +68,13 @@ public class DoctorView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField PatientIDSearchT;
     private javax.swing.JPanel left;
     private javax.swing.JPanel right;
     private javax.swing.JPanel rightP;
     private javax.swing.JPanel top;
     //TODO: create/edit frame objects -----------
     private javax.swing.JButton AddDrugB;
-
     private javax.swing.JPanel Bot;
     private javax.swing.JButton CancelPrescriptionB;
     private javax.swing.JButton CreatePrescriptionB;
@@ -151,7 +142,7 @@ public class DoctorView extends javax.swing.JFrame {
         right = new javax.swing.JPanel();
         rightP = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        PatientIDSearchT = new javax.swing.JTextField();
         CreateB = new javax.swing.JButton();
         EditB = new javax.swing.JButton();
         DeletePrescriptionB = new javax.swing.JButton();
@@ -285,7 +276,7 @@ public class DoctorView extends javax.swing.JFrame {
                                                         .addGroup(rightPLayout.createSequentialGroup()
                                                                 .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(PatientIDSearchT, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(DeletePatientB)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -308,7 +299,7 @@ public class DoctorView extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addGroup(rightPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(PatientIDSearchT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(DeletePatientB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(ListAllB))
                                 .addGap(5, 5, 5)
@@ -430,16 +421,100 @@ public class DoctorView extends javax.swing.JFrame {
 
     }
     private void actionListeners(){
-        accountSettings.addActionListener(new ActionListener() {
+        //KeyListeners
+        PatientIDT.addKeyListener(new KeyAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                EditAccount();
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
             }
         });
-        jTextField7.getDocument().addDocumentListener(new DocumentListener() {
+        PatientNameT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < 'a') || (c > 'z')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        PatientIDSearchT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+
+        //Adding and deleting functionality
+        AddPatientB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddPatientBActionPerformed();
+            }
+        });
+        DeletePatientB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeletePatientBActionPerformed(evt);
+            }
+        });
+
+        //Searching & listing all
+        PatientIDSearchT.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                TableFilter(PatientTable,jTextField7);
+                TableFilter(PatientTable, PatientIDSearchT);
                 if(PatientTable.getRowCount()==1){
                     if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
                         EditB.setEnabled(true);
@@ -462,7 +537,7 @@ public class DoctorView extends javax.swing.JFrame {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                TableFilter(PatientTable,jTextField7);
+                TableFilter(PatientTable, PatientIDSearchT);
                 if(PatientTable.getRowCount()==1){
                     if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
                         EditB.setEnabled(true);
@@ -486,7 +561,7 @@ public class DoctorView extends javax.swing.JFrame {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                TableFilter(PatientTable,jTextField7);
+                TableFilter(PatientTable, PatientIDSearchT);
                 if(PatientTable.getRowCount()==1){
                     if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
                         EditB.setEnabled(true);
@@ -510,22 +585,18 @@ public class DoctorView extends javax.swing.JFrame {
         });
         ListAllB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7.setText("");
+                PatientIDSearchT.setText("");
             }
         });
 
-        //Adding and deleting functionality
-        DeletePatientB.addActionListener(new java.awt.event.ActionListener() {
+        //Deleting Prescription
+        DeletePrescriptionB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeletePatientBActionPerformed(evt);
-            }
-        });
-        AddPatientB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddPatientBActionPerformed();
+                DeletePrescriptionBActionPerformed(evt);
             }
         });
 
+        //Creating and editing prescription
         CreateB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editing=false;
@@ -544,17 +615,20 @@ public class DoctorView extends javax.swing.JFrame {
             }
         });
 
+        //Switching panel, but we have one panel?
+        //todo: check this please.
         DoctorB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DoctorBActionPerformed(evt);
             }
         });
-        DeletePrescriptionB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeletePrescriptionBActionPerformed(evt);
+
+        accountSettings.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EditAccount();
             }
         });
-
         Logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LogoutActionPerformed(evt);
@@ -562,7 +636,6 @@ public class DoctorView extends javax.swing.JFrame {
         });
 
     }
-
     private void createFrame(){
         create=new JFrame();
         create.setEnabled(true);
@@ -955,8 +1028,83 @@ public class DoctorView extends javax.swing.JFrame {
         AmountfieldT.setEnabled(false);
         AddDrugB.setEnabled(false);
         RemovePrescirptionB1.setEnabled(false);
+        //KeyListners
+        DrugSearchT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
 
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
 
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        AmountfieldT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        PrescriptionSearchT1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        //Doc listener
         DrugSearchT.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -1079,6 +1227,8 @@ public class DoctorView extends javax.swing.JFrame {
             }
         });
 
+
+        //Removing and adding from tables
         RemovePrescirptionB1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1103,6 +1253,7 @@ public class DoctorView extends javax.swing.JFrame {
             }
         });
 
+        //Create prescription and cancel prescription
         CreatePrescriptionB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 createPrescription();
@@ -1221,7 +1372,7 @@ public class DoctorView extends javax.swing.JFrame {
         }
         create.dispose();
 
-        jTextField7.setText("");
+        PatientIDSearchT.setText("");
         PatientTableFiller();
     }
     //Prescription Frame methods End--
