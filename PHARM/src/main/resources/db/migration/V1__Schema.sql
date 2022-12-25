@@ -150,3 +150,5 @@ create FUNCTION transactionHistoryTrigger() RETURNS TRIGGER AS
 
 create TRIGGER Transaction after INSERT on transactionhistory
     FOR EACH ROW EXECUTE PROCEDURE transactionHistoryTrigger();
+
+insert into useraccounts values ('admin',1,'admin',1);
