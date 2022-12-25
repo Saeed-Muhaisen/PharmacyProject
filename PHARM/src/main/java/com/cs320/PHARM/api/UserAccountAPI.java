@@ -22,8 +22,8 @@ public class UserAccountAPI {
         return userAccountDao.findUserAccountByName(username);
     }
     @PostMapping
-    public void insertUserAccount(String username,String password,int type){
-        userAccountDao.insertUserAccount(username,password,type);
+    public void insertUserAccount(String username,String password,int type,int id){
+        userAccountDao.insertUserAccount(username,password,type,id);
     }
     @DeleteMapping
     public void deleteUserAccount(String username){
@@ -34,4 +34,7 @@ public class UserAccountAPI {
         userAccountDao.updatePassword(username,password);
     }
 
+    public void removeAll() {
+        userAccountDao.removeAll();
+    }
 }

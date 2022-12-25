@@ -20,13 +20,17 @@ public class UserAccountDao {
     public UserAccount findUserAccountByName(String username){
         return jdbcTemplate.queryForObject("Select * from useraccounts where username=?",new Object[]{username},userAccountRowMapper);
     }
-    public void insertUserAccount(String username,String password,int type){
-        jdbcTemplate.update("insert into useraccounts(username, password, type,id) values (?,?,?)",new Object[]{username,password,type});
+    public void insertUserAccount(String username,String password,int type,int id){
+        jdbcTemplate.update("insert into useraccounts(username, password, type,id) values (?,?,?,?)",new Object[]{username,password,type,id});
     }
     public void deleteUserAccount(String username){
         jdbcTemplate.update("delete from useraccounts where username=?",username);
     }
     public void updatePassword(String username,String password){
         jdbcTemplate.update("Update useraccounts set password=? where username=?",password,username);
+    }
+
+    public void removeAll() {
+        jdbcTemplate.update("Delete from useraccounts");
     }
 }
