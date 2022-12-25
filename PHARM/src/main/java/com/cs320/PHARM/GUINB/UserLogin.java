@@ -28,16 +28,13 @@ public class UserLogin extends javax.swing.JFrame {
     private final UserAccountAPI userAccountAPI;
     //TODO:End of beans
     private UserAccount userAccount; //We will use this class to keep track which account is managing the db
-
-
     private int x;
     private javax.swing.JButton Admintog;
-
     private javax.swing.JPanel Choice;
     private javax.swing.JPanel Login;
     private javax.swing.JButton PharmaTog;
     private javax.swing.JButton doctorTog;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton signInButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField passwordT;
@@ -59,9 +56,9 @@ public class UserLogin extends javax.swing.JFrame {
         this.userAccount = userAccount;
         initComponents();
     }
-
+    /**
+     * Initialize the GUI componenets**/
     private void initComponents() {
-
         Choice = new javax.swing.JPanel();
         PharmaTog = new javax.swing.JButton();
         Admintog = new javax.swing.JButton();
@@ -70,32 +67,18 @@ public class UserLogin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         passwordT = new javax.swing.JTextField();
         usernameT = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        signInButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
 
         PharmaTog.setText("Pharmacist");
-        PharmaTog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PharmaTogActionPerformed(evt);
-            }
-        });
 
         Admintog.setText("Admin");
-        Admintog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AdmintogActionPerformed(evt);
-            }
-        });
 
         doctorTog.setText("Doctor");
-        doctorTog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                doctorTogActionPerformed(evt);
-            }
-        });
+
 
         javax.swing.GroupLayout ChoiceLayout = new javax.swing.GroupLayout(Choice);
         Choice.setLayout(ChoiceLayout);
@@ -129,12 +112,8 @@ public class UserLogin extends javax.swing.JFrame {
         getContentPane().add(Choice, "card3");
 
         jLabel2.setText("UserName");
-        jButton1.setText("Sign in");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        signInButton.setText("Sign in");
+
 
         jLabel1.setText("Password");
 
@@ -153,7 +132,7 @@ public class UserLogin extends javax.swing.JFrame {
                                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(40, 40, 40)
                                                 .addGroup(LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jButton1)
+                                                        .addComponent(signInButton)
                                                         .addComponent(passwordT, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap(57, Short.MAX_VALUE))
         );
@@ -169,16 +148,42 @@ public class UserLogin extends javax.swing.JFrame {
                                         .addComponent(passwordT, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1)
+                                .addComponent(signInButton)
                                 .addGap(17, 17, 17))
         );
 
         getContentPane().add(Login, "card2");
-
+        actionListeners();
         pack();
     }
 
-     private void AdmintogActionPerformed(java.awt.event.ActionEvent evt) {
+    private void actionListeners(){
+        PharmaTog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PharmaTogActionPerformed();
+            }
+        });
+        Admintog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdmintogActionPerformed();
+            }
+        });
+        doctorTog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doctorTogActionPerformed();
+            }
+        });
+        signInButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signInButtonActionPreformed();
+            }
+        });
+    }
+
+    /**Applies for AdminTog,DoctorTog,PharmaTog: Based on Choice we make in Choice panel, we decide whether x equals 1,2 or 3.
+     After chosing, we go to our Login panel, which we input username and password, and based on choice or x value we login
+     to said panel (AdminView,DoctorView,PharmacistView);**/
+    private void AdmintogActionPerformed() {
         x=1;
         Choice.setVisible(false);
         Choice.setEnabled(false);
@@ -186,26 +191,28 @@ public class UserLogin extends javax.swing.JFrame {
         Login.setVisible(true);
 
     }
-
-    private void doctorTogActionPerformed(java.awt.event.ActionEvent evt) {
+    private void doctorTogActionPerformed() {
         x=2;
         Choice.setVisible(false);
         Choice.setEnabled(false);
         Login.setVisible(true);
         Login.setVisible(true);
     }
-
-    private void after_login(){
-        Choice.setVisible(true);
-        Choice.setEnabled(true);
-        Login.setVisible(false);
-        Login.setEnabled(false);
-        this.setVisible(false);
-        usernameT.setText("");
-        passwordT.setText("");
+    private void PharmaTogActionPerformed() {
+        x=3;
+        Choice.setVisible(false);
+        Choice.setEnabled(false);
+        Login.setVisible(true);
+        Login.setVisible(true);
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    /**
+     * After inputting username and password in their specified text fields, and pressing sign in
+     * we check if the username and password matches the username and password in the database
+     * then check if the choice value (x value) matches the type of the account in database
+     * If a user choice was to login as an admin and his account type is 1 then access is granted otherwise its not
+     * **/
+    private void signInButtonActionPreformed() {
         String username=usernameT.getText();
         String password=passwordT.getText();
         try {
@@ -227,12 +234,16 @@ public class UserLogin extends javax.swing.JFrame {
         }
     }
 
-    
-    private void PharmaTogActionPerformed(ActionEvent evt) {
-        x=3;
-        Choice.setVisible(false);
-        Choice.setEnabled(false);
-        Login.setVisible(true);
-        Login.setVisible(true);
+    /**
+     * After Logging in and switching pannel we use this method to reset the settings of the UserLogin class so that
+     * if we logout from a View we get redirected back to choice panel**/
+    private void after_login(){
+        Choice.setVisible(true);
+        Choice.setEnabled(true);
+        Login.setVisible(false);
+        Login.setEnabled(false);
+        this.setVisible(false);
+        usernameT.setText("");
+        passwordT.setText("");
     }
 }
