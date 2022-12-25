@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -118,6 +120,27 @@ public class PharmacistView extends javax.swing.JFrame {
     private javax.swing.JPanel right2;
     private javax.swing.JPanel top2;
 
+    //Transaction Panel
+    private javax.swing.JButton TransactionDeleteB;
+    private javax.swing.JButton TransactionB;
+    private javax.swing.JPanel TransactionHistory;
+    private javax.swing.JButton TransactionListAllB;
+    private javax.swing.JButton TransactionReActivateB;
+    private javax.swing.JTextField TransactionT1;
+    private javax.swing.JTextField TransactionT2;
+    private javax.swing.JTextField TransactionT3;
+    private javax.swing.JTextField TransactionT4;
+    private javax.swing.JTable TransactionTable;
+    private javax.swing.JButton Transactions;
+    private JLabel jLabel15;
+    private JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JPanel left4;
+    private javax.swing.JPanel bot4;
+    private javax.swing.JPanel top4;
+    private JScrollPane jScrollPane7;
+
+
     //Init and actionListener beginning
     public void initializeObject(UserAccount userAccount, UserLogin userLogin) {
         this.setVisible(true);
@@ -200,6 +223,27 @@ public class PharmacistView extends javax.swing.JFrame {
         accountSettings = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
 
+        TransactionDeleteB = new javax.swing.JButton();
+        TransactionListAllB = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        TransactionT2 = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        TransactionT3 = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        TransactionT4 = new javax.swing.JTextField();
+        TransactionReActivateB = new javax.swing.JButton();
+        TransactionDeleteB=new JButton();
+        TransactionB=new JButton();
+        TransactionHistory=new JPanel();
+        TransactionT1=new JTextField();
+        TransactionTable=new JTable();
+        Transactions =new JButton();
+        jLabel19=new JLabel();
+        left4   =new JPanel();
+        bot4   =new JPanel();
+        top4   =new JPanel();
+        jScrollPane7=new JScrollPane();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -225,6 +269,17 @@ public class PharmacistView extends javax.swing.JFrame {
         ManagePrescriptionsB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jPanel1.add(ManagePrescriptionsB);
+
+
+        TransactionB.setText("Transaction History");
+        jPanel1.add(TransactionB);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(175, 0, 100, 0);
+        jPanel3.add(jPanel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -688,6 +743,145 @@ public class PharmacistView extends javax.swing.JFrame {
 
         jLayeredPane1.add(StockPanel, "card5");
 
+        TransactionHistory.setLayout(new javax.swing.BoxLayout(TransactionHistory, javax.swing.BoxLayout.Y_AXIS));
+
+        top4.setLayout(new java.awt.BorderLayout());
+
+
+        jScrollPane7.setBackground(new java.awt.Color(255, 255, 255));
+
+        TransactionTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                new String [] {
+                        "Transaction ID",
+                        "Prescription ID",
+                        "Doctor ID",
+                        "Patient ID",
+                        "Drug ID",
+                        "Amount",
+                        "Doctor Name",
+                        "Patient Name"
+                }
+        ) {
+            Class[] types = new Class [] {
+                    java.lang.Integer.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class
+
+
+            };
+            boolean[] canEdit = new boolean [] {
+                    false, false,false,false,false,false,false,false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        });
+        jScrollPane7.setViewportView(TransactionTable);
+        if (TransactionTable.getColumnModel().getColumnCount() > 0) {
+            TransactionTable.getColumnModel().getColumn(0).setResizable(false);
+            TransactionTable.getColumnModel().getColumn(1).setResizable(false);
+            TransactionTable.getColumnModel().getColumn(2).setResizable(false);
+            TransactionTable.getColumnModel().getColumn(3).setResizable(false);
+            TransactionTable.getColumnModel().getColumn(4).setResizable(false);
+            TransactionTable.getColumnModel().getColumn(5).setResizable(false);
+            TransactionTable.getColumnModel().getColumn(6).setResizable(false);
+            TransactionTable.getColumnModel().getColumn(7).setResizable(false);
+        }
+
+        top4.add(jScrollPane7, java.awt.BorderLayout.CENTER);
+
+        TransactionHistory.add(top4);
+
+        bot4.setBackground(new java.awt.Color(204, 204, 255));
+        bot4.setForeground(new java.awt.Color(204, 204, 255));
+        bot4.setLayout(new java.awt.GridLayout());
+
+        jLabel15.setText("Search By TransactionID");
+
+
+
+        TransactionListAllB.setText("List All");
+
+
+        jLabel17.setText("Search By Patient ID");
+
+
+
+        jLabel19.setText("Search By Doctor ID");
+
+
+
+        TransactionReActivateB.setText("ReActivate");
+
+
+        javax.swing.GroupLayout left4Layout = new javax.swing.GroupLayout(left4);
+        left4.setLayout(left4Layout);
+        left4Layout.setHorizontalGroup(
+                left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(left4Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(left4Layout.createSequentialGroup()
+                                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                                                        .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(21, 21, 21))
+                                        .addGroup(left4Layout.createSequentialGroup()
+                                                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(19, 19, 19)))
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(TransactionT3, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                                        .addComponent(TransactionT2, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(TransactionT1, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(86, 86, 86)
+                                .addComponent(TransactionListAllB, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(TransactionReActivateB, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(110, 110, 110))
+        );
+        left4Layout.setVerticalGroup(
+                left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(left4Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                                        .addComponent(TransactionT1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(TransactionT2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(left4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(TransactionT3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(16, 16, 16))
+                        .addGroup(left4Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(TransactionListAllB, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, left4Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TransactionReActivateB, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26))
+        );
+
+        bot4.add(left4);
+
+        TransactionHistory.add(bot4);
+
+        jLayeredPane1.add(TransactionHistory, "card6");
+
+
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -732,7 +926,14 @@ public class PharmacistView extends javax.swing.JFrame {
         jPanel3.setBorder(new EmptyBorder(5,5,5,5));
 
         actionListeners();
+        PatientPanel.setEnabled(false);
+        PatientPanel.setVisible(false);
+        StockPanel.setEnabled(true);
+        StockPanel.setVisible(true);
+        TransactionHistory.setEnabled(false);
+        TransactionHistory.setVisible(false);
         pack();
+
 
     }
     private void actionListeners(){
@@ -747,12 +948,18 @@ public class PharmacistView extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ManageStockBActionPerformed();
-                resetStock();
+
             }
         });
         ManagePrescriptionsB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ManagePrescriptionsBActionPerformed();
+            }
+        });
+        TransactionB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TransactionBActionPerformed();
             }
         });
 
@@ -881,16 +1088,19 @@ public class PharmacistView extends javax.swing.JFrame {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+                CancelB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+                CancelB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 SearchPatientB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
+                CancelB.setEnabled(!PatientNameT.getText().isEmpty() && !PatientIdT.getText().isEmpty());
             }
         }); //Done
         PatientIdT.getDocument().addDocumentListener(new DocumentListener() {
@@ -923,6 +1133,7 @@ public class PharmacistView extends javax.swing.JFrame {
                 JTable source = (JTable)e.getSource();
                 row = source.rowAtPoint( e.getPoint() );
                 informationFiller();
+
             }
 
             @Override
@@ -1006,8 +1217,17 @@ public class PharmacistView extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addDrugToSell();
+                addDrugToSell.setEnabled(false);
             }
         });
+        DrugListTable1.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                ConfirmB.setEnabled(true);
+                RemoveDrugB1.setEnabled(true);
+            }
+        });
+
         //Key Listeners:
         PatientIdT.addKeyListener(new KeyAdapter() {
             @Override
@@ -1160,11 +1380,224 @@ public class PharmacistView extends javax.swing.JFrame {
             }
         });
 
+        //Transaction Panel KeyListeners and action Listeners
+        TransactionListAllB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetTransactionHistory();
+            }
+        });
+        TransactionReActivateB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reActivateTransaction();
+            }
+        });
+        TransactionT1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TransactionFilters(TransactionTable, TransactionT1,0);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TransactionFilters(TransactionTable, TransactionT1,0);
+                if(TransactionTable.getRowCount()==1){
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TransactionFilters(TransactionTable, TransactionT1,0);
+                if(TransactionTable.getRowCount()==1){
+
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+        });
+        TransactionT2.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TransactionFilters(TransactionTable, TransactionT2,3);
+                if(TransactionTable.getRowCount()==1){
+
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+
+                    TransactionReActivateB.setEnabled(false);
+                }
+                TransactionT1.setText("");
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT2,3);
+                if(TransactionTable.getRowCount()==1){
+
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT2,3);
+                if(TransactionTable.getRowCount()==1){
+
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+        });
+        TransactionT3.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT3,2);
+                if(TransactionTable.getRowCount()==1){
+
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT3,2);
+                if(TransactionTable.getRowCount()==1){
+
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                TransactionT1.setText("");
+                TransactionFilters(TransactionTable, TransactionT3,2);
+                if(TransactionTable.getRowCount()==1){
+
+                    TransactionReActivateB.setEnabled(true);
+                }
+                else{
+
+                    TransactionReActivateB.setEnabled(false);
+                }
+            }
+        });
+        TransactionT1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        TransactionT2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        TransactionT3.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+
+
 
         DrugListTable1.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 RemoveDrugB1.setEnabled(true);
+
             }
 
             @Override
@@ -1216,7 +1649,11 @@ public class PharmacistView extends javax.swing.JFrame {
             }
         });
 
+
+
     }
+
+
     //Init and actionListeners End
 
     //Switching Panels methods Beginning
@@ -1225,13 +1662,36 @@ public class PharmacistView extends javax.swing.JFrame {
         PatientPanel.setVisible(true);
         StockPanel.setEnabled(false);
         StockPanel.setVisible(false);
+        TransactionHistory.setEnabled(false);
+        TransactionHistory.setVisible(false);
+        resetPrescriptionInfo();
+        PatientIdT.setText("");
+        PatientNameT.setText("");
+        addDrugToSell.setEnabled(false);
+        SearchPatientB.setEnabled(false);
+        DefaultTableModel model= (DefaultTableModel) PrescriptionListTable.getModel();
+        model.setRowCount(0);
     }
     private void ManageStockBActionPerformed() {
         PatientPanel.setEnabled(false);
         PatientPanel.setVisible(false);
         StockPanel.setEnabled(true);
         StockPanel.setVisible(true);
+        TransactionHistory.setEnabled(false);
+        TransactionHistory.setVisible(false);
+        resetStock();
 
+
+
+    }
+    private void TransactionBActionPerformed(){
+        PatientPanel.setEnabled(false);
+        PatientPanel.setVisible(false);
+        StockPanel.setEnabled(false);
+        StockPanel.setVisible(false);
+        TransactionHistory.setEnabled(true);
+        TransactionHistory.setVisible(true);
+        resetTransactionHistory();
     }
     //Switching Panels methods End
 
@@ -1288,6 +1748,7 @@ public class PharmacistView extends javax.swing.JFrame {
         DoctorNameTemp.setText(doctorAPI.findDoctorById(prescriptionList.get(row).getDoctorID()).getDoctorName());
         PrescriptionStatusTemp.setText("Active");
         NoteArea.setText(prescriptionList.get(row).getNote());
+        CancelB.setEnabled(true);
         PrescribedMedTableFiller();
     }
     private void cache_sellTable(){
@@ -1330,22 +1791,30 @@ public class PharmacistView extends javax.swing.JFrame {
         }
     }
     private void CancelBActionPerformed(java.awt.event.ActionEvent evt) {
-
+        resetPrescriptionInfo();
+        SearchPatientB.setEnabled(false);
+        DefaultTableModel model= (DefaultTableModel) PrescriptionListTable.getModel();
+        model.setRowCount(0);
+        PatientIdT.setText("");
+        PatientNameT.setText("");
     }
     private void ConfirmBActionPerformed(java.awt.event.ActionEvent evt) {
-        for(int i=0;i<DrugListTable1.getRowCount();i++){
-            transactionHistoryAPI.insertTransactionHistory(
-                    (int) PrescriptionListTable.getValueAt(0,0),
-                    userAccount.getId(),
-                    (Integer) DrugListTable1.getValueAt(i,0),
-                    (Integer) DrugListTable1.getValueAt(i,2));
-
-        }
+        for(int i=0;i<DrugListTable1.getRowCount();i++) {
+            TransactionHistory transactionHistory = new TransactionHistory();
+            transactionHistory.setDoctorId(Integer.parseInt(DoctorIDTemp.getText()));
+            transactionHistory.setPharmacyId(userAccount.getId());
+            transactionHistory.setPatientID(Integer.parseInt(PatientIdT.getText()));
+            transactionHistory.setDrugListId((int) PrescriptionListTable.getValueAt(0, 0));
+            transactionHistory.setDrugID((Integer) DrugListTable1.getValueAt(i, 0));
+            transactionHistory.setAmount_sold((Integer) DrugListTable1.getValueAt(i, 2));
+            transactionHistoryAPI.insertTransactionHistory(transactionHistory);
+        } //FOR THE NEW TABLE
         PatientNameT.setText("");
         PatientIdT.setText("");
         ((DefaultTableModel) PrescriptionListTable.getModel()).setRowCount(0);
         resetPrescriptionInfo();
     }
+
     private void RemoveDrugB1ActionPerformed(java.awt.event.ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
         DefaultTableModel drugT = (DefaultTableModel) DrugListTable.getModel();
@@ -1367,7 +1836,7 @@ public class PharmacistView extends javax.swing.JFrame {
 
     //Table filler and filters
     private void TableFilter(JTable table,JTextField textField) {
-        System.out.println("d");
+
         final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
         table.setRowSorter(sorter);
         String text = textField.getText();
@@ -1433,6 +1902,40 @@ public class PharmacistView extends javax.swing.JFrame {
             model.addRow(rowData);
         }
     }
+    private void TransactionTableFiller() {
+        List<TransactionHistory> temp = transactionHistoryAPI.findTransactionsByPharmacyID(userAccount.getId());
+        DefaultTableModel model = (javax.swing.table.DefaultTableModel) TransactionTable.getModel();
+        model.setRowCount(0);
+        Object rowData[] = new Object[8];
+
+        for (int i = 0; i < temp.size(); i++) {
+            rowData[0] = temp.get(i).getTransactionhistoryId();
+            rowData[1] = temp.get(i).getDrugListId();
+            rowData[2] = temp.get(i).getDoctorId();
+            rowData[3] = temp.get(i).getPatientID();
+            rowData[4] = temp.get(i).getDrugID();
+            rowData[5] = temp.get(i).getAmount_sold();
+            rowData[6] = doctorAPI.findDoctorById(temp.get(i).getPharmacyId()).getDoctorName(); //doc name
+            rowData[7] = patientAPI.findPatientById(temp.get(i).getPatientID()).getName(); //patient name
+
+            model.addRow(rowData);
+        }
+    }
+    private void TransactionFilters(JTable table,JTextField textField,int col) {
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+        table.setRowSorter(sorter);
+        String text = textField.getText();
+        if(text.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+
+                sorter.setRowFilter(RowFilter.regexFilter("^(?i)"+text+"$",col));
+            } catch(PatternSyntaxException pse) {
+                System.out.println("Bad regex pattern");
+            }
+        }
+    }
     //Table Filler and filters end
 
     //resetors Beginning
@@ -1457,8 +1960,22 @@ public class PharmacistView extends javax.swing.JFrame {
         DoctorNameTemp.setText("N/A");
         DoctorIDTemp.setText("N/A");
         PrescriptionStatusTemp.setText("N/A");
+        ConfirmB.setEnabled(false);
+        CancelB.setEnabled(false);
+        RemoveDrugB1.setEnabled(false);
+
+
 
     }
+    private void resetTransactionHistory() {
+        TransactionReActivateB.setEnabled(false);
+        TransactionT1.setText("");
+        TransactionT2.setText("");
+        TransactionT3.setText("");
+        TransactionTableFiller();
+    }
+
+
     //resetors End
 
     //Edit Drug and Account settings Frame Beginning:
@@ -1795,6 +2312,31 @@ public class PharmacistView extends javax.swing.JFrame {
         this.dispose();
         userLogin.setEnabled(true);
         userLogin.setVisible(true);
+
+    }
+    private void reActivateTransaction() {
+        Prescription prescription=new Prescription();
+        prescription.setPrescriptionId((Integer) TransactionTable.getValueAt(0,1));
+        prescription.setDoctorID((Integer) TransactionTable.getValueAt(0,2));
+        prescription.setPatientId((Integer) TransactionTable.getValueAt(0,3));
+        prescription.setDrugListId((Integer) TransactionTable.getValueAt(0,1));
+        prescription.setPatientName(TransactionTable.getValueAt(0,7).toString());
+
+        DrugList drugList=new DrugList();
+        drugList.setDrugID((Integer) TransactionTable.getValueAt(0,4));
+        drugList.setDrugListID((Integer) TransactionTable.getValueAt(0,1));
+        drugList.setAmount((Integer) TransactionTable.getValueAt(0,5));
+
+        try{
+            prescriptionAPI.findPrescriptionById(prescription.getPrescriptionId());
+            drugListAPI.insertDrugList(prescription.getPrescriptionId(), drugList.getDrugID(),drugList.getAmount());
+            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0,0));
+        }
+        catch (EmptyResultDataAccessException e){
+            prescriptionAPI.addPrescriptionWithIDs(prescription);
+            drugListAPI.insertDrugList(prescription.getDrugListId(),drugList.getDrugID(), drugList.getAmount());
+            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0,0));
+        }
 
     }
     //Edit Drug and Account Frame End:
