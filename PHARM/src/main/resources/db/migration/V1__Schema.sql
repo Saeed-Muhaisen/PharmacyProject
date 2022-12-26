@@ -1,3 +1,6 @@
+--drop schema public cascade;
+--create schema public;
+
 Create table if not EXISTS Doctor(
     DoctorID serial PRIMARY KEY,
     DoctorName VARCHAR(64) not null,
