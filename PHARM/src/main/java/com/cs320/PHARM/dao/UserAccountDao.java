@@ -11,9 +11,9 @@ public class UserAccountDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
     private final RowMapper<UserAccount> userAccountRowMapper = (resultSet, i) -> new UserAccount()
-            .UserName(resultSet.getString("UserName"))
-            .Password(resultSet.getString("Password"))
-            .Type(resultSet.getInt("type"))
+            .userName(resultSet.getString("UserName"))
+            .password(resultSet.getString("Password"))
+            .type(resultSet.getInt("type"))
             .id(resultSet.getInt("id"));
 
 
@@ -35,6 +35,6 @@ public class UserAccountDao {
     }
 
     public void updateUserNameById(int id, String name) {
-        jdbcTemplate.update("Update useraccounts set username=? where id=?",id,name);
+        jdbcTemplate.update("Update useraccounts set username=? where id=?",name,id);
     }
 }

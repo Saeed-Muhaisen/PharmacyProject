@@ -35,8 +35,8 @@ public class TransactionHistoryAPI {
         transactionHistoryDao.updateSoldAmount(drugListId,pharmacyId,drugId,sold_amount);
     }
     @GetMapping
-    public List<TransactionHistory> ListAll(){
-        return transactionHistoryDao.ListAll();
+    public List<TransactionHistory> listAll(){
+        return transactionHistoryDao.listAll();
     }
     @DeleteMapping
     public void deleteByID(int id){

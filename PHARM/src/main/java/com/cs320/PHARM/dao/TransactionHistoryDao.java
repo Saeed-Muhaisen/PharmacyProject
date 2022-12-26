@@ -15,13 +15,13 @@ public class TransactionHistoryDao {
 
     //TODO: RowMapper is creating an issue with symbols.
     private final RowMapper<TransactionHistory> TransactionRowMapper = (resultSet, i) -> new TransactionHistory()
-            .DrugListId(resultSet.getInt("DrugListID"))
-            .PharmacyId(resultSet.getInt("PharmacyId"))
-            .DrugId(resultSet.getInt("DrugID"))
-            .Amount_Sold(resultSet.getInt("amount_sold"))
-            .TransactionHistory(resultSet.getInt("transactionHistoryID"))
-            .PatientID(resultSet.getInt("patientid"))
-            .DoctorID(resultSet.getInt("doctorId"));
+            .drugListId(resultSet.getInt("DrugListID"))
+            .pharmacyId(resultSet.getInt("PharmacyId"))
+            .drugId(resultSet.getInt("DrugID"))
+            .amountSold(resultSet.getInt("amount_sold"))
+            .transactionHistory(resultSet.getInt("transactionHistoryID"))
+            .patientID(resultSet.getInt("patientid"))
+            .doctorID(resultSet.getInt("doctorId"));
 
 
 
@@ -41,7 +41,7 @@ public class TransactionHistoryDao {
         jdbcTemplate.update("Update transactionhistory set amount_sold=? where druglistid=? and pharmacyid=? and drugid=?"
                 ,new Object[]{sold_amount,drugListId,pharmacyId,drugId});
     }
-    public List<TransactionHistory> ListAll(){
+    public List<TransactionHistory> listAll(){
         return jdbcTemplate.query("select * from transactionHistory",TransactionRowMapper);
 
     }

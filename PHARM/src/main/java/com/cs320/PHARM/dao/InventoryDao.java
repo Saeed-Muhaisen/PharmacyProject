@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public class InventoryDao {
     private final RowMapper<Inventory> InventoryRowMapper = (resultSet, i) -> new Inventory()
-            .InventoryID(resultSet.getInt("InventoryID"))
-            .DrugID(resultSet.getInt("DrugID"))
-            .Capacity(resultSet.getInt("Capacity"));
+            .inventoryID(resultSet.getInt("InventoryID"))
+            .drugID(resultSet.getInt("DrugID"))
+            .capacity(resultSet.getInt("Capacity"));
     @Autowired
     JdbcTemplate jdbcTemplate;
 

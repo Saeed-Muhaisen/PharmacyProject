@@ -13,12 +13,12 @@ public class PrescriptionDao {
     @Autowired
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Prescription> prescriptionRawMapper = (resultSet, i) -> new Prescription()
-            .PerscriptionId(resultSet.getInt("prescriptionId"))
+            .perscriptionId(resultSet.getInt("prescriptionId"))
             .drugListId(resultSet.getInt("DrugListID"))
             .doctorID(resultSet.getInt("DoctorID"))
             .patientId(resultSet.getInt("PatientID"))
-            .PatientName(resultSet.getString("PatientName"))
-            .Note(resultSet.getString("Notes"));
+            .patientName(resultSet.getString("PatientName"))
+            .note(resultSet.getString("Notes"));
 
 
     public PrescriptionDao(JdbcTemplate jdbcTemplate) {
@@ -55,7 +55,7 @@ public class PrescriptionDao {
         return prescription;
     }
 
-    public List<Prescription> PrescriptionList() {
+    public List<Prescription> prescriptionList() {
         return jdbcTemplate.query("SELECT * FROM prescription", prescriptionRawMapper);
     }
 

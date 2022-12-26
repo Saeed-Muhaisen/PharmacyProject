@@ -16,15 +16,15 @@ public class Pharmacy {
     private int inventoryId;
 
     //RowMapper Functions:
-    public Pharmacy PharmacyID(int PharmacyID){
+    public Pharmacy pharmacyID(int PharmacyID){
         this.PharmacyID=PharmacyID;
         return this;
     }
-    public Pharmacy PharmacyName(String PharmacyName){
+    public Pharmacy pharmacyName(String PharmacyName){
         this.PharmacyName=PharmacyName;
         return this;
     }
-    public Pharmacy PharmacyInventoryID(int inventoryID) {
+    public Pharmacy pharmacyInventoryID(int inventoryID) {
         this.inventoryId=inventoryID;
         return this;
     }

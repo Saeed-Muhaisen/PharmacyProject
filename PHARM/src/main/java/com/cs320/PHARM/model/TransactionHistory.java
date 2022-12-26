@@ -9,37 +9,37 @@ public class TransactionHistory {
     private int drugID;
     private int amount_sold;
 
-    public TransactionHistory PatientID(int patientId) {
+    public TransactionHistory patientID(int patientId) {
         this.patientID = patientId;
         return this;
     }
 
-    public TransactionHistory DoctorID(int doctorId) {
+    public TransactionHistory doctorID(int doctorId) {
         this.doctorId = doctorId;
         return this;
     }
 
-    public TransactionHistory TransactionHistory(int transactionHistoryID) {
+    public TransactionHistory transactionHistory(int transactionHistoryID) {
         this.transactionhistoryId = transactionHistoryID;
         return this;
     }
 
-    public TransactionHistory PharmacyId(int pharmacyId) {
+    public TransactionHistory pharmacyId(int pharmacyId) {
         this.pharmacyId = pharmacyId;
         return this;
     }
 
-    public TransactionHistory DrugListId(int drugListId) {
+    public TransactionHistory drugListId(int drugListId) {
         this.drugListId = drugListId;
         return this;
     }
 
-    public TransactionHistory DrugId(int drugID) {
+    public TransactionHistory drugId(int drugID) {
         this.drugID = drugID;
         return this;
     }
 
-    public TransactionHistory Amount_Sold(int amount_sold) {
+    public TransactionHistory amountSold(int amount_sold) {
         this.amount_sold = amount_sold;
         return this;
     }

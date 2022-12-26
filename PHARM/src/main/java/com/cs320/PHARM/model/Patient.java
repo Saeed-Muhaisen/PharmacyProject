@@ -39,15 +39,15 @@ public class Patient {
         this.id = id;
     }
 
-    public Patient PatientId(int patientId) {
+    public Patient patientId(int patientId) {
         this.id=patientId;
         return this;
     }
-    public Patient DoctorId(int doctorId) {
+    public Patient doctorId(int doctorId) {
         this.DoctorId=doctorId;
         return this;
     }
-    public Patient PatientName(String patientName) {
+    public Patient patientName(String patientName) {
         this.name=patientName;
         return this;
     }

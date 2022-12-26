@@ -7,16 +7,16 @@ public class Inventory {
     private int DrugID;
     private int Capacity;
 
-    public Inventory InventoryID(int InventoryID){
+    public Inventory inventoryID(int InventoryID){
         this.InventoryID= InventoryID;
         return this;
     }
 
-    public Inventory DrugID(int DrugID){
+    public Inventory drugID(int DrugID){
         this.DrugID=DrugID;
         return this;
     }
-    public Inventory Capacity(int Capacity){
+    public Inventory capacity(int Capacity){
         this.Capacity=Capacity;
         return this;
     }

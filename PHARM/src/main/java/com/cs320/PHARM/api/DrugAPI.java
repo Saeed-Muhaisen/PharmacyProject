@@ -36,7 +36,8 @@ public class DrugAPI {
         return drugDao.findDrugById(drugId);
     }
     @RequestMapping
-    public List<Drug> DrugList(){
-        return drugDao.DrugList();
+    public List<Drug> drugList(){
+        return drugDao.drugList();
     }
+
 }

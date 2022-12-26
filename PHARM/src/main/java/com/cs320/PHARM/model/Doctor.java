@@ -15,11 +15,11 @@ public class Doctor {
 
 
     //RowMapper functions
-    public Doctor DoctorId(int DoctorId){
+    public Doctor doctorId(int DoctorId){
         this.DoctorId= DoctorId;
         return this;
     }
-    public Doctor DoctorName(String DoctorName){
+    public Doctor doctorName(String DoctorName){
         this.DoctorName= DoctorName;
         return this;
     }

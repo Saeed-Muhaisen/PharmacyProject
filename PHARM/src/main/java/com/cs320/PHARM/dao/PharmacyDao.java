@@ -12,9 +12,9 @@ import java.util.List;
 public class PharmacyDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Pharmacy> pharmacyRowMapper = (resultSet, i) -> new Pharmacy()
-            .PharmacyID(resultSet.getInt("pharmacyid"))
-            .PharmacyName(resultSet.getString("Pharmacyname"))
-            .PharmacyInventoryID(resultSet.getInt("InventoryID"));
+            .pharmacyID(resultSet.getInt("pharmacyid"))
+            .pharmacyName(resultSet.getString("Pharmacyname"))
+            .pharmacyInventoryID(resultSet.getInt("InventoryID"));
     @Autowired
     public PharmacyDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -46,7 +46,7 @@ public class PharmacyDao {
         return jdbcTemplate.queryForObject(sql, new Object[]{PharmacyId}, pharmacyRowMapper);
     }
 
-    public List<Pharmacy> PharmacyList() {
+    public List<Pharmacy> pharmacyList() {
         return jdbcTemplate.query("SELECT * FROM pharmacy", pharmacyRowMapper);
     }
 }

@@ -1,16 +1,11 @@
 package com.cs320.PHARM.dao;
 
-import com.cs320.PHARM.model.Doctor;
 import com.cs320.PHARM.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.print.Doc;
 import java.util.List;
 
 @Repository
@@ -18,9 +13,9 @@ public class PatientDao  {
     @Autowired
     JdbcTemplate jdbcTemplate;
     private final RowMapper<Patient> patientRowMapper = (resultSet, i) -> new Patient()
-            .PatientId(resultSet.getInt("patientId"))
-            .DoctorId(resultSet.getInt("DoctorId"))
-            .PatientName(resultSet.getString("PatientName"));
+            .patientId(resultSet.getInt("patientId"))
+            .doctorId(resultSet.getInt("DoctorId"))
+            .patientName(resultSet.getString("PatientName"));
 
     public void deletePatientByIDAndDoctorID(int id,int doctorid){
         jdbcTemplate.update("Delete from patient where patientid=? and doctorid=?",id,doctorid);

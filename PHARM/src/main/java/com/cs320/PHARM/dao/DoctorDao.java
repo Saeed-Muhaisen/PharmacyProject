@@ -13,8 +13,8 @@ public class DoctorDao {
     @Autowired
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Doctor> doctorRowMapper = (resultSet, i) -> new Doctor()
-            .DoctorId(resultSet.getInt("doctorId"))
-            .DoctorName(resultSet.getString("DoctorName"));
+            .doctorId(resultSet.getInt("doctorId"))
+            .doctorName(resultSet.getString("DoctorName"));
     @Autowired
     public DoctorDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -52,7 +52,7 @@ public class DoctorDao {
         return doctor;
     }
 
-    public List<Doctor> DoctorList() {
+    public List<Doctor> doctorList() {
         return jdbcTemplate.query("SELECT * FROM doctor", doctorRowMapper);
     }
 }

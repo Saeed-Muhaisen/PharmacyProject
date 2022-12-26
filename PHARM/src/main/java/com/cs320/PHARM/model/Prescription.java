@@ -9,7 +9,7 @@ public class Prescription {
     private String Note;
 
     //For RAWMAPPER:
-    public Prescription PerscriptionId(int PerscriptionId) {
+    public Prescription perscriptionId(int PerscriptionId) {
         this.PrescriptionId =PerscriptionId;
         return this;
 
@@ -29,12 +29,12 @@ public class Prescription {
         return this;
 
     }
-    public Prescription PatientName(String patientName) {
+    public Prescription patientName(String patientName) {
         this.PatientName=patientName;
         return this;
 
     }
-    public Prescription Note(String notes) {
+    public Prescription note(String notes) {
         this.Note=notes;
         return this;
     }

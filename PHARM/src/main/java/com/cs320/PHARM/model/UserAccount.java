@@ -14,15 +14,15 @@ public class UserAccount {
         this.id=id;
         return this;
     }
-    public UserAccount UserName(String username){
+    public UserAccount userName(String username){
         this.Username=username;
         return this;
     }
-    public UserAccount Password(String password){
+    public UserAccount password(String password){
         this.password=password;
         return this;
     }
-    public UserAccount Type(int type){
+    public UserAccount type(int type){
         this.type=type;
         return  this;
     }

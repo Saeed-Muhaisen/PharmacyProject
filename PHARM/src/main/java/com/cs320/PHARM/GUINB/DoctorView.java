@@ -516,7 +516,7 @@ public class DoctorView extends javax.swing.JFrame {
             public void insertUpdate(DocumentEvent e) {
                 TableFilter(PatientTable, PatientIDSearchT);
                 if(PatientTable.getRowCount()==1){
-                    if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
+                    if(Integer.parseInt(PatientTable.getValueAt(0,2).toString())==1){
                         EditB.setEnabled(true);
                         DeletePrescriptionB.setEnabled(true);
                     }
@@ -539,7 +539,7 @@ public class DoctorView extends javax.swing.JFrame {
             public void removeUpdate(DocumentEvent e) {
                 TableFilter(PatientTable, PatientIDSearchT);
                 if(PatientTable.getRowCount()==1){
-                    if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
+                    if(Integer.parseInt(PatientTable.getValueAt(0,2).toString())==1){
                         EditB.setEnabled(true);
                         DeletePrescriptionB.setEnabled(true);
                     }
@@ -563,7 +563,7 @@ public class DoctorView extends javax.swing.JFrame {
             public void changedUpdate(DocumentEvent e) {
                 TableFilter(PatientTable, PatientIDSearchT);
                 if(PatientTable.getRowCount()==1){
-                    if(Integer.valueOf(PatientTable.getValueAt(0,2).toString())==1){
+                    if(Integer.parseInt(PatientTable.getValueAt(0,2).toString())==1){
                         EditB.setEnabled(true);
                         DeletePrescriptionB.setEnabled(true);
                     }
@@ -1303,7 +1303,7 @@ public class DoctorView extends javax.swing.JFrame {
         PatientTableFiller();
     }
     private void DeletePrescriptionBActionPerformed(ActionEvent evt) {
-        int PatientId=Integer.valueOf(PatientTable.getValueAt(0,0).toString());
+        int PatientId=Integer.parseInt(PatientTable.getValueAt(0,0).toString());
         Prescription prescription=prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(PatientId,userAccount.getId());
         try {
             drugListAPI.deleteDrugListById(prescription.getDrugListId());
@@ -1331,7 +1331,7 @@ public class DoctorView extends javax.swing.JFrame {
 
     //Prescription Frame methods Beginning
     private void AddDrugAction(ActionEvent evt)  {
-        int id=Integer.valueOf(DrugListTable.getValueAt(0,0).toString());
+        int id=Integer.parseInt(DrugListTable.getValueAt(0,0).toString());
         String drugName=DrugListTable.getValueAt(0,1).toString();
         int newAmount= Integer.parseInt(AmountfieldT.getText());
 
@@ -1339,8 +1339,8 @@ public class DoctorView extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) PrescriptionTable.getModel();
         boolean available=false;
         for(int i=0; i<PrescriptionTable.getRowCount();i++){
-            if(id==Integer.valueOf(PrescriptionTable.getValueAt(i,0).toString())){
-                int oldAmount= Integer.valueOf(PrescriptionTable.getValueAt(i,2).toString());
+            if(id==Integer.parseInt(PrescriptionTable.getValueAt(i,0).toString())){
+                int oldAmount= Integer.parseInt(PrescriptionTable.getValueAt(i,2).toString());
                 System.out.println("newAmount "+ newAmount+" oldAmount "+oldAmount);
                 PrescriptionTable.setValueAt(oldAmount+newAmount,i,2);
                 available=true;
@@ -1385,8 +1385,8 @@ public class DoctorView extends javax.swing.JFrame {
                 prescriptionAPI.updatePrescription(test);
                 for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
                     drugListAPI.insertDrugList(test.getDrugListId(),
-                            Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
-                            Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
+                            Integer.parseInt(PrescriptionTable.getValueAt(i, 0).toString()),
+                            Integer.parseInt(PrescriptionTable.getValueAt(i, 2).toString()));
                 }
                 JOptionPane.showMessageDialog(create, "Prescription has been updated successfully");
             }
@@ -1401,8 +1401,8 @@ public class DoctorView extends javax.swing.JFrame {
             active_DrugListID = prescriptionAPI.addPrescription(prescription);
             for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
                 drugListAPI.insertDrugList(active_DrugListID,
-                        Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
-                        Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
+                        Integer.parseInt(PrescriptionTable.getValueAt(i, 0).toString()),
+                        Integer.parseInt(PrescriptionTable.getValueAt(i, 2).toString()));
             }
             JOptionPane.showMessageDialog(create, "Prescription has been added successfully");
 
@@ -1436,7 +1436,7 @@ public class DoctorView extends javax.swing.JFrame {
         }
     }
     private void DrugTableFiller(){
-        List<Drug> temp = drugAPI.DrugList();
+        List<Drug> temp = drugAPI.drugList();
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugListTable.getModel();
         model.setRowCount(0);
         Object rowData[]=new Object[2];

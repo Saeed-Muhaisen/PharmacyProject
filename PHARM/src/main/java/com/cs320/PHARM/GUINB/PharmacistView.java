@@ -44,12 +44,9 @@ public class PharmacistView extends javax.swing.JFrame {
     UserAccountAPI userAccountAPI;
     UserLogin userLogin;
     private UserAccount userAccount;
-    private List<TransactionHistory> old_TransactionHistory;
     private int row;
     private List<Prescription> prescriptionList;
     //TODO:: End of Beans::
-
-
 
     private javax.swing.JButton ListAllB;
 
@@ -443,13 +440,6 @@ public class PharmacistView extends javax.swing.JFrame {
         RemoveDrugB1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RemoveDrugB1ActionPerformed(evt);
-            }
-        });
-
-        DrugIdSearchInSell.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchSellByID();
-
             }
         });
 
@@ -1641,12 +1631,7 @@ public class PharmacistView extends javax.swing.JFrame {
                 RemoveDrugB1ActionPerformed(evt);
             }
         });
-        DrugIdSearchInSell.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchSellByID();
 
-            }
-        });
 
 
 
@@ -1697,7 +1682,7 @@ public class PharmacistView extends javax.swing.JFrame {
     //StockPanel Methods Beginning:
     private void DeleteDrugFromInventory() { //Todo: Fix the optionpane being at the back!
         String msg=PharmacyTable.getValueAt(0,1).toString()+ " has been removed from inventory";
-        int DrugId=Integer.valueOf(PharmacyTable.getValueAt(0,0).toString());
+        int DrugId=Integer.parseInt(PharmacyTable.getValueAt(0,0).toString());
         inventoryAPI.deleteDrugFromInventory(userAccount.getId(), DrugId);
         PharmacyTableFiller();
         SearchInventoryT.setText("");
@@ -1713,8 +1698,8 @@ public class PharmacistView extends javax.swing.JFrame {
 
     //PrescriptionPanel Methods beginning:
     private boolean AvailableStock(){
-        int amount = Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 2).toString());
-        int available=Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 3).toString());
+        int amount = Integer.parseInt(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 2).toString());
+        int available=Integer.parseInt(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 3).toString());
         return amount < available;
 
     }
@@ -1722,8 +1707,8 @@ public class PharmacistView extends javax.swing.JFrame {
 
         if(AvailableStock()) {
 
-            int id = Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 0).toString());
-            int amount = Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 2).toString());
+            int id = Integer.parseInt(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 0).toString());
+            int amount = Integer.parseInt(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 2).toString());
             String name = DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 1).toString();
             DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
             model.addRow(new Object[]{id, name, amount});
@@ -1733,8 +1718,8 @@ public class PharmacistView extends javax.swing.JFrame {
     }
     private boolean AlreadyAddedTest() {
         for (int i = 0; i < DrugListTable1.getRowCount(); i++) {
-            int test = Integer.valueOf(DrugListTable1.getValueAt(i, 0).toString());
-            if (test == Integer.valueOf(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 0).toString())) {
+            int test = Integer.parseInt(DrugListTable1.getValueAt(i, 0).toString());
+            if (test == Integer.parseInt(DrugListTable.getValueAt(DrugListTable.getSelectedRow(), 0).toString())) {
                 return true;
             }
         }
@@ -1750,30 +1735,8 @@ public class PharmacistView extends javax.swing.JFrame {
         CancelB.setEnabled(true);
         PrescribedMedTableFiller();
     }
-    private void cache_sellTable(){
-        old_TransactionHistory=new ArrayList<>();
-        for(int i=0;i<DrugListTable1.getRowCount();i++){
-            TransactionHistory temp= new TransactionHistory();
-            temp.setDrugID((Integer) DrugListTable1.getValueAt(0,0));
-            temp.setAmount_sold((Integer) DrugListTable1.getValueAt(0,2));
-        }
-    }
-    private void SearchSellByID() {
-        cache_sellTable();
-        int drugid= Integer.parseInt(DrugIdSearchInSell.getText());
-        for(int i=0;i<old_TransactionHistory.size();i++){
-            if(old_TransactionHistory.get(i).getDrugID()==drugid){
-                DefaultTableModel model = (DefaultTableModel) DrugListTable1.getModel();
-                model.setRowCount(0);
-                model.addRow(new Object[]{old_TransactionHistory.get(i).getDrugID(),
-                        drugAPI.findDrugByID(old_TransactionHistory.get(i).getDrugID()),old_TransactionHistory.get(i).getAmount_sold()
-                });
-                old_TransactionHistory.remove(i);
-                break;
-            }
-        }
 
-    }
+
     private void SearchPatientAndFillPrescriptionTable() {
         int id= Integer.parseInt(PatientIdT.getText());
         String name=PatientNameT.getText();

@@ -13,11 +13,11 @@ public class Drug {
     private String DrugName;
 
     //RowMapper Functions
-    public Drug DrugID(int DrugID){
+    public Drug drugID(int DrugID){
         this.DrugID=DrugID;
         return this;
     }
-    public Drug DrugName(String DrugName){
+    public Drug drugName(String DrugName){
         this.DrugName=DrugName;
         return this;
 

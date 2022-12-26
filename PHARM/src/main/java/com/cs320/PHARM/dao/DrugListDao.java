@@ -15,8 +15,8 @@ public class DrugListDao {
     JdbcTemplate jdbcTemplate;
 
     private final RowMapper<DrugList> DrugListRowMapper = (resultSet, i) -> new DrugList()
-            .DrugListID(resultSet.getInt("DrugListId"))
-            .DrugID(resultSet.getInt("DrugID"))
+            .drugListID(resultSet.getInt("DrugListId"))
+            .drugID(resultSet.getInt("DrugID"))
             .amount(resultSet.getInt("Amount"));
     public void insertDrugList(int DrugListID,int DrugID,int amount) {
         try{

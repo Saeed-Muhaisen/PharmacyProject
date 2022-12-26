@@ -45,8 +45,8 @@ public class PrescriptionAPI {
 
 
     @RequestMapping
-    public List<Prescription> PrescirptionList(){
-        return prescriptionDao.PrescriptionList();
+    public List<Prescription> prescirptionList(){
+        return prescriptionDao.prescriptionList();
     }
     @RequestMapping
     public List<Prescription> findPrescriptionByPatientIdAndName(int patientId,String name) {

@@ -143,6 +143,7 @@ public class AdminView extends javax.swing.JFrame {
         this.drugPanel.setEnabled(false);
         this.doctorPanel.setEnabled(true);
         this.doctorPanel.setVisible(true);
+        DoctorTableFiller();
     }
     public AdminView() {
         initComponents();
@@ -1939,7 +1940,7 @@ public class AdminView extends javax.swing.JFrame {
 
     //Table Fillers and Filters
     private void PharmacyTableFiller() {
-        List<Pharmacy> pharmacyList=pharmacyAPI.PharmacyList();
+        List<Pharmacy> pharmacyList=pharmacyAPI.pharmacyList();
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PharmacyTable.getModel();
         model.setRowCount(0);
         Object rowData[]=new Object[3];
@@ -1964,7 +1965,7 @@ public class AdminView extends javax.swing.JFrame {
         }
     }
     private void DoctorTableFiller() {
-        List<Doctor> d=doctorAPI.DoctorList();
+        List<Doctor> d=doctorAPI.doctorList();
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DoctorTable.getModel();
         model.setRowCount(0);
         Object rowData[]=new Object[2];
@@ -1976,7 +1977,7 @@ public class AdminView extends javax.swing.JFrame {
         }
     }
     private void DrugTableFiller() {
-        List<Drug> temp = drugAPI.DrugList();
+        List<Drug> temp = drugAPI.drugList();
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) DrugTable.getModel();
         model.setRowCount(0);
         Object rowData[]=new Object[2];
@@ -1988,7 +1989,7 @@ public class AdminView extends javax.swing.JFrame {
         }
     }
     private void TransactionTableFiller() {
-        List<TransactionHistory> temp = transactionHistoryAPI.ListAll();
+        List<TransactionHistory> temp = transactionHistoryAPI.listAll();
         DefaultTableModel model = (javax.swing.table.DefaultTableModel) TransactionTable.getModel();
         model.setRowCount(0);
         Object rowData[]=new Object[10];

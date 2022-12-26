@@ -12,8 +12,8 @@ import java.util.List;
 public class DrugDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Drug> drugRowMapper = (resultSet, i) -> new Drug()
-            .DrugID(resultSet.getInt("DrugID"))
-            .DrugName(resultSet.getString("DrugName"));
+            .drugID(resultSet.getInt("DrugID"))
+            .drugName(resultSet.getString("DrugName"));
     @Autowired
     public DrugDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -49,7 +49,7 @@ public class DrugDao {
         return drug;
     }
 
-    public List<Drug> DrugList() {
+    public List<Drug> drugList() {
         return jdbcTemplate.query("SELECT * FROM drug", drugRowMapper);
     }
 }

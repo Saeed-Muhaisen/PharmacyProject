@@ -38,7 +38,7 @@ public class DoctorAPI {
     }
 
     @RequestMapping
-    public List<Doctor> DoctorList(){
-        return doctorDao.DoctorList();
+    public List<Doctor> doctorList(){
+        return doctorDao.doctorList();
     }
 }
