@@ -19,38 +19,26 @@ public class PharmacyDao {
     public PharmacyDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    public int insertPharmacy(String PharmacyName) {
+    public void insertPharmacy(String PharmacyName) {
         String sql = "INSERT INTO pharmacy (pharmacyname) values (?)";
-        try {
+
             jdbcTemplate.update(sql, new Object[]{PharmacyName});
-        } catch (Exception e) {
-            System.out.println("Error inserting pharmacy in DAO");
-            return 0;
-        }
 
-        return 1;
     }
 
-    public int updatePharmacy(String PharmacyName, int PharmacyId) {
+    public void updatePharmacy(String PharmacyName, int PharmacyId) {
         String sql = "UPDATE Pharmacy set  pharmacyname=? where pharmacyid=?";
-        try {
+
             jdbcTemplate.update(sql, new Object[]{PharmacyName,PharmacyId});
-        } catch (Exception e) {
-            System.out.println("Pharmacy Update failed on DAO");
-            return 0;
-        }
-        return 1;
+
     }
 
 
-    public int deletePharmacyById(Integer PharmacyId) {
+    public void deletePharmacyById(Integer PharmacyId) {
         String sql = "DELETE FROM pharmacy WHERE pharmacyId=?;";
-        try {
+
             jdbcTemplate.update(sql, PharmacyId);
-        } catch (Exception e) {
-            return 0;
-        }
-        return 1;
+
     }
 
     public Pharmacy findPharmacy(Integer PharmacyId){

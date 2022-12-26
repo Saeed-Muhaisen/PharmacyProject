@@ -12,8 +12,16 @@ public class Patient {
     @Column(name="PatientID")
     private int id;
 
+    @Column(name="DoctorId")
+    private int DoctorId;
 
+    public int getDoctorId() {
+        return DoctorId;
+    }
 
+    public void setDoctorId(int doctorid) {
+        this.DoctorId = doctorid;
+    }
 
     public String getName() {
         return name;
@@ -29,5 +37,18 @@ public class Patient {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Patient PatientId(int patientId) {
+        this.id=patientId;
+        return this;
+    }
+    public Patient DoctorId(int doctorId) {
+        this.DoctorId=doctorId;
+        return this;
+    }
+    public Patient PatientName(String patientName) {
+        this.name=patientName;
+        return this;
     }
 }

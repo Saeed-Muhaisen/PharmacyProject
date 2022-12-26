@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 @Component
 public class UserLogin extends javax.swing.JFrame {
@@ -220,17 +221,21 @@ public class UserLogin extends javax.swing.JFrame {
             if (userAccount.getPassword().equals(password)) {
                 if (x == 1 && userAccount.getType() == 1) {
                     adminView.initializeObject(userAccount,this);
+                    JOptionPane.showMessageDialog(adminView, "You Logged-in successfully");
                     after_login();
                 } else if (x == 2 && userAccount.getType() == 2) {
                     doctorView.initializeObject(userAccount,this);
+                    JOptionPane.showMessageDialog(adminView, "You Logged-in successfully");
                     after_login();
                 } else if( x==3 && userAccount.getType()==3) {
                     pharmacistView.initializeObject(userAccount,this);
+                    JOptionPane.showMessageDialog(adminView, "You Logged-in successfully");
                     after_login();
                 }
             }
         }catch (EmptyResultDataAccessException e) {
-            //todo: Handle account not found
+            JOptionPane.showMessageDialog(this, "Username and password " +
+                    "doesn't match or dont exist");
         }
     }
 

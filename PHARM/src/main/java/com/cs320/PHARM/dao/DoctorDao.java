@@ -19,39 +19,27 @@ public class DoctorDao {
     public DoctorDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    public int insertDoctor(String DoctorName) {
+    public void insertDoctor(String DoctorName) {
         String sql = "INSERT INTO Doctor (doctorname) values (?)";
-        try {
+
             jdbcTemplate.update(sql, new Object[]{DoctorName});
-        } catch (Exception e) {
-            System.out.println("Error inserting doctor in DAO");
-            e.printStackTrace();
-            return 0;
-        }
 
-        return 1;
+
     }
 
-    public int updateDoctor(String DoctorName, int DoctorId) {
+    public void updateDoctor(String DoctorName, int DoctorId) {
         String sql = "UPDATE Doctor SET doctorname=? where doctorid=?";
-        try {
+
             jdbcTemplate.update(sql, new Object[]{DoctorName,DoctorId});
-        } catch (Exception e) {
-            System.out.println("Doctor Update failed on DAO");
-            return 0;
-        }
-        return 1;
+
     }
 
 
-    public int deleteDoctorByID(Integer DoctorId) {
+    public void deleteDoctorByID(Integer DoctorId) {
         String sql = "DELETE FROM Doctor WHERE doctorId=?;";
-        try {
+
             jdbcTemplate.update(sql, DoctorId);
-        } catch (Exception e) {
-            return 0;
-        }
-        return 1;
+
     }
 
 

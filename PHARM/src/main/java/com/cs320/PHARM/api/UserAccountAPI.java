@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.PreUpdate;
+import java.awt.*;
 
 @Component
 public class UserAccountAPI {
@@ -36,5 +37,9 @@ public class UserAccountAPI {
 
     public void removeAll() {
         userAccountDao.removeAll();
+    }
+
+    public void updateUserNameById(int id, String name) {
+        userAccountDao.updateUserNameById(id,name);
     }
 }

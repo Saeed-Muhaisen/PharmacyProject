@@ -1274,23 +1274,45 @@ public class DoctorView extends javax.swing.JFrame {
         Patient patient=new Patient();
         patient.setName(PatientNameT.getText());
         patient.setId(Integer.parseInt(PatientIDT.getText()));
-        patientAPI.save(patient);
+        patient.setDoctorId(userAccount.getId());
+        try {
+            patientAPI.save(patient);
+            JOptionPane.showMessageDialog(this, "Patient has been added successfully");
+
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error please Check your inputs");
+        }
+
         PatientTableFiller();
     }
     private void DeletePatientBActionPerformed(ActionEvent evt) {
-        TableModel tm = PatientTable.getModel();
-        int id = Integer.parseInt(tm.getValueAt(0, 0).toString());
-        patientAPI.deletePatientById(id);
-        PatientTable.removeAll();
+
+
+        int id = (int) PatientTable.getValueAt(0,0);
+
+        try {
+            patientAPI.deletePatientByIdAndDoctorId(id,userAccount.getId());
+            JOptionPane.showMessageDialog(this, "Patient Has been deleted successfully");
+
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Cannot delete patient with active prescriptions, " +
+                    "please contact support");
+        }
         DeletePatientB.setEnabled(false);
+
         PatientTableFiller();
     }
     private void DeletePrescriptionBActionPerformed(ActionEvent evt) {
         int PatientId=Integer.valueOf(PatientTable.getValueAt(0,0).toString());
         Prescription prescription=prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(PatientId,userAccount.getId());
+        try {
+            drugListAPI.deleteDrugListById(prescription.getDrugListId());
+            prescriptionAPI.deletePrescriptionbyId(prescription.getPrescriptionId());
+            JOptionPane.showMessageDialog(this, "Prescription has been deleted successuflly");
 
-        drugListAPI.deleteDrugListById(prescription.getDrugListId());
-        prescriptionAPI.deletePrescriptionbyId(prescription.getPrescriptionId());
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error please contact support");
+        }
         PatientTableFiller();
     }
     private void DoctorBActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1299,9 +1321,11 @@ public class DoctorView extends javax.swing.JFrame {
 
     }
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {
+        this.editing=false;
         this.dispose();
         userLogin.setEnabled(true);
         userLogin.setVisible(true);
+        JOptionPane.showMessageDialog(userLogin, "You have been logged off");
     }
     //Main frame methods End--
 
@@ -1346,11 +1370,12 @@ public class DoctorView extends javax.swing.JFrame {
     private void createPrescription() {
         if(editing){
             if (PrescriptionTable.getRowCount()==0) {
-                System.out.println("deleting prescription");
+
                 Prescription test = prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(
                         Integer.parseInt(PatientTempID.getText()), userAccount.getId());
                 drugListAPI.deleteDrugListById(test.getDrugListId());
                 prescriptionAPI.deletePrescriptionbyId(test.getPrescriptionId());
+                JOptionPane.showMessageDialog(create, "Prescription has been removed");
             }
             else {
                 Prescription test = prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(
@@ -1363,10 +1388,11 @@ public class DoctorView extends javax.swing.JFrame {
                             Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
                             Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
                 }
+                JOptionPane.showMessageDialog(create, "Prescription has been updated successfully");
             }
 
         }
-        else if(PrescriptionTable.getRowCount()!=0){
+        else if(PrescriptionTable.getRowCount()!=0 && !editing){
             Prescription prescription = new Prescription();
             prescription.setDoctorID(userAccount.getId());
             prescription.setPatientName(PatientTempName.getText());
@@ -1378,6 +1404,8 @@ public class DoctorView extends javax.swing.JFrame {
                         Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
                         Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
             }
+            JOptionPane.showMessageDialog(create, "Prescription has been added successfully");
+
         }
 
         create.dispose();
@@ -1394,7 +1422,8 @@ public class DoctorView extends javax.swing.JFrame {
         CreateB.setEnabled(false);
         EditB.setEnabled(false);
         DeletePrescriptionB.setEnabled(false);
-        List<Patient> temp = patientAPI.findAll();
+        PatientIDSearchT.setText("");
+        List<Patient> temp = patientAPI.findByDoctorId(userAccount.getId());
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) PatientTable.getModel();
         model.setRowCount(0);
         Object rowData[]=new Object[3];

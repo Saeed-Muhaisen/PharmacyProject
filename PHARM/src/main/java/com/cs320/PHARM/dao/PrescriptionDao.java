@@ -38,14 +38,11 @@ public class PrescriptionDao {
     }
 
 
-    public int deletePerscriptionbyId(Integer PerscriptionId) {
+    public void deletePerscriptionbyId(Integer PerscriptionId) {
         String sql = "DELETE FROM prescription WHERE prescriptionid=?;";
-        try {
+
             jdbcTemplate.update(sql, PerscriptionId);
-        } catch (Exception e) {
-            return 0;
-        }
-        return 1;
+
     }
 
 

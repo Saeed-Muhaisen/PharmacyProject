@@ -26,26 +26,19 @@ public class DrugDao {
 
     }
 
-    public int updateDrug(String DrugName, int DrugId) {
+    public void updateDrug(String DrugName, int DrugId) {
         String sql = "UPDATE Drug SET drugname=? where drugid=?";
-        try {
+
             jdbcTemplate.update(sql, new Object[]{DrugName,DrugId});
-        } catch (Exception e) {
-            System.out.println("Drug Update failed on DAO");
-            return 0;
-        }
-        return 1;
+
     }
 
 
-    public int deleteDrugById(Integer DrugID) {
+    public void deleteDrugById(Integer DrugID) {
         String sql = "DELETE FROM drug WHERE drugId=?;";
-        try {
+
             jdbcTemplate.update(sql, DrugID);
-        } catch (Exception e) {
-            return 0;
-        }
-        return 1;
+
     }
 
 

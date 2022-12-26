@@ -29,15 +29,11 @@ public class DrugListDao {
 
     }
 
-    public int updateDrug(int DrugId,int amount, int DrugListid) {
+    public void updateDrug(int DrugId,int amount, int DrugListid) {
         String sql = "UPDATE druglist SET amount=? where drugid=? and druglistid=?";
-        try {
+
             jdbcTemplate.update(sql, new Object[]{amount,DrugId,DrugListid});
-        } catch (Exception e) {
-            System.out.println("Drug Update failed on DAO");
-            return 0;
-        }
-        return 1;
+
     }
 
 

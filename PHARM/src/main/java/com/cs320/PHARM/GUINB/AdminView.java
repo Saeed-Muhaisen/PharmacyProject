@@ -1099,7 +1099,8 @@ public class AdminView extends javax.swing.JFrame {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 TransactionFilters(TransactionTable, TransactionT1,0);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
+
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1112,8 +1113,7 @@ public class AdminView extends javax.swing.JFrame {
             @Override
             public void removeUpdate(DocumentEvent e) {
                 TransactionFilters(TransactionTable, TransactionT1,0);
-                if(TransactionTable.getRowCount()==1){
-                    TransactionDeleteB.setEnabled(true);
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){                    TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
                 else{
@@ -1125,8 +1125,7 @@ public class AdminView extends javax.swing.JFrame {
             @Override
             public void changedUpdate(DocumentEvent e) {
                 TransactionFilters(TransactionTable, TransactionT1,0);
-                if(TransactionTable.getRowCount()==1){
-                    TransactionDeleteB.setEnabled(true);
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){                    TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
                 else{
@@ -1139,8 +1138,7 @@ public class AdminView extends javax.swing.JFrame {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 TransactionFilters(TransactionTable, TransactionT2,3);
-                if(TransactionTable.getRowCount()==1){
-                    TransactionDeleteB.setEnabled(true);
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){                    TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
                 else{
@@ -1154,7 +1152,7 @@ public class AdminView extends javax.swing.JFrame {
             public void removeUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT2,3);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1168,7 +1166,7 @@ public class AdminView extends javax.swing.JFrame {
             public void changedUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT2,3);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1183,7 +1181,7 @@ public class AdminView extends javax.swing.JFrame {
             public void insertUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT3,2);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1197,7 +1195,7 @@ public class AdminView extends javax.swing.JFrame {
             public void removeUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT3,2);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1211,7 +1209,7 @@ public class AdminView extends javax.swing.JFrame {
             public void changedUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT3,2);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1226,7 +1224,7 @@ public class AdminView extends javax.swing.JFrame {
             public void insertUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT4,4);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1240,7 +1238,7 @@ public class AdminView extends javax.swing.JFrame {
             public void removeUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT4,4);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1254,7 +1252,7 @@ public class AdminView extends javax.swing.JFrame {
             public void changedUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT4,4);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,8).equals("null")){
                     TransactionDeleteB.setEnabled(true);
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1360,6 +1358,7 @@ public class AdminView extends javax.swing.JFrame {
         });
         DoctorAddB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+
                 DoctorAddBActionPerformed(evt);
             }
         });
@@ -1759,48 +1758,98 @@ public class AdminView extends javax.swing.JFrame {
     private void DrugAddBActionPerformed(java.awt.event.ActionEvent evt) {
         Drug drug=new Drug();
         drug.setDrugName(DrugNameT.getText());
-        try{
-            drugAPI.addDrug(drug);
-        }
-        catch(Exception e){
-            //should we add something here? because sometimes we catch exceptions
+
+        try {
+                drugAPI.addDrug(drug);
+                JOptionPane.showMessageDialog(this, "Drug Added Successfully");
+        }catch(Exception e) {
+                JOptionPane.showMessageDialog(this, "Error: Drug already exists");
+
         }
         resetDrug();
     }
     private void PharmaADDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmaADDBActionPerformed
         Pharmacy temp=new Pharmacy();
         temp.setPharmacyName(PharmaNameT.getText());
-        pharmacyAPI.addPharmacy(temp);
+        try {
+            pharmacyAPI.addPharmacy(temp);
+            JOptionPane.showMessageDialog(this, "Pharmacy Added Successfully");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Username is already used, please try again with different name");
+
+        }
         resetPharmacies();
     }
     private void DoctorAddBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorAddBActionPerformed
         Doctor doctor = new Doctor();
         doctor.setDoctorName(DoctorNameT.getText());
-        doctorAPI.addDoctor(doctor);
+        String msg;
+        try {
+            doctorAPI.addDoctor(doctor);
+            msg="Doctor Added Successfully";
+        }catch(Exception e){
+            msg="Username is already used, please try again with different name";
+        }
+        JOptionPane.showMessageDialog(this, msg);
         resetDoctor();
     }
     //Adding methods END
 
     //Delete methods begins:
     private void PharmacyDeleteAction() {
-        pharmacyAPI.deletePHarmacy(Integer.parseInt(PharmacyTable.getValueAt(0,0).toString()));
+        String msg;
+        try {
+            pharmacyAPI.deletePHarmacy(Integer.parseInt(PharmacyTable.getValueAt(0, 0).toString()));
+            msg="Pharmacy Deleted Successfully";
+
+        }catch (Exception e){
+           msg="Error please contact support";
+        }
+        JOptionPane.showMessageDialog(this, msg);
         resetPharmacies();
     }
     private void DoctorDeleteAction() {
-        doctorAPI.deleteDoctor(Integer.parseInt(DoctorTable.getValueAt(0,0).toString()));
+        String msg;
+        try {
+            doctorAPI.deleteDoctor(Integer.parseInt(DoctorTable.getValueAt(0,0).toString()));
+            msg="Doctor Deleted Successfully";
+
+        }catch (Exception e){
+            msg="Error please contact support";
+        }
+        JOptionPane.showMessageDialog(this, msg);
+
         resetDoctor();
     }
     private void DrugDeleteAction() {
-        drugAPI.deleteDrug(Integer.parseInt(DrugTable.getValueAt(0,0).toString()));
+        try {
+            drugAPI.deleteDrug(Integer.parseInt(DrugTable.getValueAt(0,0).toString()));
+            JOptionPane.showMessageDialog(this, "Drug Deleted Successfully");
+
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error please contact support");
+        }
         resetDrug();
     }
     private void PatientDeleteB() {
-        patientAPI.deletePatientById(Integer.parseInt(PatientTable.getValueAt(0,0).toString()));
+        try {
+            patientAPI.deletePatientById(Integer.parseInt(PatientTable.getValueAt(0,0).toString()));
+            JOptionPane.showMessageDialog(this, "Patient Deleted Successfully");
+
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error cannot delete Patient with active prescriptions, please contact support");
+        }
         resetPatient();
     }
     private void deleteTransactionHistory() {
-        transactionHistoryAPI.deleteByID(Integer.parseInt(TransactionTable.getValueAt(0,0).toString()));
-        resetTransactionHistory();
+        try {
+            transactionHistoryAPI.deleteByID(Integer.parseInt(TransactionTable.getValueAt(0,0).toString()));
+            JOptionPane.showMessageDialog(this, "Transaction History Deleted Successfully");
+
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error deleting Transaction, please contact support");
+        }
+            resetTransactionHistory();
     }
     //Delete Methods ends:
 
@@ -1952,9 +2001,12 @@ public class AdminView extends javax.swing.JFrame {
             rowData[4]=temp.get(i).getPharmacyId();
             rowData[5]=temp.get(i).getDrugID();
             rowData[6]=temp.get(i).getAmount_sold();
-            rowData[7]=doctorAPI.findDoctorById(temp.get(i).getPharmacyId()).getDoctorName(); //doc name
-            rowData[8]=patientAPI.findPatientById(temp.get(i).getPatientID()).getName(); //patient name
-            rowData[9]=pharmacyAPI.findPharmacyByID(temp.get(i).getPharmacyId()).getPharmacyName();; //pharmacy name
+            rowData[7]=doctorAPI.findDoctorById(temp.get(i).getDoctorId()).getDoctorName(); //doc name
+            try{
+                rowData[8] = patientAPI.findPatientByIdAndDoctorId(temp.get(i).getPatientID(),temp.get(i).getDoctorId()).getName(); //patient name
+            }catch (Exception e){
+                rowData[8]="null";
+            }            rowData[9]=pharmacyAPI.findPharmacyByID(temp.get(i).getPharmacyId()).getPharmacyName();; //pharmacy name
 
             model.addRow(rowData);
         }
@@ -2298,7 +2350,13 @@ public class AdminView extends javax.swing.JFrame {
                 Pharmacy temp=new Pharmacy();
                 temp.setPharmacyName(NewNameT.getText());
                 temp.setPharmacyID(Integer.parseInt(EditIDLabel.getText()));
-                pharmacyAPI.updatePharmacy(temp);
+                try{pharmacyAPI.updatePharmacy(temp);
+                    JOptionPane.showMessageDialog(edit, "Name Changed succesfully");
+                }
+                catch (Exception e){
+                    JOptionPane.showMessageDialog(edit, "Error Name already in use please try again");
+
+                }
                 edit.dispose();
                 resetPharmacies();
             }
@@ -2438,14 +2496,14 @@ public class AdminView extends javax.swing.JFrame {
         ConfirmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                Patient temp=new Patient();
-                temp.setName(NewNameT.getText());
-                temp.setId(Integer.parseInt(EditIDLabel.getText()));
-                patientAPI.save(temp);
+                try {
+                    patientAPI.update(NewNameT.getText(), Integer.parseInt(EditIDLabel.getText()));
+                    JOptionPane.showMessageDialog(edit, "Patient info has been updated");
+                }catch (Exception e){
+                    JOptionPane.showMessageDialog(edit, "Error please try again later or contact support");
+                }
                 edit.dispose();
                 resetPatient();
-
-
             }
         });
         CancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2589,6 +2647,16 @@ public class AdminView extends javax.swing.JFrame {
                 temp.setDoctorName(NewNameT.getText());
                 temp.setDoctorId(Integer.parseInt(EditIDLabel.getText()));
                 doctorAPI.updateDoctor(temp);
+                UserAccount account= userAccountAPI.findUserAccountByName(DoctorTable.getValueAt(0,1).toString());
+                userAccountAPI.updateUserNameById(account.getId(),NewNameT.getText());
+                try{
+                    userAccountAPI.updateUserNameById(account.getId(),NewNameT.getText());;
+                    JOptionPane.showMessageDialog(edit, "Name Changed succesfully");
+                }
+                catch (Exception e){
+                    JOptionPane.showMessageDialog(edit, "Error Name already in use please try again");
+
+                }
                 edit.dispose();
                 resetDoctor();
 
@@ -2638,16 +2706,23 @@ public class AdminView extends javax.swing.JFrame {
         drugList.setDrugID((Integer) TransactionTable.getValueAt(0,5));
         drugList.setDrugListID((Integer) TransactionTable.getValueAt(0,1));
         drugList.setAmount((Integer) TransactionTable.getValueAt(0,6));
+        try {
+            try {
+                prescriptionAPI.findPrescriptionById(prescription.getPrescriptionId());
+                drugListAPI.insertDrugList(prescription.getPrescriptionId(), drugList.getDrugID(), drugList.getAmount());
+                transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0, 0));
 
-        try{
-            prescriptionAPI.findPrescriptionById(prescription.getPrescriptionId());
-            drugListAPI.insertDrugList(prescription.getPrescriptionId(), drugList.getDrugID(),drugList.getAmount());
-            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0,0));
-        }
-        catch (EmptyResultDataAccessException e){
-            prescriptionAPI.addPrescriptionWithIDs(prescription);
-            drugListAPI.insertDrugList(prescription.getDrugListId(),drugList.getDrugID(), drugList.getAmount());
-            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0,0));
+
+            } catch (EmptyResultDataAccessException e) {
+                prescriptionAPI.addPrescriptionWithIDs(prescription);
+                drugListAPI.insertDrugList(prescription.getDrugListId(), drugList.getDrugID(), drugList.getAmount());
+                transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0, 0));
+
+            }
+            JOptionPane.showMessageDialog(this, "Transaction has been reactivated!");
+
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error please try again later");
         }
 
     }
@@ -2829,5 +2904,7 @@ public class AdminView extends javax.swing.JFrame {
         this.dispose();
         userLogin.setEnabled(true);
         userLogin.setVisible(true);
+        JOptionPane.showMessageDialog(userLogin, "You have been logged off");
+
     }
 }

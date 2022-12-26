@@ -33,4 +33,8 @@ public class UserAccountDao {
     public void removeAll() {
         jdbcTemplate.update("Delete from useraccounts");
     }
+
+    public void updateUserNameById(int id, String name) {
+        jdbcTemplate.update("Update useraccounts set username=? where id=?",id,name);
+    }
 }

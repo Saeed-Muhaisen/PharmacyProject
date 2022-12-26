@@ -1396,7 +1396,7 @@ public class PharmacistView extends javax.swing.JFrame {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 TransactionFilters(TransactionTable, TransactionT1,0);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
                     TransactionReActivateB.setEnabled(true);
                 }
                 else{
@@ -1407,7 +1407,7 @@ public class PharmacistView extends javax.swing.JFrame {
             @Override
             public void removeUpdate(DocumentEvent e) {
                 TransactionFilters(TransactionTable, TransactionT1,0);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
                     TransactionReActivateB.setEnabled(true);
                 }
                 else{
@@ -1418,7 +1418,7 @@ public class PharmacistView extends javax.swing.JFrame {
             @Override
             public void changedUpdate(DocumentEvent e) {
                 TransactionFilters(TransactionTable, TransactionT1,0);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
 
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1432,7 +1432,7 @@ public class PharmacistView extends javax.swing.JFrame {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 TransactionFilters(TransactionTable, TransactionT2,3);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
 
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1447,7 +1447,7 @@ public class PharmacistView extends javax.swing.JFrame {
             public void removeUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT2,3);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
 
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1461,7 +1461,7 @@ public class PharmacistView extends javax.swing.JFrame {
             public void changedUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT2,3);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
 
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1476,7 +1476,7 @@ public class PharmacistView extends javax.swing.JFrame {
             public void insertUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT3,2);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
 
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1490,7 +1490,7 @@ public class PharmacistView extends javax.swing.JFrame {
             public void removeUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT3,2);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
 
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1504,7 +1504,7 @@ public class PharmacistView extends javax.swing.JFrame {
             public void changedUpdate(DocumentEvent e) {
                 TransactionT1.setText("");
                 TransactionFilters(TransactionTable, TransactionT3,2);
-                if(TransactionTable.getRowCount()==1){
+                if(TransactionTable.getRowCount()==1 && !TransactionTable.getValueAt(0,7).equals("null")){
 
                     TransactionReActivateB.setEnabled(true);
                 }
@@ -1741,7 +1741,7 @@ public class PharmacistView extends javax.swing.JFrame {
         return false;
     }
     private void informationFiller() {
-        PatientNameTemp.setText(String.valueOf(prescriptionList.get(row).getPatientId()));
+        PatientNameTemp.setText(String.valueOf(prescriptionList.get(row).getPatientName()));
         PatientIDTemp.setText(String.valueOf(prescriptionList.get(row).getPatientId()));
         DoctorIDTemp.setText(String.valueOf(prescriptionList.get(row).getDoctorID()));
         DoctorNameTemp.setText(doctorAPI.findDoctorById(prescriptionList.get(row).getDoctorID()).getDoctorName());
@@ -1798,16 +1798,22 @@ public class PharmacistView extends javax.swing.JFrame {
         PatientNameT.setText("");
     }
     private void ConfirmBActionPerformed(java.awt.event.ActionEvent evt) {
-        for(int i=0;i<DrugListTable1.getRowCount();i++) {
-            TransactionHistory transactionHistory = new TransactionHistory();
-            transactionHistory.setDoctorId(Integer.parseInt(DoctorIDTemp.getText()));
-            transactionHistory.setPharmacyId(userAccount.getId());
-            transactionHistory.setPatientID(Integer.parseInt(PatientIdT.getText()));
-            transactionHistory.setDrugListId((int) PrescriptionListTable.getValueAt(PrescriptionListTable.getSelectedRow(),0));
-            transactionHistory.setDrugID((Integer) DrugListTable1.getValueAt(i, 0));
-            transactionHistory.setAmount_sold((Integer) DrugListTable1.getValueAt(i, 2));
-            transactionHistoryAPI.insertTransactionHistory(transactionHistory);
-        } //FOR THE NEW TABLE
+        try{
+            for(int i=0;i<DrugListTable1.getRowCount();i++) {
+                TransactionHistory transactionHistory = new TransactionHistory();
+                transactionHistory.setDoctorId(Integer.parseInt(DoctorIDTemp.getText()));
+                transactionHistory.setPharmacyId(userAccount.getId());
+                transactionHistory.setPatientID(Integer.parseInt(PatientIdT.getText()));
+                transactionHistory.setDrugListId((int) PrescriptionListTable.getValueAt(PrescriptionListTable.getSelectedRow(),0));
+                transactionHistory.setDrugID((Integer) DrugListTable1.getValueAt(i, 0));
+                transactionHistory.setAmount_sold((Integer) DrugListTable1.getValueAt(i, 2));
+                transactionHistoryAPI.insertTransactionHistory(transactionHistory);
+            }
+            JOptionPane.showMessageDialog(this, "Transaction has been completed");
+
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "error please try again");
+        }
         PatientNameT.setText("");
         PatientIdT.setText("");
         ((DefaultTableModel) PrescriptionListTable.getModel()).setRowCount(0);
@@ -1830,6 +1836,7 @@ public class PharmacistView extends javax.swing.JFrame {
         RemoveDrugB1.setEnabled(false);
         DrugIdSearchInSell.setText("");
         SellTableFilter();
+
     }
     //PrescriptionPanel Methods end:
 
@@ -1914,8 +1921,12 @@ public class PharmacistView extends javax.swing.JFrame {
             rowData[3] = temp.get(i).getPatientID();
             rowData[4] = temp.get(i).getDrugID();
             rowData[5] = temp.get(i).getAmount_sold();
-            rowData[6] = doctorAPI.findDoctorById(temp.get(i).getPharmacyId()).getDoctorName(); //doc name
-            rowData[7] = patientAPI.findPatientById(temp.get(i).getPatientID()).getName(); //patient name
+            rowData[6] = doctorAPI.findDoctorById(temp.get(i).getDoctorId()).getDoctorName(); //doc name
+            try{
+                rowData[7] = patientAPI.findPatientByIdAndDoctorId(temp.get(i).getPatientID(),temp.get(i).getDoctorId()).getName(); //patient name
+            }catch (Exception e){
+                rowData[7]="null";
+            }
 
             model.addRow(rowData);
         }
@@ -2325,18 +2336,22 @@ public class PharmacistView extends javax.swing.JFrame {
         drugList.setDrugID((Integer) TransactionTable.getValueAt(0,4));
         drugList.setDrugListID((Integer) TransactionTable.getValueAt(0,1));
         drugList.setAmount((Integer) TransactionTable.getValueAt(0,5));
-
-        try{
+    try {
+        try {
             prescriptionAPI.findPrescriptionById(prescription.getPrescriptionId());
-            drugListAPI.insertDrugList(prescription.getPrescriptionId(), drugList.getDrugID(),drugList.getAmount());
-            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0,0));
-        }
-        catch (EmptyResultDataAccessException e){
+            drugListAPI.insertDrugList(prescription.getPrescriptionId(), drugList.getDrugID(), drugList.getAmount());
+            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0, 0));
+        } catch (EmptyResultDataAccessException e) {
             prescriptionAPI.addPrescriptionWithIDs(prescription);
-            drugListAPI.insertDrugList(prescription.getDrugListId(),drugList.getDrugID(), drugList.getAmount());
-            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0,0));
+            drugListAPI.insertDrugList(prescription.getDrugListId(), drugList.getDrugID(), drugList.getAmount());
+            transactionHistoryAPI.deleteByID((Integer) TransactionTable.getValueAt(0, 0));
         }
+        JOptionPane.showMessageDialog(this, "Prescription has been reactivated");
 
+    }catch (Exception e){
+        JOptionPane.showMessageDialog(this, "Error please try again later");
+
+    }
     }
     //Edit Drug and Account Frame End:
 }

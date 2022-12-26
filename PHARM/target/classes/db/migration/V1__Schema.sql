@@ -27,8 +27,11 @@ create table if not exists Inventory(
     foreign key(InventoryID) references Pharmacy(inventoryid)
     );
 create table if not exists Patient(
-    PatientID serial primary key,
-    patientName varchar(64) not null
+    PatientID serial not null,
+    patientName varchar(64) not null,
+    DoctorId integer not null,
+    PRIMARY KEY (PatientID, DoctorId)
+
     );
 
 create Table if not exists Prescription(
@@ -39,8 +42,7 @@ create Table if not exists Prescription(
     PatientName VARCHAR(64) not null,
     Notes VARCHAR(255),
     PRIMARY Key (prescriptionID, DrugListID),
-    FOREIGN KEY (DoctorID) references Doctor(DoctorID),
-    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID)
+    FOREIGN KEY (DoctorID) references Doctor(DoctorID)
     );
 
 create table if not exists DrugList(
