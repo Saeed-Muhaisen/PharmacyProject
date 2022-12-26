@@ -1345,19 +1345,28 @@ public class DoctorView extends javax.swing.JFrame {
     }
     private void createPrescription() {
         if(editing){
-            Prescription test= prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(
-                    Integer.parseInt(PatientTempID.getText()),userAccount.getId());
-            drugListAPI.deleteDrugListById(test.getDrugListId());
-            test.setNote(NoteTextArea.getText());
-            prescriptionAPI.updatePrescription(test);
-            for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
-                drugListAPI.insertDrugList(test.getDrugListId(),
-                        Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
-                        Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
+            if (PrescriptionTable.getRowCount()==0) {
+                System.out.println("deleting prescription");
+                Prescription test = prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(
+                        Integer.parseInt(PatientTempID.getText()), userAccount.getId());
+                drugListAPI.deleteDrugListById(test.getDrugListId());
+                prescriptionAPI.deletePrescriptionbyId(test.getPrescriptionId());
+            }
+            else {
+                Prescription test = prescriptionAPI.findPrescriptionByPatientIdAndDoctorID(
+                        Integer.parseInt(PatientTempID.getText()), userAccount.getId());
+                drugListAPI.deleteDrugListById(test.getDrugListId());
+                test.setNote(NoteTextArea.getText());
+                prescriptionAPI.updatePrescription(test);
+                for (int i = 0; i < PrescriptionTable.getRowCount(); i++) {
+                    drugListAPI.insertDrugList(test.getDrugListId(),
+                            Integer.valueOf(PrescriptionTable.getValueAt(i, 0).toString()),
+                            Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
+                }
             }
 
         }
-        else{
+        else if(PrescriptionTable.getRowCount()!=0){
             Prescription prescription = new Prescription();
             prescription.setDoctorID(userAccount.getId());
             prescription.setPatientName(PatientTempName.getText());
@@ -1370,6 +1379,7 @@ public class DoctorView extends javax.swing.JFrame {
                         Integer.valueOf(PrescriptionTable.getValueAt(i, 2).toString()));
             }
         }
+
         create.dispose();
 
         PatientIDSearchT.setText("");

@@ -21,7 +21,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
-
 @Component
 public class PharmacistView extends javax.swing.JFrame {
     //TODO:: Beginning of Beans ::
@@ -1804,7 +1803,7 @@ public class PharmacistView extends javax.swing.JFrame {
             transactionHistory.setDoctorId(Integer.parseInt(DoctorIDTemp.getText()));
             transactionHistory.setPharmacyId(userAccount.getId());
             transactionHistory.setPatientID(Integer.parseInt(PatientIdT.getText()));
-            transactionHistory.setDrugListId((int) PrescriptionListTable.getValueAt(0, 0));
+            transactionHistory.setDrugListId((int) PrescriptionListTable.getValueAt(PrescriptionListTable.getSelectedRow(),0));
             transactionHistory.setDrugID((Integer) DrugListTable1.getValueAt(i, 0));
             transactionHistory.setAmount_sold((Integer) DrugListTable1.getValueAt(i, 2));
             transactionHistoryAPI.insertTransactionHistory(transactionHistory);

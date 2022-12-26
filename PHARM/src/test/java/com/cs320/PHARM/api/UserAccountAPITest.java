@@ -90,7 +90,7 @@ class UserAccountAPITest {
         userAccountAPI.deleteUserAccount(temp.getUsername());
 
         UserAccount empty=userAccountAPI.findUserAccountByName(temp.getUsername());
-        assertNull(empty);
+        assertNotEquals(userAccountAPI.findUserAccountByName(temp.getUsername()).getId(),temp.getId());
 
     }
 
